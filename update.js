@@ -25,7 +25,7 @@ function Update() {
 		else {document.getElementById(str).className = "ool_check_text2";}
 	}
 	
-	logic_shortcuts(); //combines multiple pieces of logic into one variable
+	logic_shortcuts(); //combines process_inputs pieces of logic into one variable
 	
 	var d = new Date();
 	if (paused && pauseFlag) {pauseInitial = d.getTime(); pauseFlag = false;}
@@ -55,7 +55,6 @@ function Update() {
 			}
 		}
 	}
-	
 	document.getElementById("text_next").innerHTML = next_check(lastCheck);
 
 	process_inputs(); //handle hinted, peeked and picked up things

@@ -7,7 +7,7 @@ function ajoutHistorique(obj, newEvt, checkCoffres = 0) {
 
 function afficheHistorique() {
 	affHistorique = "";
-	historique.forEach(evt => {affHistorique = affHistorique + "<br />" + evt});
+	historique.forEach(evt => {if (affHistorique != "") {affHistorique += "<br />"} affHistorique += evt;});
 	document.getElementById("historique").innerHTML = affHistorique;	
 }
 
@@ -580,6 +580,10 @@ function annuler() {
 		// On supprime la valeur de tous les champs input et on conserve seulement l'historique
 
 		// Il est nécessaire de conserver certaines valeurs qui sont perdues lors du refresh
+	chargerHistorique();
+}
+
+function chargerHistorique () {
 	var mem = {};
 	for (var i = 1; i <= 5; i++) {
 		mem["woth_input" + i] = document.getElementById("woth_input" + i).value;
@@ -629,4 +633,5 @@ function annuler() {
 	document.getElementById("hintInput").value = mem["hintInput"];
 	
 	Update();Update();Update();
+
 }

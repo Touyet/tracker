@@ -205,6 +205,25 @@ function download() {
         a.click();
 }
 
+function save() {
+	var a = document.body.appendChild(
+            document.createElement("a")
+        );
+        var textToWrite = document.getElementById("historique").innerHTML;
+        a.download = "historique.txt"; 
+        textToWrite = textToWrite.replace(/<br \/>/g, "%0D%0A"); 
+        textToWrite = textToWrite.replace(/<br>/g, "%0D%0A"); 
+        a.href = "data:text/plain," + textToWrite;
+        a.click();
+}
+
+function handleFiles(file) {
+
+	var reader = new FileReader();
+    reader.onload = (function() { return function(e) { historique = e.target.result.split("\n"); chargerHistorique(); }; })();
+    reader.readAsText(file[0]);
+}
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }

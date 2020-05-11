@@ -496,7 +496,9 @@
 		<small id="hover_boots_location" class="checkSummaryText" onclick = "toggleHint(this)">Hover Boots -> </small><br />
 		<small id="iron_boots_location" class="checkSummaryText" onclick = "toggleHint(this)">Iron Boots -> </small><br />
 		<button id="annuler" onclick="annuler()">Annuler</button>
-		<p>Historique :</p>
+		<button id="save" onclick="save()">Save</button>
+		<input type="file" id="historique_file" onchange="handleFiles(this.files)" accept=".txt">
+		<div>Historique :</div><br />
 		<div id="historique"></div>
 	</div>
 	<div id="checkSummaryColumn2">

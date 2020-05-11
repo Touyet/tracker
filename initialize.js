@@ -69,7 +69,6 @@ var dinsRequired = .5;
 var hoversRequired = .7;
 var knowMode = hookshotRequired + longshotRequired + ironsRequired + letterRequired + boomerangRequired + strength1Required*.85 + strength2Required*.85 + hammerRequired + bowRequired*.5 + magicRequired*.7 + lightsRequired * .5 + mirrorRequired + dinsRequired + hoversRequired;
 
-Game.logically_accessible = 0;
 var d = new Date();
 var pauseTotal = 0;
 var pauseInitial = 0;
@@ -84,7 +83,12 @@ var timeLost =0;
 var tMinutes = 0;
 var tSeconds = 0;
 //document.getElementById("go_input").value = 9;
-	
+
+
+
+function initialize() {
+	Game.logically_accessible = 0;
+
 	if (localStorage.getItem("type")) {Person.type = localStorage.getItem("type");} else{Person.type = "normie";}
 	Logic.brackets = false;
 	
@@ -151,6 +155,39 @@ var tSeconds = 0;
 	Game.nocturne = false;
 	Game.prelude = false;
 	
+	Game.checks_remaining=196;
+	Game.logically_accessible=35;
+	Game.forest_logically_accessible=0;
+	Game.fire_logically_accessible=0;
+	Game.water_logically_accessible=0;
+	Game.spirit_logically_accessible=0;
+	Game.shadow_logically_accessible=0;
+	Game.gtg_logically_accessible=0;
+	Game.well_logically_accessible=0;
+	Game.ganons_logically_accessible=0;
+	
+	Game.bomb_bag_img= "./images/explosive505050.png";
+	Game.letter_img= "./images/letter505050.png";
+	Game.boomerang_img= "./images/boomerang505050.png";
+	Game.hookshot_img= "./images/hookshot505050.png";
+	Game.bow_img= "./images/bow505050.png";
+	Game.goron_bracelet_img= "./images/strength1505050.png";
+	Game.hammer_img= "./images/ham505050.png";
+	Game.iron_boots_img= "./images/ironboots505050.png";
+	Game.silver_scale_img=  "./images/silverscale505050.png"
+	Game.golden_scale_img= "./images/goldenscale505050.png";
+	Game.longshot_img= "./images/longshot505050.png";
+	Game.silver_gauntlets_img= "./images/strength2505050.png";
+	Game.mirror_shield_img= "./images/mirrorshield505050.png";
+	Game.dins_fire_img= "./images/dinsfirenew505050.png";
+	Game.magic_meter_img= "./images/magic505050.png";
+	Game.hover_boots_img= "./images/hovers505050.png";
+	Game.theme = "dark";
+	Game.themeChange = false;
+	Game.changetheme = 1;
+	
+	Game.has_chus = false;
+
 	Game.min_forest_keys=0;
 	Game.current_forest_keys=0;
 	Game.forest_keys = 0;
@@ -186,39 +223,219 @@ var tSeconds = 0;
 	Game.gtg_checks_remaining = 13;
 	Game.well_checks_remaining = 11;
 	Game.ganons_checks_remaining = 14;
+
+	Logic.bottle = false;
+	Logic.big_poe = false;
+	Logic.scale1 = false;
+	Logic.scale2 = false;
+	Logic.bomb_bag1 = false;
+	Logic.bomb_bag2 = false;
+	Logic.bomb_bag3 = false;
+	Logic.bow1 = false;
+	Logic.bow2 = false;
+	Logic.bow3 = false;
+	Logic.hookshot1 = false;
+	Logic.hookshot2 = false;
+	Logic.strength1 = false;
+	Logic.strength2 = false;
+	Logic.strength3 = false;
+	Logic.magic1 = false;
+	Logic.magic2 = false;
+	Logic.slingshot1 = false;
+	Logic.slingshot2 = false;
+	Logic.slingshot3 = false;
+	Logic.wallet1 = false;
+	Logic.wallet2 = false;
 	
-	Game.checks_remaining=196;
-	Game.logically_accessible=35;
-	Game.forest_logically_accessible=0;
-	Game.fire_logically_accessible=0;
-	Game.water_logically_accessible=0;
-	Game.spirit_logically_accessible=0;
-	Game.shadow_logically_accessible=0;
-	Game.gtg_logically_accessible=0;
-	Game.well_logically_accessible=0;
-	Game.ganons_logically_accessible=0;
+	Logic.kokiri_sword = false;
+	Logic.farores_wind = false;
+	Logic.slingshot= false;
+	Logic.boomerang = false;
+	Logic.rutos_letter = false;
+	Logic.silver_scale = false;
+	Logic.golden_scale = false;
+	Logic.bomb_bag = false;
+	Logic.hammer = false;
+	Logic.bow = false;
+	Logic.hookshot1 = false;
+	Logic.hookshot2 = false;
+	Logic.iron_boots = false;
+	Logic.hover_boots = false;
+	Logic.magic = false;
+	Logic.dins_fire = false;
+	Logic.fire_arrows = false;
+	Logic.goron_bracelet = false;
+	Logic.silver_gauntlets = false;
+	Logic.golden_gauntlets = false;
+	Logic.mirror_shield = false;
+	Logic.adults_wallet = false;
+	Logic.giants_wallet = false;
+	Logic.goron_tunic = false;
+	Logic.zora_tunic = false;
+	Logic.lens_of_truth = false;
+	Logic.stone_of_agony = false;
+	Logic.trade = false;
+	Logic.prescription = false;
+	Logic.claim_check = false;
+	Locked_Logic2.forced_fire_keys=8;
+	Locked_Logic2.forced_water_keys=6;
+	Locked_Logic2.forced_spirit_keys=5;
+	Locked_Logic2.forced_shadow_keys=5;
+	Locked_Logic2.forced_ganons_keys=3;
+	Locked_Logic2.forced_gtg_keys=9;
+	Locked_Logic2.forced_well_keys=3;
+	Locked_Logic2.forced_forest_boss_key = false;
+	Locked_Logic2.forced_fire_boss_key = false;
+	Locked_Logic2.forced_water_boss_key = false;
+	Locked_Logic2.forced_spirit_boss_key = false;
+	Locked_Logic2.forced_shadow_boss_key = false;Logic.light_arrows = false;
+	Logic.lullaby = false;
+	Logic.eponas = false;
+	Logic.sarias = false;
+	Logic.suns_song = false;
+	Logic.song_of_time = false;
+	Logic.song_of_storms = false;
+	Logic.minuet = false;
+	Logic.bolero = false;
+	Logic.serenade = false;
+	Logic.requiem = false;
+	Logic.nocturne = false;
+	Logic.prelude = false;
+	Logic.forest_medallion = false;
+	Logic.fire_medallion = false;
+	Logic.water_medallion = false;
+	Logic.spirit_medallion = false;
+	Logic.shadow_medallion = false;
+	Logic.light_medallion = false;
+	Logic.emerald = false;
+	Logic.ruby = false;
+	Logic.sapphire = false;
+	Logic.kokiri_emerald = false;
+	Logic.goron_ruby = false;
+	Logic.zora_sapphire = false;
 	
-	Game.bomb_bag_img= "./images/explosive505050.png";
-	Game.letter_img= "./images/letter505050.png";
-	Game.boomerang_img= "./images/boomerang505050.png";
-	Game.hookshot_img= "./images/hookshot505050.png";
-	Game.bow_img= "./images/bow505050.png";
-	Game.goron_bracelet_img= "./images/strength1505050.png";
-	Game.hammer_img= "./images/ham505050.png";
-	Game.iron_boots_img= "./images/ironboots505050.png";
-	Game.silver_scale_img=  "./images/silverscale505050.png"
-	Game.golden_scale_img= "./images/goldenscale505050.png";
-	Game.longshot_img= "./images/longshot505050.png";
-	Game.silver_gauntlets_img= "./images/strength2505050.png";
-	Game.mirror_shield_img= "./images/mirrorshield505050.png";
-	Game.dins_fire_img= "./images/dinsfirenew505050.png";
-	Game.magic_meter_img= "./images/magic505050.png";
-	Game.hover_boots_img= "./images/hovers505050.png";
-	Game.theme = "dark";
-	Game.themeChange = false;
-	Game.changetheme = 1;
+	Logic.forest_medallion_location = "unknown";
+	Logic.fire_medallion_location  = "unknown";
+	Logic.water_medallion_location  = "unknown";
+	Logic.generic1 = "unknown";
+	Logic.generic2 = "unknown";
+	Logic.generic3 = "unknown";
+	Logic.emerald = "unknown";
+	Logic.ruby  = "unknown";
+	Logic.sapphire  = "unknown";
 	
-	Game.has_chus = false;
+	Logic.min_forest_keys=0;
+	Logic.current_forest_keys=0;
+	Logic.forest_keys = 0;
+	Logic.min_fire_keys=0;
+	Logic.current_fire_keys=0;
+	Logic.fire_keys = 0;
+	Logic.min_water_keys=0;
+	Logic.current_water_keys=0;
+	Logic.water_keys = 0;
+	Logic.min_spirit_keys=0;
+	Logic.current_spirit_keys=0;
+	Logic.spirit_keys = 0;
+	Logic.min_shadow_keys=0;
+	Logic.current_shadow_keys=0;
+	Logic.shadow_keys = 0;
+	Logic.min_ganons_keys=0;
+	Logic.current_ganons_keys=0;
+	Logic.ganons_keys = 0;
+	Logic.min_gtg_keys=0;
+	Logic.current_gtg_keys=0;
+	Logic.gtg_keys = 0;
+	Logic.min_well_keys=0;
+	Logic.current_well_keys=0;
+	Logic.well_keys = 0;
+	Logic.forced_forest_keys=0;
+	Logic.forced_fire_keys=0;
+	Logic.forced_water_keys=0;
+	Logic.forced_spirit_keys=0;
+	Logic.forced_shadow_keys=0;
+	Logic.forced_ganons_keys=0;
+	Logic.forced_gtg_keys=0;
+	Logic.forced_well_keys=0;
+	Logic.forced_forest_boss_key = false;
+	Logic.forced_fire_boss_key = false;
+	Logic.forced_water_boss_key = false;
+	Logic.forced_spirit_boss_key = false;
+	Logic.forced_shadow_boss_key = false;
+	Locked_Logic.forced_forest_keys=0;
+	Locked_Logic.forced_fire_keys=0;
+	Locked_Logic.forced_water_keys=0;
+	Locked_Logic.forced_spirit_keys=0;
+	Locked_Logic.forced_shadow_keys=0;
+	Locked_Logic.forced_ganons_keys=0;
+	Locked_Logic.forced_gtg_keys=0;
+	Locked_Logic.forced_well_keys=0;
+	Locked_Logic.forced_forest_boss_key = false;
+	Locked_Logic.forced_fire_boss_key = false;
+	Locked_Logic.forced_water_boss_key = false;
+	Locked_Logic.forced_spirit_boss_key = false;
+	Locked_Logic.forced_shadow_boss_key = false;
+	Locked_Logic2.forced_forest_keys=5;
+	Locked_Logic2.forced_fire_keys=8;
+	Locked_Logic2.forced_water_keys=6;
+	Locked_Logic2.forced_spirit_keys=5;
+	Locked_Logic2.forced_shadow_keys=5;
+	Locked_Logic2.forced_ganons_keys=2;
+	Locked_Logic2.forced_gtg_keys=9;
+	Locked_Logic2.forced_well_keys=3;
+	Locked_Logic2.forced_forest_boss_key = false;
+	Locked_Logic2.forced_fire_boss_key = false;
+	Locked_Logic2.forced_water_boss_key = false;
+	Locked_Logic2.forced_spirit_boss_key = false;
+	Locked_Logic2.forced_shadow_boss_key = false;
+	PutIn_Logic.forced_forest_keys=0;
+	PutIn_Logic.forced_fire_keys=0;
+	PutIn_Logic.forced_water_keys=0;
+	PutIn_Logic.forced_spirit_keys=0;
+	PutIn_Logic.forced_shadow_keys=0;
+	PutIn_Logic.forced_ganons_keys=0;
+	PutIn_Logic.forced_gtg_keys=0;
+	PutIn_Logic.forced_well_keys=0;
+	PutIn_Logic.forced_forest_boss_key = false;
+	PutIn_Logic.forced_fire_boss_key = false;
+	PutIn_Logic.forced_water_boss_key = false;
+	PutIn_Logic.forced_spirit_boss_key = false;
+	PutIn_Logic.forced_shadow_boss_key = false;
+	
+	Logic.forest_boss_key = false;
+	Logic.fire_boss_key = false;
+	Logic.water_boss_key = false;
+	Logic.spirit_boss_key = false;
+	Logic.shadow_boss_key = false;
+	Logic.ganons_boss_key = false;
+
+	for (var i = 0; i < Locations.length; i++) {
+		Check[Locations[i]] = "unknown";
+		Location[Locations[i]] = "unknown";
+		backUp.push(document.getElementById("text_" + Locations[i]).innerHTML);
+	}
+
+	Location.med1 = "unknown";
+	Location.med2 = "unknown";
+	Location.med3 = "unknown";
+	Location.med4 = "unknown"; 
+	Location.med5 = "unknown";
+	Location.med6 = "unknown";
+
+	for (var i = 0; i < 244; i++) {
+		Check[Location[i]] = "unknown";
+	}
+		
+	for (i=0; i < Items.length; i++) {
+		ChecksLockedBy[Items[i]] = checksLockedByItem(Items[i]);
+	}
+		
+	for (i=0; i < Items.length; i++) {
+		ChecksLockedBy[Items[i]] = [];
+	}
+	for (i=0; i < Items.length; i++) {
+		ChecksPutInLogicBy[Items[i]] = [];
+	}
+}
 	
 	var tempTime = 0;
 	var tempHours = 0;
@@ -264,19 +481,6 @@ var tSeconds = 0;
 		];
 		
 		var backUp = [];
-		
-		for (var i = 0; i < Locations.length; i++) {
-			Check[Locations[i]] = "unknown";
-			Location[Locations[i]] = "unknown";
-			backUp.push(document.getElementById("text_" + Locations[i]).innerHTML);
-		}
-		
-		Location.med1 = "unknown";
-		Location.med2 = "unknown";
-		Location.med3 = "unknown";
-		Location.med4 = "unknown"; 
-		Location.med5 = "unknown";
-		Location.med6 = "unknown";
 		
 		var Names = [
 		"Kokiri: Mido's 1", "Kokiri: Mido's 2", "Kokiri: Mido's 3", "Kokiri: Mido's 4", "Kokiri: Sword", "Kokiri: SoS",
@@ -476,189 +680,7 @@ var tSeconds = 0;
 	var hintIndexes = ["hylia_bottle", "hyrule_tektite_grotto", "crater_bean", "graveyard_box", "colossus_bean", "ice_bottom_of_fountain", "hylia_sun_shoot", "poes", "market_lens_game", "tokens_20", "suns_grave", "fire_grave", "sunsSpot", "fire12", "fire15", "water10","water8", "gtg21", "gtg22", "well8", "wasteland", "requiemSpot", "goron_pot", "goron_dance", "spirit7", "spirit14", "goron_maze_3", "gerudo_hammer", "anjus_chickens", "boleroSpot", "minuetSpot", "preludeSpot", "thaw_king", "jabu_boomerang", "archery_game", "gerudo_archery_2", "forest8", "shadow17", "nocturneSpot", "serenadeSpot", "ice_bottom_of_fountain", "skull_kid", "trade_quest", "theater", "tokens_30", "tokens_40", "tokens_50", "frogs_2", "oot"];
 	var inputs = ["x", "sk", "bk", "bom", "boo", "bot", "bow", "din", "far", "fir", "gor", "ham", "hoo", "hov", "iro", "len", "rut", "lig", "mag", "mir", "sca", "sli", "str", "pre", "cla", "wal", "zor", "lul", "epo", "sar", "sot", "sun", "sos", "min", "bol", "ser", "req", "noc", "pre", "junk"];
 	
-	Logic.bottle = false;
-	Logic.big_poe = false;
-	Logic.scale1 = false;
-	Logic.scale2 = false;
-	Logic.bomb_bag1 = false;
-	Logic.bomb_bag2 = false;
-	Logic.bomb_bag3 = false;
-	Logic.bow1 = false;
-	Logic.bow2 = false;
-	Logic.bow3 = false;
-	Logic.hookshot1 = false;
-	Logic.hookshot2 = false;
-	Logic.strength1 = false;
-	Logic.strength2 = false;
-	Logic.strength3 = false;
-	Logic.magic1 = false;
-	Logic.magic2 = false;
-	Logic.slingshot1 = false;
-	Logic.slingshot2 = false;
-	Logic.slingshot3 = false;
-	Logic.wallet1 = false;
-	Logic.wallet2 = false;
 	
-	Logic.kokiri_sword = false;
-	Logic.farores_wind = false;
-	Logic.slingshot= false;
-	Logic.boomerang = false;
-	Logic.rutos_letter = false;
-	Logic.silver_scale = false;
-	Logic.golden_scale = false;
-	Logic.bomb_bag = false;
-	Logic.hammer = false;
-	Logic.bow = false;
-	Logic.hookshot1 = false;
-	Logic.hookshot2 = false;
-	Logic.iron_boots = false;
-	Logic.hover_boots = false;
-	Logic.magic = false;
-	Logic.dins_fire = false;
-	Logic.fire_arrows = false;
-	Logic.goron_bracelet = false;
-	Logic.silver_gauntlets = false;
-	Logic.golden_gauntlets = false;
-	Logic.mirror_shield = false;
-	Logic.adults_wallet = false;
-	Logic.giants_wallet = false;
-	Logic.goron_tunic = false;
-	Logic.zora_tunic = false;
-	Logic.lens_of_truth = false;
-	Logic.stone_of_agony = false;
-	Logic.trade = false;
-	Logic.prescription = false;
-	Logic.claim_check = false;
-	Locked_Logic2.forced_fire_keys=8;
-	Locked_Logic2.forced_water_keys=6;
-	Locked_Logic2.forced_spirit_keys=5;
-	Locked_Logic2.forced_shadow_keys=5;
-	Locked_Logic2.forced_ganons_keys=3;
-	Locked_Logic2.forced_gtg_keys=9;
-	Locked_Logic2.forced_well_keys=3;
-	Locked_Logic2.forced_forest_boss_key = false;
-	Locked_Logic2.forced_fire_boss_key = false;
-	Locked_Logic2.forced_water_boss_key = false;
-	Locked_Logic2.forced_spirit_boss_key = false;
-	Locked_Logic2.forced_shadow_boss_key = false;Logic.light_arrows = false;
-	Logic.lullaby = false;
-	Logic.eponas = false;
-	Logic.sarias = false;
-	Logic.suns_song = false;
-	Logic.song_of_time = false;
-	Logic.song_of_storms = false;
-	Logic.minuet = false;
-	Logic.bolero = false;
-	Logic.serenade = false;
-	Logic.requiem = false;
-	Logic.nocturne = false;
-	Logic.prelude = false;
-	Logic.forest_medallion = false;
-	Logic.fire_medallion = false;
-	Logic.water_medallion = false;
-	Logic.spirit_medallion = false;
-	Logic.shadow_medallion = false;
-	Logic.light_medallion = false;
-	Logic.emerald = false;
-	Logic.ruby = false;
-	Logic.sapphire = false;
-	Logic.kokiri_emerald = false;
-	Logic.goron_ruby = false;
-	Logic.zora_sapphire = false;
-	
-	Logic.forest_medallion_location = "unknown";
-	Logic.fire_medallion_location  = "unknown";
-	Logic.water_medallion_location  = "unknown";
-	Logic.generic1 = "unknown";
-	Logic.generic2 = "unknown";
-	Logic.generic3 = "unknown";
-	Logic.emerald = "unknown";
-	Logic.ruby  = "unknown";
-	Logic.sapphire  = "unknown";
-	
-	Logic.min_forest_keys=0;
-	Logic.current_forest_keys=0;
-	Logic.forest_keys = 0;
-	Logic.min_fire_keys=0;
-	Logic.current_fire_keys=0;
-	Logic.fire_keys = 0;
-	Logic.min_water_keys=0;
-	Logic.current_water_keys=0;
-	Logic.water_keys = 0;
-	Logic.min_spirit_keys=0;
-	Logic.current_spirit_keys=0;
-	Logic.spirit_keys = 0;
-	Logic.min_shadow_keys=0;
-	Logic.current_shadow_keys=0;
-	Logic.shadow_keys = 0;
-	Logic.min_ganons_keys=0;
-	Logic.current_ganons_keys=0;
-	Logic.ganons_keys = 0;
-	Logic.min_gtg_keys=0;
-	Logic.current_gtg_keys=0;
-	Logic.gtg_keys = 0;
-	Logic.min_well_keys=0;
-	Logic.current_well_keys=0;
-	Logic.well_keys = 0;
-	Logic.forced_forest_keys=0;
-	Logic.forced_fire_keys=0;
-	Logic.forced_water_keys=0;
-	Logic.forced_spirit_keys=0;
-	Logic.forced_shadow_keys=0;
-	Logic.forced_ganons_keys=0;
-	Logic.forced_gtg_keys=0;
-	Logic.forced_well_keys=0;
-	Logic.forced_forest_boss_key = false;
-	Logic.forced_fire_boss_key = false;
-	Logic.forced_water_boss_key = false;
-	Logic.forced_spirit_boss_key = false;
-	Logic.forced_shadow_boss_key = false;
-	Locked_Logic.forced_forest_keys=0;
-	Locked_Logic.forced_fire_keys=0;
-	Locked_Logic.forced_water_keys=0;
-	Locked_Logic.forced_spirit_keys=0;
-	Locked_Logic.forced_shadow_keys=0;
-	Locked_Logic.forced_ganons_keys=0;
-	Locked_Logic.forced_gtg_keys=0;
-	Locked_Logic.forced_well_keys=0;
-	Locked_Logic.forced_forest_boss_key = false;
-	Locked_Logic.forced_fire_boss_key = false;
-	Locked_Logic.forced_water_boss_key = false;
-	Locked_Logic.forced_spirit_boss_key = false;
-	Locked_Logic.forced_shadow_boss_key = false;
-	Locked_Logic2.forced_forest_keys=5;
-	Locked_Logic2.forced_fire_keys=8;
-	Locked_Logic2.forced_water_keys=6;
-	Locked_Logic2.forced_spirit_keys=5;
-	Locked_Logic2.forced_shadow_keys=5;
-	Locked_Logic2.forced_ganons_keys=2;
-	Locked_Logic2.forced_gtg_keys=9;
-	Locked_Logic2.forced_well_keys=3;
-	Locked_Logic2.forced_forest_boss_key = false;
-	Locked_Logic2.forced_fire_boss_key = false;
-	Locked_Logic2.forced_water_boss_key = false;
-	Locked_Logic2.forced_spirit_boss_key = false;
-	Locked_Logic2.forced_shadow_boss_key = false;
-	PutIn_Logic.forced_forest_keys=0;
-	PutIn_Logic.forced_fire_keys=0;
-	PutIn_Logic.forced_water_keys=0;
-	PutIn_Logic.forced_spirit_keys=0;
-	PutIn_Logic.forced_shadow_keys=0;
-	PutIn_Logic.forced_ganons_keys=0;
-	PutIn_Logic.forced_gtg_keys=0;
-	PutIn_Logic.forced_well_keys=0;
-	PutIn_Logic.forced_forest_boss_key = false;
-	PutIn_Logic.forced_fire_boss_key = false;
-	PutIn_Logic.forced_water_boss_key = false;
-	PutIn_Logic.forced_spirit_boss_key = false;
-	PutIn_Logic.forced_shadow_boss_key = false;
-	
-	Logic.forest_boss_key = false;
-	Logic.fire_boss_key = false;
-	Logic.water_boss_key = false;
-	Logic.spirit_boss_key = false;
-	Logic.shadow_boss_key = false;
-	Logic.ganons_boss_key = false;
 	  
 	var woth1 = "unknown";
 	var woth2 = "unknown";
@@ -736,30 +758,14 @@ window.onclick = function(event) {
   }
 }
 
-for (var i = 0; i < 244; i++) {
-	Check[Location[i]] = "unknown";
-}
-	
-for (i=0; i < Items.length; i++) {
-	ChecksLockedBy[Items[i]] = checksLockedByItem(Items[i]);
-}
-	
-for (i=0; i < Items.length; i++) {
-	ChecksLockedBy[Items[i]] = [];
-}
-for (i=0; i < Items.length; i++) {
-	ChecksPutInLogicBy[Items[i]] = [];
-}
-
 var childRoute1Value = 0;
 var childRoute1 = ["ocarina_game", "lost_woods_grotto", "lost_woods_scrub_grotto", "wolfos_grotto", "bridge_scrub", "target", "skull_kid", "kokiri_song_of_storms", "rolling_goron", "goron_dance", "goron_pot", "river_pillar", "river_grotto", "river_ledge", "frogs_1", "frogs_2", "zora_diving", "zora_torches", "hylia_child_fishing"];
 var childRoute2 = ["market_slingshot_game", "market_bowling_1", "market_bowling_2","dins_fairy","market_lens_game"];
 
-
-initialize();
 var historique = [];
 var contenuBodyInitial = document.body.innerHTML;
 
+initialize();
 setInterval(slowUpdate,5000);
 setInterval(Update,250);
 Update();Update();Update();

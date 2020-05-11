@@ -252,6 +252,8 @@ function toggleHint(loc) {
 	var item = "";
 	var itemText = "";
 	if (loc.className == "logic_check_text" || loc.className == "ool_check_text" || loc.className == "access_check_text") {location = loc.id.slice(5); item = Check[location];} else {item = loc.id.slice(0, -9); location = Location[item];}
+	console.log("item : " + item);
+	console.log("location :" + location);
 	if (item == "sos") {item = "song_of_storms";}
 	if (item == "suns") {item = "suns_song";}
 	if (item == "sot") {item = "song_of_time";}

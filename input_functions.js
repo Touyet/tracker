@@ -1,7 +1,7 @@
 function ajoutHistorique(obj, newEvt, checkCoffres = 0) {
 	historique.push(newEvt + ": " + obj);
 	variationsChecks[newEvt + ": " + obj] = checkCoffres;
-	//console.log("ajoutHistorique : " + newEvt + ": " + obj + "/" + checkCoffres);
+	console.log("ajoutHistorique : " + newEvt + ": " + obj + "/" + checkCoffres);
 	afficheHistorique();
 }
 
@@ -542,8 +542,8 @@ function junkSong(x, obj) {
 function annuler() {
 	// Récupération de l'action à annuler
 	if (historique.length) {
-		hist = historique[historique.length-1];
-		str = hist.split(':');
+		//hist = historique[historique.length-1];
+		//str = hist.split(':');
 		historique.pop();
 
 		//Game.checks_remaining += variationsChecks[hist];
@@ -561,11 +561,11 @@ function annuler() {
 //*/ 
 
 		// Suppression de la location et du check
-		Location[Check[document.getElementById(str[0]).id]] = "unknown";
+/*		Location[Check[document.getElementById(str[0]).id]] = "unknown";
 		Known[Check[document.getElementById(str[0]).id]] = false;
 		Game[Check[document.getElementById(str[0]).id]] = false;
 		Logic[Check[document.getElementById(str[0]).id]] = false;
-		Check[document.getElementById(str[0]).id] = "unknown";
+		Check[document.getElementById(str[0]).id] = "unknown";*/
 	}
 		// Remise spécifique en cas de junkUltra
 		/*if (str[0] == "forest") {Game.forest_checks_remaining = variationsChecks[hist]; }
@@ -589,8 +589,22 @@ function annuler() {
 	}
 	mem["hintInput"] = document.getElementById("hintInput").value;
 
-	initialize();
 	document.body.innerHTML = contenuBodyInitial;
+	initialize();
+
+	// Remise en état des songs
+	document.getElementById("text_zeldasSpot").value = "Zelda";
+	document.getElementById("text_eponasSpot").value = "Malon";
+	document.getElementById("text_sariasSpot").value = "Saria";
+	document.getElementById("text_stormsSpot").value = "Windmill";
+	document.getElementById("text_sunsSpot").value = "Grave";
+	document.getElementById("text_boleroSpot").value = "Crater";
+	document.getElementById("text_minuetSpot").value = "Meadow";
+	document.getElementById("text_requiemSpot").value = "Colossus";
+	document.getElementById("text_serenadeSpot").value = "Ice";
+	document.getElementById("text_preludeSpot").value = "1Med";
+	document.getElementById("text_nocturneSpot").value = "3Med";
+	document.getElementById("text_oot").value = "OoT";
 
 	var hist_old = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];

@@ -84,9 +84,39 @@ var tMinutes = 0;
 var tSeconds = 0;
 //document.getElementById("go_input").value = 9;
 
-
-
 function initialize() {
+
+	Hinted = {};
+	Check={};
+	ChecksLockedBy={};
+	ChecksPutInLogicBy = {};
+	Game={};
+	Person={};
+	Map={};
+	UI={};
+	Location_Logic ={};
+	Location_Locked_Logic={};
+	Location_Locked_Logic2={};
+	Location_PutIn_Logic={};
+	Locked_Logic={};
+	Locked_Logic2={};
+	PutIn_Logic={};
+	Location_Access={};
+	Logic={};
+	Location ={};
+	gs = [];
+	Area = [];
+	Known = [];
+	paused = false;
+	woth1Locations = [];
+	woth2Locations = [];
+	woth3Locations = [];
+	woth4Locations = [];
+	woth5Locations = [];
+	thisIsAKey = false;
+	thisIsABossKey = false;
+	temptext2 = "";
+	backUp = [];
 	Game.logically_accessible = 0;
 
 	if (localStorage.getItem("type")) {Person.type = localStorage.getItem("type");} else{Person.type = "normie";}
@@ -624,7 +654,7 @@ function initialize() {
 		"Ice Block Room"		
 	];
 		
-		var AreaNames= [
+	var AreaNames= [
 		"",
 		"Kokiri" ,
 		"Ranch" ,
@@ -660,7 +690,7 @@ function initialize() {
 		"Ganon's" ,
 		"GTG" ,
 		"Well" 
-		];
+	];
 		
 	var AreaIndexes = [0,6,8,13,16,22,28,29,30,31,34,38,45,52,53,60,67,72,76,89,96,101,104,106,107,110,114,128,143,154,174,192,208,230,244];
 	var SongIndexes = [0,245,255,0,0,0,244,0,253,0,252,0,0,246,0,0,0,249,247,248,0,0,251,0,0,0,0,0,0,0,0,0,0,0];

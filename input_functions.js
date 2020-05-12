@@ -7,7 +7,7 @@ function ajoutHistorique(obj, newEvt, checkCoffres = 0) {
 
 function afficheHistorique() {
 	affHistorique = "";
-	historique.forEach(evt => {if (affHistorique != "") {affHistorique += "<br />"} affHistorique += evt;});
+	historique.forEach(evt => {if (affHistorique != "") {affHistorique = "<br />" + affHistorique} affHistorique = evt + affHistorique;});
 	document.getElementById("historique").innerHTML = affHistorique;	
 }
 
@@ -583,7 +583,7 @@ function annuler() {
 	chargerHistorique();
 }
 
-function chargerHistorique () {
+function chargerHistorique (load = false) {
 	var mem = {};
 	for (var i = 1; i <= 5; i++) {
 		mem["woth_input" + i] = document.getElementById("woth_input" + i).value;
@@ -596,33 +596,6 @@ function chargerHistorique () {
 	document.body.innerHTML = contenuBodyInitial;
 	initialize();
 
-	// Remise en état des songs
-	document.getElementById("text_zeldasSpot").value = "Zelda";
-	document.getElementById("text_eponasSpot").value = "Malon";
-	document.getElementById("text_sariasSpot").value = "Saria";
-	document.getElementById("text_stormsSpot").value = "Windmill";
-	document.getElementById("text_sunsSpot").value = "Grave";
-	document.getElementById("text_boleroSpot").value = "Crater";
-	document.getElementById("text_minuetSpot").value = "Meadow";
-	document.getElementById("text_requiemSpot").value = "Colossus";
-	document.getElementById("text_serenadeSpot").value = "Ice";
-	document.getElementById("text_preludeSpot").value = "1Med";
-	document.getElementById("text_nocturneSpot").value = "3Med";
-	document.getElementById("text_oot").value = "OoT";
-
-	var hist_old = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
-	historique = [];
-	hist_old.forEach(evt => {
-		console.log("old : " + evt);
-		evts = evt.split(": ");
-		document.getElementById(evts[0]).value = evts[1];
-		Update();
-
-		if ((evts[0] == "forest") || (evts[0] == "fire") || (evts[0] == "water") || (evts[0] == "spirit") || (evts[0] == "shadow") || (evts[0] == "ganons") || (evts[0] == "gtg") || (evts[0] == "well")) {junkUltra(document.getElementById(evts[0])); }	
-	});
-
-	Update();
-
 	// Récupération de la mémoire
 	for (var i = 1; i <= 5; i++) {
 		 document.getElementById("woth_input" + i).value = mem["woth_input" + i];
@@ -631,7 +604,25 @@ function chargerHistorique () {
 		}
 	}
 	document.getElementById("hintInput").value = mem["hintInput"];
-	
+
+	var hist_aux = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
+	historique = [];
+	hist_aux.forEach(evt => {
+		console.log("Appel : " + evt);
+		evts = evt.split(": ");
+		document.getElementById(evts[0]).value = evts[1];
+
+		if ((evts[0] == "forest") || (evts[0] == "fire") || (evts[0] == "water") || (evts[0] == "spirit") || (evts[0] == "shadow") || (evts[0] == "ganons") || (evts[0] == "gtg") || (evts[0] == "well")) {junkUltra(document.getElementById(evts[0])); }	
+	});
+
+	if (load) {
+		// On supprime les 8 champs qui ont été ajoutés pour la sauvegarde
+		hist_aux.splice(historique.length - 8);
+	}
+
 	Update();Update();Update();
 
+	// Après l'update, on remet à jour l'historique correctement
+	historique = hist_aux;
+	afficheHistorique();
 }

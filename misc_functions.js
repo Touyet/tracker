@@ -209,12 +209,26 @@ function save() {
 	var a = document.body.appendChild(
             document.createElement("a")
         );
-        var textToWrite = document.getElementById("historique").innerHTML;
-        a.download = "historique.txt"; 
-        textToWrite = textToWrite.replace(/<br \/>/g, "%0D%0A"); 
-        textToWrite = textToWrite.replace(/<br>/g, "%0D%0A"); 
-        a.href = "data:text/plain," + textToWrite;
-        a.click();
+	var textToWrite = "";
+	for (i=0;i<historique.length;i++)
+	{
+		if (textToWrite != "") {textToWrite += "\n";}
+		textToWrite += historique[i];
+	}
+
+	// On ajoute les barren et les woth
+	textToWrite += "\n" + document.getElementById("woth_input1").value;
+	textToWrite += "\n" + document.getElementById("woth_input2").value;
+	textToWrite += "\n" + document.getElementById("woth_input3").value;
+	textToWrite += "\n" + document.getElementById("woth_input4").value;
+	textToWrite += "\n" + document.getElementById("woth_input5").value;
+	textToWrite += "\n" + document.getElementById("barren_input1").value;
+	textToWrite += "\n" + document.getElementById("barren_input2").value;
+	textToWrite += "\n" + document.getElementById("barren_input3").value;
+
+    a.download = "historique.txt";  
+    a.href = "data:text/plain," + textToWrite;
+    a.click();
 }
 
 function handleFiles(file) {

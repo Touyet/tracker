@@ -593,6 +593,11 @@ function chargerHistorique (load = false) {
 	}
 	mem["hintInput"] = document.getElementById("hintInput").value;
 
+	var listeHinted = [];
+	for (var elt in Hinted) {
+		if (Hinted[elt]) {listeHinted.push(elt);}
+	}
+
 	document.body.innerHTML = contenuBodyInitial;
 	initialize();
 
@@ -608,16 +613,31 @@ function chargerHistorique (load = false) {
 	var hist_aux = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
 	hist_aux.forEach(evt => {
-		console.log("Appel : " + evt);
 		evts = evt.split(": ");
-		document.getElementById(evts[0]).value = evts[1];
+		if (document.getElementById(evts[0]) == null) {
+			console.log("null : " + evt + "/" + evts[0]);
+		} else {
+				
+			if (document.getElementById(evts[0]).tagName == "INPUT") {
+				console.log("Appel : " + evt);	
+				document.getElementById(evts[0]).value = evts[1]; 
+			} else if (document.getElementById(evts[0]).tagName == "SPAN") {
+				console.log("innerText : " + evt);
+				listeHinted = (evts[1]).split("/");
+			} else if (document.getElementById(evts[0]).tagName == "TEXTAREA") {
+				console.log("TextArea : " + evt);
+				document.getElementById(evts[0]).value = (evts[1]).replace(/\//g, "\n");
+			} else {
+				document.getElementById(evts[0]).value = evts[1]; 
+			}
+		}
 
 		if ((evts[0] == "forest") || (evts[0] == "fire") || (evts[0] == "water") || (evts[0] == "spirit") || (evts[0] == "shadow") || (evts[0] == "ganons") || (evts[0] == "gtg") || (evts[0] == "well")) {junkUltra(document.getElementById(evts[0])); }	
 	});
 
 	if (load) {
-		// On supprime les 8 champs qui ont été ajoutés pour la sauvegarde
-		hist_aux.splice(historique.length - 8);
+		// On supprime les 10 champs qui ont été ajoutés pour la sauvegarde
+		hist_aux.splice(historique.length - 10);
 	}
 
 	Update();Update();Update();
@@ -625,4 +645,9 @@ function chargerHistorique (load = false) {
 	// Après l'update, on remet à jour l'historique correctement
 	historique = hist_aux;
 	afficheHistorique();
+
+	// On repositionne les hint qui vont bien
+	listeHinted.forEach(elt => {
+		if (!elt.startsWith("Unread")) {console.log("Hinted : " + elt); Hinted[elt] = false; toggleHint(document.getElementById("text_" + elt));}
+	});
 }

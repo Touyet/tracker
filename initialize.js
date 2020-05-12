@@ -465,6 +465,20 @@ function initialize() {
 	for (i=0; i < Items.length; i++) {
 		ChecksPutInLogicBy[Items[i]] = [];
 	}
+
+	woth1 = "unknown";
+	woth2 = "unknown";
+	woth3 = "unknown";
+	woth4 = "unknown";
+	woth5 = "unknown";	
+
+	WotHItems = [];
+	WotH = new Array(35).fill(0);
+    checkedYet = new Array(256).fill(false);
+	readYet = new Array(42).fill(false);
+	AreaAge = new Array(35).fill(0);
+	AreaWotHAge = new Array(35).fill(0);
+	wothCount = new Array(35).fill(0);
 }
 	
 	var tempTime = 0;

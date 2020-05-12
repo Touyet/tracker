@@ -212,19 +212,28 @@ function save() {
 	var textToWrite = "";
 	for (i=0;i<historique.length;i++)
 	{
-		if (textToWrite != "") {textToWrite += "\n";}
+		if (textToWrite != "") {textToWrite += "%0D%0A";}
 		textToWrite += historique[i];
 	}
 
 	// On ajoute les barren et les woth
-	textToWrite += "\n" + document.getElementById("woth_input1").value;
-	textToWrite += "\n" + document.getElementById("woth_input2").value;
-	textToWrite += "\n" + document.getElementById("woth_input3").value;
-	textToWrite += "\n" + document.getElementById("woth_input4").value;
-	textToWrite += "\n" + document.getElementById("woth_input5").value;
-	textToWrite += "\n" + document.getElementById("barren_input1").value;
-	textToWrite += "\n" + document.getElementById("barren_input2").value;
-	textToWrite += "\n" + document.getElementById("barren_input3").value;
+	textToWrite += "%0D%0Awoth_input1: " + document.getElementById("woth_input1").value;
+	textToWrite += "%0D%0Awoth_input2: " + document.getElementById("woth_input2").value;
+	textToWrite += "%0D%0Awoth_input3: " + document.getElementById("woth_input3").value;
+	textToWrite += "%0D%0Awoth_input4: " + document.getElementById("woth_input4").value;
+	textToWrite += "%0D%0Awoth_input5: " + document.getElementById("woth_input5").value;
+	textToWrite += "%0D%0Abarren_input1: " + document.getElementById("barren_input1").value;
+	textToWrite += "%0D%0Abarren_input2: " + document.getElementById("barren_input2").value;
+	textToWrite += "%0D%0Abarren_input3: " + document.getElementById("barren_input3").value;
+	textToWrite += "%0D%0AhintInput: " + document.getElementById("hintInput").value.replace(/\n/g, "/");
+
+	var listeHinted = "";
+
+	for (var elt in Hinted) {
+		if (Hinted[elt]) {if (listeHinted != "") {listeHinted+= "/"} listeHinted += elt;}
+	}
+
+	textToWrite += "%0D%0Anotes: " + listeHinted;
 
     a.download = "historique.txt";  
     a.href = "data:text/plain," + textToWrite;
@@ -234,7 +243,7 @@ function save() {
 function handleFiles(file) {
 
 	var reader = new FileReader();
-    reader.onload = (function() { return function(e) { historique = e.target.result.split("\n"); chargerHistorique(); }; })();
+    reader.onload = (function() { return function(e) { historique = e.target.result.split("\n"); chargerHistorique(true); }; })();
     reader.readAsText(file[0]);
 }
 
@@ -284,11 +293,14 @@ function toggleHint(loc) {
 	var location = "";
 	var item = "";
 	var itemText = "";
-	if (loc.className == "logic_check_text" || loc.className == "ool_check_text" || loc.className == "access_check_text") {location = loc.id.slice(5); item = Check[location];} else {item = loc.id.slice(0, -9); location = Location[item];}
+	if (loc.className == "logic_check_text" || loc.className == "ool_check_text" || loc.className == "access_check_text" || loc.className == "check_text") {location = loc.id.slice(5); item = Check[location];} else {item = loc.id.slice(0, -9); location = Location[item];}
 	if (item == "sos") {item = "song_of_storms";}
 	if (item == "suns") {item = "suns_song";}
 	if (item == "sot") {item = "song_of_time";}
 	if (item == "serenade") {itemText = "Serenade";} else if (item == "prelude") {itemText = "Prelude"} else {itemText = ItemNames[Items.indexOf(item)];}
+	console.log("Location : " + location);
+	console.log("Item : " + item);
+	console.log(Hinted[location]);
 	if (item != "unknown" && location != undefined) {
 		Hinted[location] = !Hinted[location];
 		if (loc.className == "logic_check_text" || loc.className == "ool_check_text" || loc.className == "access_check_text") {

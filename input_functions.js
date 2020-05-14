@@ -31,7 +31,9 @@ function process_inputs() {
 
 		if (temp <= 244) { 
 
-			if (document.getElementById(key).value == "junk" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "click");}
+			if (document.getElementById(key).value == "junk" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "left");}
+			if (document.getElementById(key).value == "small_key" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "right");}
+			if (document.getElementById(key).value == "boss_key" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "middle");}
 
 			if (document.getElementById(key).value == "far" && !Known.farores_wind) {var obj = "far"; Check[document.getElementById(key).id] = "farores_wind"; Location.farores_wind = document.getElementById(key).id; document.getElementById("farores_wind_location").innerHTML = "Farores -> " + Names[temp-1]; Known.farores_wind = true; if (!hinted && !peeked) {Game.farores_wind = true;} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1].split(': ')[1] + ":  Farores" + "<br />";} junkItem(document.getElementById(key), obj);  continue;}
 		
@@ -395,8 +397,18 @@ function junk(x, evt = "") {
 	var type = "";
 	var altKey = "";
 	var str = x.id;
-	if (evt != "") {var event = document.createEvent("MouseEvents"); event.initMouseEvent("click", true, true, window,0, 0, 0, 0, 0, false, false, false, false, 0, null); type = event.button; altKey = event.altKey; } else {str = str.substring('text_'.length);}
-	
+	if (evt == "left") {
+		type = 0;  
+	} else if (evt == "right") {
+		type = 2;
+	} else if (evt == "middle") {
+		type = 1;
+	} else {
+		str = str.substring('text_'.length); 
+		type = event.button; 
+		altKey = event.altKey;
+	}
+
 	var temp = Locations.indexOf(str);
 
 	if(type == 0 && !altKey) {
@@ -415,8 +427,7 @@ function junk(x, evt = "") {
 		if (temp == 66 && Game.dodongos_checks_remaining == 0) {Game.checks_remaining +=1;}
 		if (temp == 113 && Game.jabu_checks_remaining == 0) {Game.checks_remaining +=1;}
 		Game.checks_remaining -= 1;
-		//console.log(x.id);
-		//console.log(str);
+
 		document.getElementById(str).value = "junk";
 		ajoutHistorique("junk", str, 1);
 	}

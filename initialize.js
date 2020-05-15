@@ -30,23 +30,23 @@ var thisIsABossKey = false;
 var temptext2 = "";
 
 var AreaIndexes = [0,6,8,13,16,22,28,29,30,31,34,38,45,52,53,60,67,72,76,89,96,101,104,106,107,110,114,128,143,154,174,192,208,230,244];
-	var SongIndexes = [0,245,255,0,0,0,244,0,253,0,252,0,0,246,0,0,0,249,247,248,0,0,251,0,0,0,0,0,0,0,0,0,0,0];
-	var SongIndexes2 = [0,245,255,0,0,0,244,0,253,0,252,0,0,250,0,0,0,249,254,248,0,0,251,0,0,0,0,0,0,0,0,0,0,0];
-		
-	var hintStones = ["Crater: Hint", "Crater: Gr. Hint", "Trail: Gr. Hint", "Trail: Bigo Hint", "Colossus: Hint", "Dodongos: Hint", "Field: Open Gr. Hint", "Field: Remote Gr. Hint", "Field: Destiny Hint", "Valley: Hint", "Hylia: After Valley Hint", "Hylia: Back Right Hint", "Hylia: Back Left Hint", "Hyrule Castle: First Hint", "Hyrule Castle: Second Hint", "Temple of Time: First Hint", "Temple of Time: Second Hint", "Temple of Time: Third Hint", "Temple of Time: Fourth Hint", "Kakariko: Gr. Hint", "Kokiri: Left Deku Hint", "Kokiri: Right Deku Hint", "Kokiri: Gr. Hint", "Kokiri: LW Hint", "Lost Woods: Br. Hint", "Lost Woods: Gr. Hint", "SFM: Sarias Hint", "SFM: Maze 1 Hint", "SFM: Maze 2 Hint", "River: Gr. Hint", "River: Plateau Hint", "River: By ZD Hint", "Domain: Hint", "Fountain: Jabu Hint", "Fountain: By Fairy Hint", "Goron City: Maze Hint", "Goron City: Medigoron Hint", "Graveyard: Hint", "Hyrule Castle: Storms Hint", "Field: Hammer Hint"];
+var SongIndexes = [0,245,255,0,0,0,244,0,253,0,252,0,0,246,0,0,0,249,247,248,0,0,251,0,0,0,0,0,0,0,0,0,0,0];
+var SongIndexes2 = [0,245,255,0,0,0,244,0,253,0,252,0,0,250,0,0,0,249,254,248,0,0,251,0,0,0,0,0,0,0,0,0,0,0];
 	
-	var checkSummary = ["bombchus", "farores_wind", "slingshot1", "slingshot2", "slingshot3", "boomerang", "scale1", "scale2", "rutos_letter", "bottle1", "bottle2", "bottle3", "bomb_bag1", "bomb_bag2", "bomb_bag3", "hammer", "bow1", "bow2", "bow3", "hookshot1", "hookshot2", "strength1", "strength2", "strength3", "mirror_shield", "magic1", "magic2", "iron_boots", "hover_boots", "wallet1", "wallet2", "goron_tunic", "zora_tunic", "dins_fire", "fire_arrows", "lens_of_truth", "trade", "light_arrows", "text_zeldasSpot", "text_eponasSpot", "text_sariasSpot", "text_sunsSpot", "text_oot", "text_stormsSpot", "text_minuetSpot", "text_boleroSpot", "text_serenadeSpot", "text_requiemSpot", "text_nocturneSpot", "text_preludeSpot"];
-	var checkSummaryText = ["BombChus", "Farores", "Slingshot", "Slingshot", "Slingshot", "Boomerang", "Scale", "Scale", "Letter", "Bottle", "Bottle", "Bottle", "Bomb Bag", "Bomb Bag", "Bomb Bag", "Hammer", "Bow", "Bow", "Bow", "Hookshot", "Hookshot", "Strength", "Strength", "Strength"];
-	var Items = ["bombchus", "farores_wind", "slingshot1", "slingshot2", "slingshot3", "boomerang", "scale1", "scale2", "rutos_letter", "bottle1", "bottle2", "bottle3", "bomb_bag1", "bomb_bag2", "bomb_bag3", "hammer", "bow1", "bow2", "bow3", "hookshot1", "hookshot2", "strength1", "strength2", "strength3", "mirror_shield", "magic1", "magic2", "iron_boots", "hover_boots", "wallet1", "wallet2", "goron_tunic", "zora_tunic", "dins_fire", "fire_arrows", "lens_of_truth", "prescription", "claim_check", "light_arrows", "lullaby", "eponas", "suns_song", "sarias", "song_of_storms", "minuet", "bolero", "requiem", "nocturne", "song_of_time"];
-	var ItemNames = ["BombChus", "Farores", "Slingshot", "Slingshot", "Slingshot", "Boomerang", "Scale", "Scale", "Letter", "Bottle", "Bottle", "Bottle", "Bomb Bag", "Bomb Bag", "Bomb Bag", "Hammer", "Bow", "Bow", "Bow", "Hookshot", "Hookshot", "Strength", "Strength", "Strength", "Mirror", "Magic", "Magic", "Iron Boots", "Hover Boots", "Wallet", "Wallet", "Goron Tunic", "Zora Tunic", "Din's Fire", "Fire Arrows", "Lens", "Prescription", "Claim Check", "Light Arrows", "Lullaby", "Eponas", "Suns", "Sarias", "Song of Storms", "Minuet", "Bolero", "Requiem", "Nocturne", "Song of Time"];
-	var hintNames = ["hyb", "tek", "crb", "grb", "cob", "fop", "hyliasun", "poe", "len", "20s", "red", "coi", "cos", "sca", "fla", "wbk", "riv", "fin", "toi", "dea", "was", "wls", "pot", "dan", "lef", "rig", "goh", "gvh", "cuc", "cra", "mea", "1me", "kin", "jab", "sho", "hba", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "fr2", "oot"];
-	var hintNames2 = ["rut", "atz", "crater", "gybox", "colossusbean", "fop", "shootthesun", "poes", "lens", "20", "redead", "comp", "cos", "scarecrow", "hammer", "waterbk", "river", "gtgf", "toilet", "deadhand", "waste", "wsl", "pot", "daru", "left", "right", "gchammer", "gvhammer", "cucc", "bol", "min", "tot", "kz", "jabu", "shooting", "1500", "forestfloor", "shadowfloor", "noc", "ser", "fountain", "skullkid", "bgs", "skullmask", "30", "40", "50", "frog", "oot"];
-	var hintNames3 = ["ruto", "atz", "craterbean", "box", "col", "fop", "sunshoot", "poe", "lensgame", "20s", "red", "composer", "cos", "pierre", "flare", "wbk", "riverch", "gtgfin", "gtgtoilet", "dea", "wasteland", "req", "pot", "darunia", "mir", "sil", "gcleft", "gvh", "cucco", "bolero", "minuet", "pre", "kingzora", "boom", "archery", "150", "ffloor", "shfloor", "nocturne", "serenade", "icy", "kid", "trade", "mask", "30s", "40s", "50s", "frogs", "oot"];
-	var hintNames4 = ["bottle", "atz", "crb", "gybean", "colo", "fop", "shootsun", "poe", "chestgame", "20s", "red", "coi", "cos", "sca", "flaredancer", "wbk", "riverchest", "gtgfinal", "toi", "dea", "wl", "desert", "pot", "dancin", "mirror", "silver", "maze3", "gvh", "cuccos", "cra", "mea", "prelude", "kin", "boomerang", "sho", "150", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "frogs2", "oot"];
-	var hintNames5 = ["bot", "atz", "crb", "grb", "colossus", "fop", "ss", "poe", "cmg", "20s", "red", "coi", "cos", "sca", "fla", "wbk", "riv", "fin", "toi", "dea", "was", "colosong", "pot", "dancing", "lefthand", "silvers", "maze3!", "gvh", "chickens", "cra", "mea", "1me", "kin", "rang", "shooting", "150", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "fr2", "oot"];
-	var hintNames6 = ["bot", "atz", "crb", "grb", "colossus", "fop", "hss", "poe", "cmg", "20s", "red", "coi", "cos", "sca", "fla", "wbk", "riv", "fin", "toi", "dea", "was", "wastesong", "pot", "dancing", "lefthand", "righthand", "maze3!", "gvh", "chicken", "cra", "mea", "1me", "kin", "boo", "shoo", "150", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "fr2", "oot"];
-	var hintIndexes = ["hylia_bottle", "hyrule_tektite_grotto", "crater_bean", "graveyard_box", "colossus_bean", "ice_bottom_of_fountain", "hylia_sun_shoot", "poes", "market_lens_game", "tokens_20", "suns_grave", "fire_grave", "sunsSpot", "fire12", "fire15", "water10","water8", "gtg21", "gtg22", "well8", "wasteland", "requiemSpot", "goron_pot", "goron_dance", "spirit7", "spirit14", "goron_maze_3", "gerudo_hammer", "anjus_chickens", "boleroSpot", "minuetSpot", "preludeSpot", "thaw_king", "jabu_boomerang", "archery_game", "gerudo_archery_2", "forest8", "shadow17", "nocturneSpot", "serenadeSpot", "ice_bottom_of_fountain", "skull_kid", "trade_quest", "theater", "tokens_30", "tokens_40", "tokens_50", "frogs_2", "oot"];
-	var inputs = ["x", "sk", "bk", "bom", "boo", "bot", "bow", "din", "far", "fir", "gor", "ham", "hoo", "hov", "iro", "len", "rut", "lig", "mag", "mir", "sca", "sli", "str", "pre", "cla", "wal", "zor", "lul", "epo", "sar", "sot", "sun", "sos", "min", "bol", "ser", "req", "noc", "pre", "junk", "chu"];
+var hintStones = ["Crater: Hint", "Crater: Gr. Hint", "Trail: Gr. Hint", "Trail: Bigo Hint", "Colossus: Hint", "Dodongos: Hint", "Field: Open Gr. Hint", "Field: Remote Gr. Hint", "Field: Destiny Hint", "Valley: Hint", "Hylia: After Valley Hint", "Hylia: Back Right Hint", "Hylia: Back Left Hint", "Hyrule Castle: First Hint", "Hyrule Castle: Second Hint", "Temple of Time: First Hint", "Temple of Time: Second Hint", "Temple of Time: Third Hint", "Temple of Time: Fourth Hint", "Kakariko: Gr. Hint", "Kokiri: Left Deku Hint", "Kokiri: Right Deku Hint", "Kokiri: Gr. Hint", "Kokiri: LW Hint", "Lost Woods: Br. Hint", "Lost Woods: Gr. Hint", "SFM: Sarias Hint", "SFM: Maze 1 Hint", "SFM: Maze 2 Hint", "River: Gr. Hint", "River: Plateau Hint", "River: By ZD Hint", "Domain: Hint", "Fountain: Jabu Hint", "Fountain: By Fairy Hint", "Goron City: Maze Hint", "Goron City: Medigoron Hint", "Graveyard: Hint", "Hyrule Castle: Storms Hint", "Field: Hammer Hint"];
+
+var checkSummary = ["bombchus", "farores_wind", "slingshot1", "slingshot2", "slingshot3", "boomerang", "scale1", "scale2", "rutos_letter", "bottle1", "bottle2", "bottle3", "bomb_bag1", "bomb_bag2", "bomb_bag3", "hammer", "bow1", "bow2", "bow3", "hookshot1", "hookshot2", "strength1", "strength2", "strength3", "mirror_shield", "magic1", "magic2", "iron_boots", "hover_boots", "wallet1", "wallet2", "goron_tunic", "zora_tunic", "dins_fire", "fire_arrows", "lens_of_truth", "trade", "light_arrows", "text_zeldasSpot", "text_eponasSpot", "text_sariasSpot", "text_sunsSpot", "text_oot", "text_stormsSpot", "text_minuetSpot", "text_boleroSpot", "text_serenadeSpot", "text_requiemSpot", "text_nocturneSpot", "text_preludeSpot"];
+var checkSummaryText = ["BombChus", "Farores", "Slingshot", "Slingshot", "Slingshot", "Boomerang", "Scale", "Scale", "Letter", "Bottle", "Bottle", "Bottle", "Bomb Bag", "Bomb Bag", "Bomb Bag", "Hammer", "Bow", "Bow", "Bow", "Hookshot", "Hookshot", "Strength", "Strength", "Strength"];
+var Items = ["bombchus", "farores_wind", "slingshot1", "slingshot2", "slingshot3", "boomerang", "scale1", "scale2", "rutos_letter", "bottle1", "bottle2", "bottle3", "bomb_bag1", "bomb_bag2", "bomb_bag3", "hammer", "bow1", "bow2", "bow3", "hookshot1", "hookshot2", "strength1", "strength2", "strength3", "mirror_shield", "magic1", "magic2", "iron_boots", "hover_boots", "wallet1", "wallet2", "goron_tunic", "zora_tunic", "dins_fire", "fire_arrows", "lens_of_truth", "prescription", "claim_check", "light_arrows", "lullaby", "eponas", "suns_song", "sarias", "song_of_storms", "minuet", "bolero", "requiem", "nocturne", "song_of_time"];
+var ItemNames = ["BombChus", "Farores", "Slingshot", "Slingshot", "Slingshot", "Boomerang", "Scale", "Scale", "Letter", "Bottle", "Bottle", "Bottle", "Bomb Bag", "Bomb Bag", "Bomb Bag", "Hammer", "Bow", "Bow", "Bow", "Hookshot", "Hookshot", "Strength", "Strength", "Strength", "Mirror", "Magic", "Magic", "Iron Boots", "Hover Boots", "Wallet", "Wallet", "Goron Tunic", "Zora Tunic", "Din's Fire", "Fire Arrows", "Lens", "Prescription", "Claim Check", "Light Arrows", "Lullaby", "Eponas", "Suns", "Sarias", "Song of Storms", "Minuet", "Bolero", "Requiem", "Nocturne", "Song of Time"];
+var hintNames = ["hyb", "tek", "crb", "grb", "cob", "fop", "hyliasun", "poe", "len", "20s", "red", "coi", "cos", "sca", "fla", "wbk", "riv", "fin", "toi", "dea", "was", "wls", "pot", "dan", "lef", "rig", "goh", "gvh", "cuc", "cra", "mea", "1me", "kin", "jab", "sho", "hba", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "fr2", "oot"];
+var hintNames2 = ["rut", "atz", "crater", "gybox", "colossusbean", "fop", "shootthesun", "poes", "lens", "20", "redead", "comp", "cos", "scarecrow", "hammer", "waterbk", "river", "gtgf", "toilet", "deadhand", "waste", "wsl", "pot", "daru", "left", "right", "gchammer", "gvhammer", "cucc", "bol", "min", "tot", "kz", "jabu", "shooting", "1500", "forestfloor", "shadowfloor", "noc", "ser", "fountain", "skullkid", "bgs", "skullmask", "30", "40", "50", "frog", "oot"];
+var hintNames3 = ["ruto", "atz", "craterbean", "box", "col", "fop", "sunshoot", "poe", "lensgame", "20s", "red", "composer", "cos", "pierre", "flare", "wbk", "riverch", "gtgfin", "gtgtoilet", "dea", "wasteland", "req", "pot", "darunia", "mir", "sil", "gcleft", "gvh", "cucco", "bolero", "minuet", "pre", "kingzora", "boom", "archery", "150", "ffloor", "shfloor", "nocturne", "serenade", "icy", "kid", "trade", "mask", "30s", "40s", "50s", "frogs", "oot"];
+var hintNames4 = ["bottle", "atz", "crb", "gybean", "colo", "fop", "shootsun", "poe", "chestgame", "20s", "red", "coi", "cos", "sca", "flaredancer", "wbk", "riverchest", "gtgfinal", "toi", "dea", "wl", "desert", "pot", "dancin", "mirror", "silver", "maze3", "gvh", "cuccos", "cra", "mea", "prelude", "kin", "boomerang", "sho", "150", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "frogs2", "oot"];
+var hintNames5 = ["bot", "atz", "crb", "grb", "colossus", "fop", "ss", "poe", "cmg", "20s", "red", "coi", "cos", "sca", "fla", "wbk", "riv", "fin", "toi", "dea", "was", "colosong", "pot", "dancing", "lefthand", "silvers", "maze3!", "gvh", "chickens", "cra", "mea", "1me", "kin", "rang", "shooting", "150", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "fr2", "oot"];
+var hintNames6 = ["bot", "atz", "crb", "grb", "colossus", "fop", "hss", "poe", "cmg", "20s", "red", "coi", "cos", "sca", "fla", "wbk", "riv", "fin", "toi", "dea", "was", "wastesong", "pot", "dancing", "lefthand", "righthand", "maze3!", "gvh", "chicken", "cra", "mea", "1me", "kin", "boo", "shoo", "150", "ffl", "sfl", "3me", "ice", "fou", "kid", "big", "mas", "30s", "40s", "50s", "fr2", "oot"];
+var hintIndexes = ["hylia_bottle", "hyrule_tektite_grotto", "crater_bean", "graveyard_box", "colossus_bean", "ice_bottom_of_fountain", "hylia_sun_shoot", "poes", "market_lens_game", "tokens_20", "suns_grave", "fire_grave", "sunsSpot", "fire12", "fire15", "water10","water8", "gtg21", "gtg22", "well8", "wasteland", "requiemSpot", "goron_pot", "goron_dance", "spirit7", "spirit14", "goron_maze_3", "gerudo_hammer", "anjus_chickens", "boleroSpot", "minuetSpot", "preludeSpot", "thaw_king", "jabu_boomerang", "archery_game", "gerudo_archery_2", "forest8", "shadow17", "nocturneSpot", "serenadeSpot", "ice_bottom_of_fountain", "skull_kid", "trade_quest", "theater", "tokens_30", "tokens_40", "tokens_50", "frogs_2", "oot"];
+var inputs = ["x", "sk", "bk", "bom", "boo", "bot", "bow", "din", "far", "fir", "gor", "ham", "hoo", "hov", "iro", "len", "rut", "lig", "mag", "mir", "sca", "sli", "str", "pre", "cla", "wal", "zor", "lul", "epo", "sar", "sot", "sun", "sos", "min", "bol", "ser", "req", "noc", "pre", "junk", "chu"];
 
 var dungeonStrings = ["deku", "dodongos", "jabu", "forest", "fire", "water", "spirit", "shadow"];
 var bossStrings = ["deku_queen_gohma", "dodongos_king_dodongo", "jabu_barinade", "forest14", "fire6", "water11", "spirit20", "shadow18"]
@@ -119,14 +119,14 @@ var tMinutes = 0;
 var tSeconds = 0;
 //document.getElementById("go_input").value = 9;
 	
-	document.getElementById("text_dung7").style.color = "yellow";
-	document.getElementById("text_dung8").style.color = "yellow";
-	document.getElementById("text_dung9").style.color = "yellow";
-	
-	var tempTime = 0;
-	var tempHours = 0;
-	var tempMinutes = 0;
-	var tempSeconds = 0;
+document.getElementById("text_dung7").style.color = "yellow";
+document.getElementById("text_dung8").style.color = "yellow";
+document.getElementById("text_dung9").style.color = "yellow";
+
+var tempTime = 0;
+var tempHours = 0;
+var tempMinutes = 0;
+var tempSeconds = 0;
 	
 	var Locations = [
 		"mido_1", "mido_2", "mido_3", "mido_4", "kokiri_sword", "kokiri_song_of_storms",
@@ -350,83 +350,25 @@ var tSeconds = 0;
 	
 
 	  
-	var woth1 = "unknown";
-	var woth2 = "unknown";
-	var woth3 = "unknown";
-	var woth4 = "unknown";
-	var woth5 = "unknown";	
+var woth1 = "unknown";
+var woth2 = "unknown";
+var woth3 = "unknown";
+var woth4 = "unknown";
+var woth5 = "unknown";	
+
+var WotHItems = [];
+var WotH = new Array(35).fill(0);
+var checkedYet = new Array(256).fill(false);
+var readYet = new Array(42).fill(false);
+var AreaAge = new Array(35).fill(0);
+var AreaWotHAge = new Array(35).fill(0);
+var wothCount = new Array(35).fill(0);
+var textBlock = '';
+var circus = false;
+var hideInaccessible = true;
+var coopmode = false;
+if (localStorage.getItem("hideInaccessible") != null) {if (localStorage.getItem("hideInaccessible") == "false"){hideInaccessible = false; document.getElementById("inaccessibleControl").innerHTML = "Hide Inaccessible"};}
 	
-	var WotHItems = [];
-	var WotH = new Array(35).fill(0);
-    var checkedYet = new Array(256).fill(false);
-	var readYet = new Array(42).fill(false);
-	var AreaAge = new Array(35).fill(0);
-	var AreaWotHAge = new Array(35).fill(0);
-	var wothCount = new Array(35).fill(0);
-	var textBlock = '';
-	var circus = false;
-	var hideInaccessible = true;
-	var coopmode = false;
-	if (localStorage.getItem("hideInaccessible") != null) {if (localStorage.getItem("hideInaccessible") == "false"){hideInaccessible = false; document.getElementById("inaccessibleControl").innerHTML = "Hide Inaccessible"};}
-	
-var modal = document.getElementById("myModal");
-
-var btn = document.getElementById("myBtn");
-
-var span = document.getElementsByClassName("close")[0];
-
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-span.onclick = function() {
-  modal.style.display = "none";
-}
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-var modal2 = document.getElementById("myModal2");
-
-var btn = document.getElementById("skulls_in_logic");
-
-var span = document.getElementsByClassName("close")[1];
-
-btn.onclick = function() {
-  modal2.style.display = "block";
-}
-
-span.onclick = function() {
-  modal2.style.display = "none";
-}
-window.onclick = function(event) {
-  if (event.target == modal2) {
-    modal2.style.display = "none";
-  }
-}
-
-var modal3 = document.getElementById("myModal3");
-
-var btn = document.getElementById("locationCodes");
-
-var span = document.getElementsByClassName("close")[2];
-
-btn.onclick = function() {
-  modal3.style.display = "block";
-}
-
-span.onclick = function() {
-  modal3.style.display = "none";
-}
-
-window.onclick = function(event) {
-  if (event.target == modal3) {
-    modal3.style.display = "none";
-  }
-}
-
 var childRoute1Value = 0;
 var childRoute1 = ["ocarina_game", "lost_woods_grotto", "lost_woods_scrub_grotto", "wolfos_grotto", "bridge_scrub", "target", "skull_kid", "kokiri_song_of_storms", "rolling_goron", "goron_dance", "goron_pot", "river_pillar", "river_grotto", "river_ledge", "frogs_1", "frogs_2", "zora_diving", "zora_torches", "hylia_child_fishing"];
 var childRoute2 = ["market_slingshot_game", "market_bowling_1", "market_bowling_2","dins_fairy","market_lens_game"];
@@ -832,6 +774,57 @@ function initialize() {
 	}
 	for (i=0; i < Items.length; i++) {
 		ChecksPutInLogicBy[Items[i]] = [];
+	}
+	
+	modal = document.getElementById("myModal");
+	btn1 = document.getElementById("myBtn");
+	span1 = document.getElementsByClassName("close")[0];
+	modal2 = document.getElementById("myModal2");
+	btn2 = document.getElementById("skulls_in_logic");
+	span2 = document.getElementsByClassName("close")[1];
+	modal3 = document.getElementById("myModal3");
+	btn3 = document.getElementById("locationCodes");
+	span3 = document.getElementsByClassName("close")[2];
+	
+	btn1.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	span1.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+		modal.style.display = "none";
+	  }
+	}
+	
+	btn2.onclick = function() {
+	  modal2.style.display = "block";
+	}
+
+	span2.onclick = function() {
+	  modal2.style.display = "none";
+	}
+	window.onclick = function(event) {
+	  if (event.target == modal2) {
+		modal2.style.display = "none";
+	  }
+	}
+	
+	btn3.onclick = function() {
+	  modal3.style.display = "block";
+	}
+
+	span3.onclick = function() {
+	  modal3.style.display = "none";
+	}
+
+	window.onclick = function(event) {
+	  if (event.target == modal3) {
+		modal3.style.display = "none";
+	  }
 	}
 }
 

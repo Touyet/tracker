@@ -770,6 +770,8 @@ function handleAreaBreaks() {
 }
 
 function handleItemHighlights() {
+	console.log("handleItemHighlights" + Game.hookshot);
+	console.log("handleItemHighlights" + Game.longshot);
 	if (Game.bomb_bag1) {if(document.getElementById(dodongosPlacement +"_req1") != null) {document.getElementById(dodongosPlacement +"_req1").style.opacity =1; } if(document.getElementById(shadowPlacement +"_req4") != null) {document.getElementById(shadowPlacement +"_req4").style.opacity =1; } if(document.getElementById(spiritPlacement +"_req3") != null) {document.getElementById(spiritPlacement +"_req3").style.opacity =1; }}
 	if (Game.magic1) {document.getElementById("gan_req1").style.opacity=1; if(document.getElementById(shadowPlacement +"_req2") != null) {document.getElementById(shadowPlacement +"_req2").style.opacity =1; }}
 	if (Game.light_arrows) {document.getElementById("gan_req2").style.opacity=1;}

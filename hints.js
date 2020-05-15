@@ -510,9 +510,11 @@ function handleAlternateHintInput() {
 	}
 
 	var lines = document.getElementById("hintInput").value.split('\n');
+	var new_lines = "";
+	var flag = false;
 	var str = "";
-	for (var i= 0; i < hintNames.length; i++) {
-		for (var j=0; j < lines.length; j++) {
+	for (var j=0; j < lines.length; j++) {
+		for (var i= 0; i < hintNames.length; i++) {
 			if (lines[j].startsWith(hintNames[i]+" ") || lines[j].startsWith(hintNames2[i]+" ") || lines[j].startsWith(hintNames3[i]+" ") || lines[j].startsWith(hintNames4[i]+" ") || lines[j].startsWith(hintNames5[i]+" ") || lines[j].startsWith(hintNames6[i]+" ")) {
 				for (var k = 0; k < inputs.length; k++) {
 					str = inputs[k];
@@ -522,12 +524,19 @@ function handleAlternateHintInput() {
 					else {
 						str = capitalizeFirstLetter(str);
 					}
-					if (k == 0) { if (lines[j].endsWith(" " + inputs[k]) && Check[hintIndexes[i]] == "unknown") {document.getElementById("text_" + hintIndexes[i]).dispatchEvent(new Event('mousedown'));} }
-					else if (k == 1) { if (lines[j].endsWith(" " + inputs[k]) && Check[hintIndexes[i]] == "unknown") {thisIsAKey = true; document.getElementById("text_" + hintIndexes[i]).dispatchEvent(new Event('mousedown')); thisIsAKey = false; } }
-					else if (k == 2) { if (lines[j].endsWith(" " + inputs[k]) && Check[hintIndexes[i]] == "unknown") {thisIsABossKey = true; document.getElementById("text_" + hintIndexes[i]).dispatchEvent(new Event('mousedown')); thisIsABossKey = false; } }
-					else {if (lines[j].endsWith(" " + inputs[k])) {if (Check[hintIndexes[i]] == "unknown") {document.getElementById(hintIndexes[i]).value = str;}}}
-				}
+					if (k == 0) { if (lines[j].endsWith(" " + inputs[k]) && Check[hintIndexes[i]] == "unknown") {document.getElementById("text_" + hintIndexes[i]).dispatchEvent(new Event('mousedown')); flag = true;} }
+					else if (k == 1) { if (lines[j].endsWith(" " + inputs[k]) && Check[hintIndexes[i]] == "unknown") {thisIsAKey = true; document.getElementById("text_" + hintIndexes[i]).dispatchEvent(new Event('mousedown')); thisIsAKey = false; flag = true; } }
+					else if (k == 2) { if (lines[j].endsWith(" " + inputs[k]) && Check[hintIndexes[i]] == "unknown") {thisIsABossKey = true; document.getElementById("text_" + hintIndexes[i]).dispatchEvent(new Event('mousedown')); thisIsABossKey = false; flag = true;} }
+					else {if (lines[j].endsWith(" " + inputs[k])) {if (Check[hintIndexes[i]] == "unknown") {document.getElementById(hintIndexes[i]).value = str;} flag = true;}} 
+				} 
 			}
+			
+		}
+		if (!flag) {
+			if (new_lines != "") {new_lines += "\n";}
+				new_lines += lines[j];
 		}
 	}
+	document.getElementById("hintInput").value = new_lines;
 }
+

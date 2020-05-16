@@ -656,12 +656,15 @@ function annuler(nombre = 1) {
 	if (nombre <= historique.length) {
 		for (var i = 1; i <=nombre ; i++) { historiqueSupprime.push(historique.pop()); }
 	}
+	console.log("historiqueSupprime : " + historiqueSupprime); 
+	var historiqueSupprime_aux = historiqueSupprime; // On sauvegarde ça en mémoire car va être supprimé
 
 	chargerHistorique();
 	
 	// Dans ce cas, on transforme le bouton annuler pour stocker la suppression et pouvoir la recharger au cas où
 	var btnAnnuler = document.getElementById("annuler");
 	btnAnnuler.style.display = "inline-block";
+	historiqueSupprime = historiqueSupprime_aux;
 }
 
 function annulerSuppression() {
@@ -683,6 +686,8 @@ function chargerHistorique (load = false) {
 		}
 	}
 	mem["hintInput"] = document.getElementById("hintInput").value;
+	mem["markStones"] = document.getElementById("markStones").value;
+	mem["markMedallions"] = document.getElementById("markMedallions").value;
 
 	var listeHinted = [];
 	for (var elt in Hinted) {
@@ -700,6 +705,8 @@ function chargerHistorique (load = false) {
 		}
 	}
 	document.getElementById("hintInput").value = mem["hintInput"];
+	document.getElementById("markStones").value = mem["markStones"];
+	document.getElementById("markMedallions").value = mem["markMedallions"];
 
 	var hist_aux = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];

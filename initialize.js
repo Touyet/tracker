@@ -830,6 +830,7 @@ function initialize() {
 
 
 var historique = [];
+var historiqueSupprime = [];
 var contenuBodyInitial = document.body.innerHTML;
 
 initialize();

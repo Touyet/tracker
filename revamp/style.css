@@ -9,13 +9,71 @@ html {
     user-select: none;
     font-family: sans-serif;
     background-color: #505050;
-};
+}
 
 .dungeon {
     font-size: 22px;
-    text-shadow: black;
-};
+    text-shadow: 1px 1px 0 black;
+    margin-right: 5px;
+}
 
+.badge-pill {
+    margin-right: 5px;
+}
 #forestDungeon {
-    color: #88fa4e;
-};
+    color: greenyellow;
+}
+#fireDungeon {
+    color: red;
+}
+#waterDungeon {
+    color: blue;
+}
+#shadowDungeon {
+    color: purple;
+}
+#spiritDungeon {
+    color: rgb(255, 187, 0);
+}
+#ganonDungeon {
+    color: rgba(255, 81, 0, 0.555);
+}
+#gtg {
+    color: orange;
+}
+#botw {
+    color: pink;
+}
+
+.section {
+    margin-top: 5px;
+}
+
+.section input, .input-group-text {
+    border: none;
+    color: black;
+    display: inline-block;
+    padding: 1px;
+}
+.section input {
+    max-width: 35px;
+    padding: 0;
+    text-align: center;
+}
+
+.input-group-text {
+    background: transparent;
+}
+
+.itempics{
+	height:26px;
+	width: 26px;
+	margin-right:4px;
+	margin-top:2px;
+	margin-bottom:3px;
+}
+
+.requirements {
+    font-size: 24px;
+    text-transform: uppercase;
+}

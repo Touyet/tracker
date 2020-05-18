@@ -56,19 +56,18 @@ function diffusion() {
 		statutDiffusion = true;
 		if (document.getElementById("nomDiffuseur").value) {
 			document.getElementById("btnDiffusion").innerText = "Stopper la diffusion";
-			document.getElementById("urlDiffuseur").innerText = "Lien de diffusion : " + document.location.href + "?diffuseur=" + document.getElementById("nomDiffuseur").value;
 			
 			// On commence par récupérer un id placé dans un cookie pour permettre d'envoyer les données
 			var cle = "";
-			ajaxGet("/oot/api/diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
+			ajaxGet("oot/api/diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
 				// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 				cle = retour.split("/")[0];
-				document.getElementById("urlDiffuseur").innerText = "Lien de diffusion : " + document.location.href + "/" + retour.split("/")[1];
+				document.getElementById("urlDiffuseur").value = "Lien de diffusion : " + document.location.href + "?code=" + retour.split("/")[1];
 			});
 			
 			//On envoie ici les données de diffusion avec une certaine fréquence
 			intervalDiffusion = setInterval(function () {
-				ajaxPost("/oot/api/data/" + cle, generationJSON(), function(text) {
+				ajaxPost("oot/api/data/" + cle, generationJSON(), function(text) {
 					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 					document.getElementById("statutDiffusion").innerText = retour;
 				})
@@ -96,7 +95,7 @@ function getParams(param) {
 // Cette fonction a pour objectif de récupérer la diffusion depuis le serveur à distance à intervalles réguliers
 function modeLecteur(codeDiffuseur) {
 	// On va récupérer des données json via appel ajax
-	ajaxGet("/oot/api/lecture/" + codeDiffuseur, function(retour) {
+	ajaxGet("oot/api/lecture/" + codeDiffuseur, function(retour) {
 		// On a récupéré l'historique, on peut le charger
 		historique = JSON.parse(retour);
 		chargerHistorique(true);

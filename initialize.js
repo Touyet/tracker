@@ -834,6 +834,59 @@ var historiqueSupprime = [];
 var contenuBodyInitial = document.body.innerHTML;
 
 initialize();
+var statutDiffusion = false;
+var intervalDiffusion = null;
+
+if (window.location.search) {
+	// Si des paramètres sont passés, on désactive ce qui correspond à la diffusion
+	document.getElementById("online").innerHTML = "";
+	
+	// On désactive également tous les éléments de saisie sous réserve de n'en rater aucun :)
+	
+	for (var i = 0; i < document.getElementsByClassName("picture_input").length; i++) {	
+		document.getElementsByClassName("picture_input")[i].disabled = true;
+	}
+	for (var i = 0; i < document.getElementsByClassName("check_input").length; i++) {	
+		document.getElementsByClassName("check_input")[i].disabled = true;
+	}
+	for (var i = 0; i < document.getElementsByClassName("hint_input").length; i++) {	
+		document.getElementsByClassName("hint_input")[i].disabled = true;
+	}
+	for (var i = 0; i < document.getElementsByClassName("check_text").length; i++) {	
+		document.getElementsByClassName("check_text")[i].onmousedown = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("superdot").length; i++) {	
+		document.getElementsByClassName("superdot")[i].onclick = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("ool_check_text2").length; i++) {	
+		document.getElementsByClassName("ool_check_text2")[i].onclick = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("ool_check_text").length; i++) {	
+		document.getElementsByClassName("ool_check_text")[i].onclick = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("bonuspics").length; i++) {	
+		document.getElementsByClassName("bonuspics")[i].onclick = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("songpics").length; i++) {	
+		document.getElementsByClassName("songpics")[i].onclick = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("requirements").length; i++) {	
+		document.getElementsByClassName("requirements")[i].onclick = "";
+	}
+	for (var i = 0; i < document.getElementsByClassName("classHistorique").length; i++) {	
+		document.getElementsByClassName("classHistorique")[i].onclick = "";
+	}
+	
+	document.getElementById("hintInput").disabled = true;
+	
+	
+	// On active la lecture régulière du stream
+	setInterval(function(){modeLecteur(getParams("code"));}, 10000);
+} else {
+	// Mode diffusion ou normal	
+}
+
 setInterval(slowUpdate,5000);
 setInterval(Update,250);
+
 Update();Update();Update();

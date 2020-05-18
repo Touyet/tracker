@@ -213,23 +213,29 @@ function save() {
 	var a = document.body.appendChild(
             document.createElement("a")
         );
-	var textToWrite = "";
-	for (i=0;i<historique.length;i++)
-	{
-		if (textToWrite != "") {textToWrite += "%0D%0A";}
-		textToWrite += historique[i];
-	}
+	var textToWrite = generationJSON();
 
+    a.download = "historique.json";  
+    a.href = "data:text/plain," + textToWrite;
+    a.click();
+}
+
+function generationJSON() {
+	var textToWrite = "";
+	var hist_save = historique;
+	
 	// On ajoute les barren et les woth
-	textToWrite += "%0D%0Awoth_input1: " + document.getElementById("woth_input1").value;
-	textToWrite += "%0D%0Awoth_input2: " + document.getElementById("woth_input2").value;
-	textToWrite += "%0D%0Awoth_input3: " + document.getElementById("woth_input3").value;
-	textToWrite += "%0D%0Awoth_input4: " + document.getElementById("woth_input4").value;
-	textToWrite += "%0D%0Awoth_input5: " + document.getElementById("woth_input5").value;
-	textToWrite += "%0D%0Abarren_input1: " + document.getElementById("barren_input1").value;
-	textToWrite += "%0D%0Abarren_input2: " + document.getElementById("barren_input2").value;
-	textToWrite += "%0D%0Abarren_input3: " + document.getElementById("barren_input3").value;
-	textToWrite += "%0D%0AhintInput: " + document.getElementById("hintInput").value.replace(/\n/g, "/");
+	hist_save.push({loc: "woth_input1", obj: document.getElementById("woth_input1").value});
+	hist_save.push({loc: "woth_input2", obj: document.getElementById("woth_input2").value});
+	hist_save.push({loc: "woth_input3", obj: document.getElementById("woth_input3").value});
+	hist_save.push({loc: "woth_input4", obj: document.getElementById("woth_input4").value});
+	hist_save.push({loc: "woth_input5", obj: document.getElementById("woth_input5").value});
+	hist_save.push({loc: "barren_input1", obj: document.getElementById("barren_input1").value});
+	hist_save.push({loc: "barren_input2", obj: document.getElementById("barren_input2").value});
+	hist_save.push({loc: "barren_input3", obj: document.getElementById("barren_input3").value});
+	hist_save.push({loc: "hintInput", obj: document.getElementById("hintInput").value});
+	
+	//textToWrite += "%0D%0AhintInput: " + document.getElementById("hintInput").value.replace(/\n/g, "/");
 
 	var listeHinted = "";
 
@@ -237,17 +243,17 @@ function save() {
 		if (Hinted[elt]) {if (listeHinted != "") {listeHinted+= "/"} listeHinted += elt;}
 	}
 
-	textToWrite += "%0D%0Anotes: " + listeHinted;
-
-    a.download = "historique.txt";  
-    a.href = "data:text/plain," + textToWrite;
-    a.click();
+	hist_save.push({loc: "notes", obj: listeHinted});
+	
+	textToWrite = JSON.stringify(hist_save);
+	
+	return textToWrite;
 }
 
 function handleFiles(file) {
 
 	var reader = new FileReader();
-    reader.onload = (function() { return function(e) { historique = e.target.result.split("\n"); chargerHistorique(true); }; })();
+    reader.onload = (function() { return function(e) { historique = JSON.parse(e.target.result); chargerHistorique(true); }; })();
     reader.readAsText(file[0]);
 }
 

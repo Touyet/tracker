@@ -628,7 +628,8 @@ function junkSong(x, obj) {
 }
 
 function ajoutHistorique(obj, newEvt) {
-	historique.push(newEvt + ": " + obj);
+	var newHistorique = { loc: newEvt, obj: obj }; 
+	historique.push(newHistorique);
 	console.log("ajoutHistorique : " + newEvt + ": " + obj);
 	afficheHistorique();
 	
@@ -643,7 +644,7 @@ function afficheHistorique() {
 	var i = historique.length;
 	historique.forEach(evt => {
 		if (affHistorique != "") {affHistorique = "<br />" + affHistorique} 
-		affHistorique = "<span id=\"historique_" + i  + "\" onclick=\"annuler(" + i + ")\" >" + evt + "</span>" + affHistorique;
+		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
 		i-=1; // Décrément
 	});
 	document.getElementById("historique").innerHTML = affHistorique;	
@@ -710,27 +711,27 @@ function chargerHistorique (load = false) {
 
 	var hist_aux = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
+	
 	hist_aux.forEach(evt => {
-		evts = evt.split(": ");
-		if (document.getElementById(evts[0]) == null) {
-			console.log("null : " + evt + "/" + evts[0]);
+		
+		if (document.getElementById(evt.loc) == null) {
+			console.log("null : " + evt.loc);
 		} else {
 				
-			if (document.getElementById(evts[0]).tagName == "INPUT") {
-				console.log("Appel : " + evt);	
-				document.getElementById(evts[0]).value = evts[1]; 
-			} else if (document.getElementById(evts[0]).tagName == "SPAN") {
-				console.log("innerText : " + evt);
-				listeHinted = (evts[1]).split("/");
-			} else if (document.getElementById(evts[0]).tagName == "TEXTAREA") {
-				console.log("TextArea : " + evt);
-				document.getElementById(evts[0]).value = (evts[1]).replace(/\//g, "\n");
+			if (document.getElementById(evt.loc).tagName == "INPUT") {
+				document.getElementById(evt.loc).value = evt.obj; 
+			} else if (document.getElementById(evt.loc).tagName == "SPAN") {
+				console.log("innerText : " + evt.loc);
+				listeHinted = (evt.obj).split("/");
+			} else if (document.getElementById(evt.loc).tagName == "TEXTAREA") {
+				console.log("TextArea : " + evt.loc);
+				document.getElementById(evt.loc).value = evt.obj.replace(/\//g, "\n");
 			} else {
-				document.getElementById(evts[0]).value = evts[1]; 
+				document.getElementById(evt.loc).value = evt.obj; 
 			}
 		}
 
-		if ((evts[0] == "forest") || (evts[0] == "fire") || (evts[0] == "water") || (evts[0] == "spirit") || (evts[0] == "shadow") || (evts[0] == "ganons") || (evts[0] == "gtg") || (evts[0] == "well")) {junkUltra(document.getElementById(evts[0])); }	
+		if ((evt.loc == "forest") || (evt.loc == "fire") || (evt.loc == "water") || (evt.loc == "spirit") || (evt.loc == "shadow") || (evt.loc == "ganons") || (evt.loc == "gtg") || (evt.loc == "well")) {junkUltra(document.getElementById(evt.loc)); }	
 	});
 
 	if (load) {
@@ -740,7 +741,7 @@ function chargerHistorique (load = false) {
 
 	Update();Update();Update();
 
-	// Après l'update, on remet à jour l'historique correctement
+	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
 	historique = hist_aux;
 	afficheHistorique();
 

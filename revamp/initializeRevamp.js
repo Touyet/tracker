@@ -1,10 +1,17 @@
 class Check {
+	/**
+	 * @param {HTMLElement} $container Container to draw into
+	 * @param {number} type Type of check 
+	 * @param {string} name Check name
+	 * @param {string} id Check Id
+	 * @param {()=>boolean} [logic] callback representing check logic
+	 */
 	constructor($container, type, name, id, logic) {
 		this.$container = $container;
 		this.type = type;
 		this.name = name;
 		this.id = id;
-		this.logic = logic;
+		this.logic = logic ? logic : () => { return true };
 		this.buildHtml();
 	}
 
@@ -21,8 +28,6 @@ class Check {
 			this.$html.find("span").css("color", "black");
 
 		}
-
-
 	}
 
 	buildHtml() {
@@ -50,7 +55,12 @@ class Check {
 						self.item = items.filter(v => v.id === result && !v.gotten)[0];
 						if (!self.item) return;
 						self.item.gotten = true;
+						self.item.highlightItemIfNeeded();
+						Logic.updateWithItemGet(self.item.id);
 						self.updateHtml();
+						if (this.type == CheckType.SONG) {
+							updateSection(songs);
+						}
 					}
 				}
 			});
@@ -58,22 +68,26 @@ class Check {
 	}
 
 	updateHtml() {
-		if (this.type === CheckType.SONG) {
-			this.$html.empty();
-			this.$html.append(`${this.name} : ${this.item.name}`);
-			this.$html.css({ color: "lime" })
-		} else if (this.type === CheckType.ITEM) {
+		if (this.item.gotten) {
+			if (this.type === CheckType.SONG) {
+				this.$html.empty();
+				this.$html.append(`${this.name} : ${this.item.name}`);
+				this.$html.css({ color: "lime" });
+			} else if (this.type === CheckType.ITEM) {
 
+			}
 		}
-	}
-
-	formatItemString(itemName) {
-		let name = itemName.toLowerCase();
-		return name[0].toUpperCase() + name.slice(1);
 	}
 }
 
 class Item {
+	/**
+	 * 
+	 * @param {string} name item name
+	 * @param {string} id item id
+	 * @param {boolean} inUI present in interface
+	 * @param {number} [count=1] number of item present in pool
+	 */
 	constructor(name, id, inUI, count) {
 		this.name = name;
 		this.id = id;
@@ -147,15 +161,26 @@ class Item {
 }
 
 class Area {
-	constructor($container, name, id, sk, bk, item) {
+	/**
+	 * Create and build an Area.
+	 * @param {JQuery} $container Container to draw into
+	 * @param {string} name Area Name
+	 * @param {string} id Area id
+	 * @param {number} checks number of check in said area
+	 * @param {number} [sk=0] sk small key number, when > 0, determine if it's a dungeon
+	 * @param {number} [bk=null] boss key, when null, determine if it's a sub dungeon or not (alongside sk parameter)
+	 */
+	constructor($container, name, id, checks, sk, bk) {
 		this.$container = $container;
 		this.name = name;
 		this.id = id;
+		this.checks = checks;
 		this.sk = sk;
 		this.bk = bk;
-		this.item = item;
 		this.isDungeon = this.sk > 0;
-		this.isSubDungeon = this.bk == null;
+		this.isSubDungeon = this.bk == null && this.sk > 0;
+		this.reward = null;
+
 		this.buildHtmlIfNeeded()
 	}
 
@@ -166,7 +191,7 @@ class Area {
 			this.$html.append($header);
 			let cssId = this.isSubDungeon ? this.id : this.id + 'Dungeon';
 			let $spanName = $(`<span class="dungeon" id=${cssId}>${this.name}</span>`)
-			let $spanItem = $(`<span class="badge badge-pill badge-primary relevantItems">${this.item}</span>`)
+			let $spanItem = $(`<span class="badge badge-pill badge-primary relevantItems">${this.checks}</span>`)
 			let $spanSk = $(`<span class="badge badge-pill badge-secondary sk">${this.sk}</span>`)
 			this.$html.append($spanName, $spanItem, $spanSk);
 			if (!this.isSubDungeon) {
@@ -179,58 +204,15 @@ class Area {
 }
 
 var hideInaccessible = false;
+/**
+ * @type Check[]
+ */
 var songs = [];
+/**
+ * @type Item[]
+ */
 var items = [];
 var areas = [];
-
-var itemListId = ['farores', 'firearrows', 'lens', 'bombchu', 'scale1', 'bottle', 'slingshot', 'str3'];
-var songListId = ['lullaby', 'epona', 'saria', 'time', 'sun', 'storms', 'minuet', 'bolero', 'serenade', 'requiem', 'nocturne', 'prelude'];
-
-var dungeonRequirement = {
-	["Forest"]: {
-		requirements: ["hookshot1", "bow", "str1"],
-		css: { color: "lightgreen" }
-	},
-	["Fire"]: {
-		requirements: ["hammer"],
-		css: { color: "red" }
-	},
-	["Water"]: {
-		requirements: ["hookshot2"],
-		alternateRequirement: ["irons", "scale2"],
-		css: { color: "blue" }
-	},
-	["Spirit"]: {
-		requirements: ["str2", "mirror", "bomb", "hookshot1"],
-		css: { color: "yellow" }
-	},
-	["Shadow"]: {
-		requirements: ["dins", "magic", "hovers", "bomb", "hookshot1"],
-		css: { color: "yellow" }
-	},
-	["Pocket"]: {
-		requirements: [],
-		css: { color: "yellow", opacity: 0.2 }
-
-	},
-	["Ganon"]: {
-		requirements: ["magic", "lightarrows", "bow"],
-		css: { color: "rgb(102, 0, 0)" }
-	},
-	["Deku"]: {
-		requirements: [],
-		css: { color: "lightgreen", opacity: .6 }
-	},
-	["Dodongo"]: {
-		requirements: ["bomb"],
-		css: { color: "red", opacity: .6 }
-	},
-	["Jabu"]: {
-		requirements: ["boomerang", "letter"],
-		css: { color: "blue", opacity: .6 }
-	},
-}
-
 
 $(document).ready(() => {
 	let $document = $(document);
@@ -239,9 +221,17 @@ $(document).ready(() => {
 	initItemListSection($document, ".items", 4, itemListId);
 	initItemListSection($document, ".songList", 6, songListId);
 	initDungeonSection($document);
-	initDungeonRequirementSection($document)
+	initDungeonRequirementSection($document, ["forest", "fire", "water", "shadow", "spirit", "pocket"], ["deku", "dodongo", "jabu"]);
+	Logic.init(items, areas);
 })
 
+/**
+ * 
+ * @param {HTMLElement} $document current document
+ * @param {string} id html class to add to
+ * @param {number} mod number of item to display before going onto the next line
+ * @param {string[]} list item list
+ */
 function initItemListSection($document, id, mod, list) {
 	let $itemsSection = $document.find(id);
 	if ($itemsSection) {
@@ -269,71 +259,91 @@ function initItemListSection($document, id, mod, list) {
 function initSongSection($document) {
 	var $songSection = $document.find(".songs");
 	if ($songSection) {
-		songs.push(new Check($songSection, CheckType.SONG, "Zelda", "lullaby", () => { return true; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Saria", "saria", () => { return true; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Epona", "epona", () => { return true; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Sun", "sun", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "OoT", "time", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Storms", "storms", () => { return true; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Minuet", "minuet", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Bolero", "bolero", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Serenade", "serenade", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Nocturne", "nocturne", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Requiem", "requiem", () => { return false; }));
-		songs.push(new Check($songSection, CheckType.SONG, "Prelude", "prelude", () => { return false; }));
-
-		// songs.forEach(s => s.buildHtml());
+		songs.push(new Check($songSection, CheckType.SONG, "Zelda", "lullaby", Logic.alwaysAccessible));
+		songs.push(new Check($songSection, CheckType.SONG, "Saria", "saria", Logic.alwaysAccessible));
+		songs.push(new Check($songSection, CheckType.SONG, "Epona", "epona", Logic.alwaysAccessible));
+		songs.push(new Check($songSection, CheckType.SONG, "Sun", "sun", Logic.sunsSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "OoT", "time", Logic.oot));
+		songs.push(new Check($songSection, CheckType.SONG, "Storms", "storms", Logic.alwaysAccessible));
+		songs.push(new Check($songSection, CheckType.SONG, "Minuet", "minuet", Logic.minuetSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "Bolero", "bolero", Logic.boleroSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "Serenade", "serenade", Logic.serenadeSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "Nocturne", "nocturne", Logic.nocturneSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "Requiem", "requiem", Logic.requiemSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "Prelude", "prelude", Logic.preludeSpot));
 	}
 }
 
-function initDungeonRequirementSection($document) {
+/**
+ * Fill dungeon requirement section
+ * @param {HTMLElement} $document current document
+ * @param {string[]} medDungeon medaillon dungeon. In the following order : forest, fire, water, shadow,spirit,pocket
+ * @param {string[]} stoneDungeons stone dungeon. In the following order : deku, dodongo, jabu
+ */
+function initDungeonRequirementSection($document, medDungeon, stoneDungeons) {
 	var $requirementSection = $document.find(".requirements");
 	if ($requirementSection) {
-		let $div = $(`<div></div>`)
-		for (const key in dungeonRequirement) {
-			if (dungeonRequirement.hasOwnProperty(key)) {
-				const element = dungeonRequirement[key];
+		$requirementSection.empty();
+		let $div = $(`<div></div>`);
+
+		let i = 0;
+		for (let index = 0; index < medDungeon.length; index++) {
+			let key = medDungeon[index];
+			let requirements = dungeonRequirements[key];
+			if (requirements) {
 				let $cloneDiv = $div.clone();
 				$requirementSection.append($cloneDiv);
-				let $name = $(`<span>${key.slice(0, 3)}</span>`)
-				$name.css(element.css);
-				$cloneDiv.append($name);
-				if (element.alternateRequirement) {
-					for (let index = 0; index < element.alternateRequirement.length; index++) {
-						const req = element.alternateRequirement[index];
-						let item = items.filter(v => v.id == req)[0];
-						let $span = $(`<span></span>`)
-						$cloneDiv.append($span);
-						if (item) {
-							item.$container.push($span);
-							item.inUI = true;
-							item.buildHtmlIfNeeded()
-						}
-						if (index < element.alternateRequirement.length - 1) {
-							$cloneDiv.append("/");
-						}
-					}
-					if (element.requirements.length) {
-						$cloneDiv.append("+");
-					}
-				}
-				if (element.requirements.length) {
-					for (const iterator of element.requirements) {
-						let item = items.filter(v => v.id == iterator)[0];
-						let $span = $(`<span></span>`)
-						$cloneDiv.append($span);
-						if (item) {
-							item.$container.push($span);
-							item.inUI = true;
-							item.buildHtmlIfNeeded()
-						}
-					}
-				}
-
+				buildRequirementHtml($cloneDiv, requirements, key, dungeonStyle[i++]);
+			}
+		}
+		for (let index = 0; index < stoneDungeons.length; index++) {
+			let key = stoneDungeons[index];
+			let requirements = dungeonRequirements[key];
+			if (requirements) {
+				let $cloneDiv = $div.clone();
+				$requirementSection.append($cloneDiv);
+				buildRequirementHtml($cloneDiv, requirements, key, dungeonStyle[i++]);
 			}
 		}
 	}
 
+}
+
+function buildRequirementHtml($cloneDiv, element, key, style) {
+	let $name = $(`<span>${key.slice(0, 3)}</span>`);
+	$name.css(style.css);
+	$cloneDiv.append($name);
+	if (element.alternateRequirement) {
+		for (let index = 0; index < element.alternateRequirement.length; index++) {
+			const req = element.alternateRequirement[index];
+			let item = items.filter(v => v.id == req)[0];
+			let $span = $(`<span></span>`);
+			$cloneDiv.append($span);
+			if (item) {
+				item.$container.push($span);
+				item.inUI = true;
+				item.buildHtmlIfNeeded();
+			}
+			if (index < element.alternateRequirement.length - 1) {
+				$cloneDiv.append("/");
+			}
+		}
+		if (element.requirements.length) {
+			$cloneDiv.append("+");
+		}
+	}
+	if (element.requirements.length) {
+		for (const iterator of element.requirements) {
+			let item = items.filter(v => v.id == iterator)[0];
+			let $span = $(`<span></span>`);
+			$cloneDiv.append($span);
+			if (item) {
+				item.$container.push($span);
+				item.inUI = true;
+				item.buildHtmlIfNeeded();
+			}
+		}
+	}
 }
 
 function initDungeonSection($document) {
@@ -341,25 +351,24 @@ function initDungeonSection($document) {
 	let column2 = $document.find("#dungeonColumn2");
 	let column3 = $document.find("#dungeonColumn3");
 
-	areas.push(new Area(column1, "For", "forest", 5, 1, 8));
+	areas.push(new Area(column1, "For", "forest", 8, 5, 1));
 	addSeparation(column1);
-	areas.push(new Area(column1, "Fir", "fire", 8, 1, 6));
+	areas.push(new Area(column1, "Fir", "fire", 6, 8, 1));
 	addSeparation(column1);
-	areas.push(new Area(column1, "Wat", "water", 6, 1, 4));
-	areas.push(new Area(column2, "Spi", "spirit", 5, 1, 14));
+	areas.push(new Area(column1, "Wat", "water", 4, 6, 1));
+	areas.push(new Area(column2, "Spi", "spirit", 14, 5, 1));
 	addSeparation(column2);
-	areas.push(new Area(column2, "Sha", "shadow", 5, 1, 12));
+	areas.push(new Area(column2, "Sha", "shadow", 12, 5, 1));
 	addSeparation(column2);
-	areas.push(new Area(column2, "Gan", "ganon", 2, 0, 14));
-	areas.push(new Area(column3, "GTG", "gtg", 9, null, 13));
+	areas.push(new Area(column2, "Gan", "ganon", 14, 2, 0));
+	areas.push(new Area(column3, "GTG", "gtg", 13, 9));
 	addSeparation(column3);
-	areas.push(new Area(column3, "BoTW", "botw", 3, null, 11));
+	areas.push(new Area(column3, "BoTW", "botw", 11, 3));
 }
 
 function addSeparation($div) {
 	$div.append("<hr>");
 }
-
 
 function initItemList() {
 	for (const key in itemsData) {
@@ -367,5 +376,17 @@ function initItemList() {
 			const element = itemsData[key];
 			items.push(new Item(element.name, key, false, element.count));
 		}
+	}
+}
+
+/**
+ * 
+ * @param {Check[]} sectionChecks Checks in section.
+ */
+function updateSection(sectionChecks) {
+	if (sectionChecks && sectionChecks.length) {
+		sectionChecks.forEach(v => {
+			v.updateWithLogic();
+		})
 	}
 }

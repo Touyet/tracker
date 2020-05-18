@@ -1,3 +1,28 @@
+/**
+ * @typedef {Object} ItemData
+ * @property {string} name
+ * @property {string} [default=""] 
+ * @property {string} [tagnia=""] 
+ * @property {string} [soli=""] 
+ * @property {number} [count] 
+ */
+
+/**
+ * @typedef {Object} Requirement
+ * @property {string[]} requirements
+ * @property {string[]} [alternateRequirement=[]] 
+ */
+
+/**
+ * @typedef {Object} DungeonStyle
+ * @property {string} path
+ * @property {Object} css
+ */
+
+
+/**
+ * @type Object.<string,ItemData>
+ */
 const itemsData = {
 	// Single Items
 	["bomb"]: { name: "Bomb Bag", default: "../normal/bombbag.png", tagnia: "", soli: "", count: 3 },
@@ -51,9 +76,33 @@ const itemsData = {
 	["bolero"]: { name: "Bolero", default: "../normal/bolero.png", tagnia: "", soli: "", },
 	["serenade"]: { name: "Serenade", default: "../normal/serenade.png", tagnia: "", soli: "", },
 	["nocturne"]: { name: "Nocturne", default: "../normal/nocturne.png", tagnia: "", soli: "", },
-	["requiem"]: { name: "Requiem", default: "../normal/requiem.png", tagnia: "", soli: "", }
+	["requiem"]: { name: "Requiem", default: "../normal/requiem.png", tagnia: "", soli: "", },
+
+	// Wallets
+	["wallet1"]: { name: "Adult's Wallet", default: "", tagnia: "", soli: "", },
+	["wallet2"]: { name: "Giant's Wallet", default: "", tagnia: "", soli: "", },
+
+	// Tunics
+	["goron_tunic"]: { name: "Goron Tunic", default: "", tagnia: "", soli: "", },
+	["zora_tunic"]: { name: "Zora Tunic", default: "", tagnia: "", soli: "", },
+
+	// Medaillons
+	["forest_medaillon"]: { name: "Forest Medaillon", default: "", tagnia: "", soli: "" },
+	["fire_medaillon"]: { name: "Fire Medaillon", default: "", tagnia: "", soli: "" },
+	["water_medaillon"]: { name: "Water Medaillon", default: "", tagnia: "", soli: "" },
+	["shadow_medaillon"]: { name: "Shadow Medaillon", default: "", tagnia: "", soli: "" },
+	["spirit_medaillon"]: { name: "Spirit Medaillon", default: "", tagnia: "", soli: "" },
+	["light_medaillon"]: { name: "Light Medaillon", default: "", tagnia: "", soli: "" },
+
+	// Stones
+	["emerald"]: { name: "Kokiri's Emerald", default: "", tagnia: "", soli: "" },
+	["ruby"]: { name: "Goron's Ruby", default: "", tagnia: "", soli: "" },
+	["sapphire"]: { name: "Zora's Sapphire", default: "", tagnia: "", soli: "" },
 };
 
+/**
+ * @type Object.<string,ItemData>
+ */
 const locationData = {
 
 	// Fairies
@@ -95,7 +144,8 @@ const locationData = {
 
 const CheckType = {
 	ITEM: 0,
-	SONG: 1
+	SONG: 1,
+	MED: 2
 };
 
 const Dungeon = {
@@ -114,6 +164,9 @@ const Dungeon = {
 	GANON: 9
 };
 
+/**
+ * @type {Object.<number, Object.<string,string>}
+ */
 const Abbrev = {
 	[CheckType.SONG]: {
 		"lul": "lullaby",
@@ -131,5 +184,73 @@ const Abbrev = {
 	},
 	[CheckType.ITEM]: {
 		"hoo": "hookshot"
+	},
+	[CheckType.MED]: {
+		"de": "deku",
+		"do": "dodongo",
+		"ja": "jabu",
+		"kk": "pocket",
+		"fr": "pocket",
+		"fo": "forest",
+		"fi": "fire",
+		"wa": "water",
+		"sp": "spirit",
+		"sh": "shadow",
 	}
 };
+
+//Always displayed items
+const itemListId = ['farores', 'firearrows', 'lens', 'bombchu', 'scale1', 'bottle', 'slingshot', 'str3'];
+const songListId = ['lullaby', 'epona', 'saria', 'time', 'sun', 'storms', 'minuet', 'bolero', 'serenade', 'requiem', 'nocturne', 'prelude'];
+
+/**
+ * @type Object.<string,Requirement>
+ */
+const dungeonRequirements = {
+	["forest"]: {
+		requirements: ["hookshot1", "bow", "str1"],
+	},
+	["fire"]: {
+		requirements: ["hammer"],
+	},
+	["water"]: {
+		requirements: ["hookshot2"],
+		alternateRequirement: ["irons", "scale2"],
+	},
+	["spirit"]: {
+		requirements: ["str2", "mirror", "bomb", "hookshot1"],
+	},
+	["shadow"]: {
+		requirements: ["dins", "magic", "hovers", "bomb", "hookshot1"],
+	},
+	["pocket"]: {
+		requirements: [],
+	},
+	["ganon"]: {
+		requirements: ["magic", "lightarrows", "bow"],
+	},
+	["deku"]: {
+		requirements: [],
+	},
+	["dodongo"]: {
+		requirements: ["bomb"],
+	},
+	["jabu"]: {
+		requirements: ["boomerang", "letter"],
+	}
+}
+
+/**
+ * @type Array.<DungeonStyle>
+ */
+const dungeonStyle = [
+	{ path: "", css: { color: "lightgreen" } },
+	{ path: "", css: { color: "red" } },
+	{ path: "", css: { color: "blue" } },
+	{ path: "", css: { color: "yellow" } },
+	{ path: "", css: { color: "yellow" } },
+	{ path: "", css: { color: "yellow", opacity: 0.2 } },
+	{ path: "", css: { color: "lightgreen", opacity: 0.6 } },
+	{ path: "", css: { color: "red", opacity: 0.6 } },
+	{ path: "", css: { color: "blue", opacity: 0.6 } }
+];

@@ -709,7 +709,7 @@ function chargerHistorique (load = false) {
 	document.getElementById("markStones").value = mem["markStones"];
 	document.getElementById("markMedallions").value = mem["markMedallions"];
 
-	var hist_aux = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
+	var hist_aux = historique.slice();; // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
 	
 	hist_aux.forEach(evt => {
@@ -742,7 +742,7 @@ function chargerHistorique (load = false) {
 	Update();Update();Update();
 
 	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
-	historique = hist_aux;
+	historique = hist_aux.slice();
 	afficheHistorique();
 
 	// On repositionne les hint qui vont bien

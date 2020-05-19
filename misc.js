@@ -222,7 +222,7 @@ function save() {
 
 function generationJSON() {
 	var textToWrite = "";
-	var hist_save = historique;
+	var hist_save = historique.slice();
 	
 	// On ajoute les barren et les woth
 	hist_save.push({loc: "woth_input1", obj: document.getElementById("woth_input1").value});

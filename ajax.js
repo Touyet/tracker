@@ -96,9 +96,9 @@ function getParams(param) {
 // Cette fonction a pour objectif de récupérer la diffusion depuis le serveur à distance à intervalles réguliers
 function modeLecteur(codeDiffuseur) {
 	// On va récupérer des données json via appel ajax
-	ajaxGet(document.location.href + "oot/api/lecture/" + codeDiffuseur, function(retour) {
+	ajaxGet("oot/api/lecture/" + codeDiffuseur, function(retour) {
 		// On a récupéré l'historique, on peut le charger
-		console.log("mode lecteur : " + retour);
+		console.log("mode lecteur : oot/api/lecture/" + codeDiffuseur + " : " + retour);
 		historique = JSON.parse(retour);
 		chargerHistorique(true);
 	})

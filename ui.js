@@ -722,10 +722,10 @@ function chargerHistorique (load = false) {
 				document.getElementById(evt.loc).value = evt.obj; 
 			} else if (document.getElementById(evt.loc).tagName == "SPAN") {
 				console.log("innerText : " + evt.loc);
-				listeHinted = (evt.obj).split("/");
+				if (evt.obj != "") {listeHinted = (evt.obj).split("/");}
 			} else if (document.getElementById(evt.loc).tagName == "TEXTAREA") {
 				console.log("TextArea : " + evt.loc);
-				document.getElementById(evt.loc).value = evt.obj.replace(/\//g, "\n");
+				document.getElementById(evt.loc).value = evt.obj;
 			} else {
 				document.getElementById(evt.loc).value = evt.obj; 
 			}
@@ -747,7 +747,7 @@ function chargerHistorique (load = false) {
 
 	// On repositionne les hint qui vont bien
 	listeHinted.forEach(elt => {
-		if (!elt.startsWith("Unread")) {console.log("Hinted : " + elt); Hinted[elt] = false; toggleHint(document.getElementById("text_" + elt));}
+		if (!elt.startsWith("Unread") && elt != "") {console.log("Hinted : " + elt); Hinted[elt] = false; toggleHint(document.getElementById("text_" + elt));}
 	});
 }
 

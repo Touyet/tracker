@@ -828,11 +828,6 @@ function initialize() {
 	}
 }
 
-
-var historique = [];
-var historiqueSupprime = [];
-var contenuBodyInitial = document.body.innerHTML;
-
 initialize();
 var statutDiffusion = false;
 var intervalDiffusion = null;
@@ -885,6 +880,10 @@ if (window.location.search) {
 } else {
 	// Mode diffusion ou normal	
 }
+
+var historique = [];
+var historiqueSupprime = [];
+var contenuBodyInitial = document.body.innerHTML;
 
 setInterval(slowUpdate,5000);
 setInterval(Update,250);

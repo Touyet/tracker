@@ -68,7 +68,7 @@ function diffusion() {
 			
 			//On envoie ici les données de diffusion avec une certaine fréquence
 			intervalDiffusion = setInterval(function () {
-				ajaxPost("oot/api/data/" + cle, generationJSON(), function(text) {
+				ajaxPost("oot/api/data/" + cle, generationJSON(), function(retour) {
 					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 					document.getElementById("statutDiffusion").innerText = retour;
 				})
@@ -98,6 +98,7 @@ function modeLecteur(codeDiffuseur) {
 	// On va récupérer des données json via appel ajax
 	ajaxGet(document.location.href + "oot/api/lecture/" + codeDiffuseur, function(retour) {
 		// On a récupéré l'historique, on peut le charger
+		console.log("mode lecteur : " + retour);
 		historique = JSON.parse(retour);
 		chargerHistorique(true);
 	})

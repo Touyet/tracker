@@ -59,16 +59,17 @@ function diffusion() {
 			document.getElementById("btnDiffusion").innerText = "Stopper la diffusion";
 			
 			// On commence par récupérer un id placé dans un cookie pour permettre d'envoyer les données
-			var cle = "";
-			ajaxGet("oot/api/diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
-				// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
-				cle = retour.split("/")[0];
-				document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
-			});
+			if (cleDiffusion == "" && document.getElementById("urlDiffuseur").value == "") {
+				ajaxGet("oot/api/diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
+					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+					cleDiffusion = retour.split("/")[0];
+					document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
+				});
+			}
 			
 			//On envoie ici les données de diffusion avec une certaine fréquence
 			intervalDiffusion = setInterval(function () {
-				ajaxPost("oot/api/data/" + cle, generationJSON(), function(retour) {
+				ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
 					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 					document.getElementById("statutDiffusion").innerText = retour;
 				})

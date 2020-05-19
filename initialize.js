@@ -881,6 +881,7 @@ if (window.location.search) {
 	// Mode diffusion ou normal	
 }
 
+var cleDiffusion = "";
 var historique = [];
 var historiqueSupprime = [];
 var contenuBodyInitial = document.body.innerHTML;

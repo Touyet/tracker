@@ -463,11 +463,9 @@ color: red;
  position: absolute;
 }
 #skulls_in_logic {
-	top:10px;
+	margin-left: 15px;
 	font-size: 18px;
 	color: gold;
-	left:854px;
-	position: absolute;
 }
 #timer {
 	font-size:42px;
@@ -514,9 +512,11 @@ color: red;
 	opacity: .2;
 }
 #woth_info {
-	top:550px;
-	left: 980px;
-	position: absolute;
+	/*top:550px;*/
+	/*left: 980px;*/
+	/*position: absolute;*/
+	background: black;
+	border: 3px white solid;
 }
 .woth_info_text {
 	font-size: 14px;

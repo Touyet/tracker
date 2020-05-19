@@ -736,7 +736,7 @@ function chargerHistorique (load = false) {
 
 	if (load) {
 		// On supprime les 10 champs qui ont été ajoutés pour la sauvegarde
-		hist_aux.splice(historique.length - 10);
+		hist_aux.splice(historique.length - 12);
 	}
 
 	Update();Update();Update();

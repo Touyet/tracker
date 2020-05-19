@@ -234,8 +234,8 @@ function generationJSON() {
 	hist_save.push({loc: "barren_input2", obj: document.getElementById("barren_input2").value});
 	hist_save.push({loc: "barren_input3", obj: document.getElementById("barren_input3").value});
 	hist_save.push({loc: "hintInput", obj: document.getElementById("hintInput").value});
-	
-	//textToWrite += "%0D%0AhintInput: " + document.getElementById("hintInput").value.replace(/\n/g, "/");
+	hist.save.push({loc: "markStones", obj: document.getElementById("markStones").value});
+	hist.save.push({loc: "markMedallions", obj: document.getElementById("markMedallions").value});
 
 	var listeHinted = "";
 

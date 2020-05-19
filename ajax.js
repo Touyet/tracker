@@ -22,6 +22,7 @@ function ajaxGet(url, callback) {
 function ajaxPost(url, data, callback) {
     var req = new XMLHttpRequest();
     req.open("POST", url);
+	req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     req.addEventListener("load", function () {
         if (req.status >= 200 && req.status < 400) {
             // Appelle la fonction callback en lui passant la réponse de la requête
@@ -62,7 +63,7 @@ function diffusion() {
 			ajaxGet("oot/api/diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
 				// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 				cle = retour.split("/")[0];
-				document.getElementById("urlDiffuseur").value = "Lien de diffusion : " + document.location.href + "?code=" + retour.split("/")[1];
+				document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
 			});
 			
 			//On envoie ici les données de diffusion avec une certaine fréquence
@@ -95,7 +96,7 @@ function getParams(param) {
 // Cette fonction a pour objectif de récupérer la diffusion depuis le serveur à distance à intervalles réguliers
 function modeLecteur(codeDiffuseur) {
 	// On va récupérer des données json via appel ajax
-	ajaxGet("oot/api/lecture/" + codeDiffuseur, function(retour) {
+	ajaxGet(document.location.href + "oot/api/lecture/" + codeDiffuseur, function(retour) {
 		// On a récupéré l'historique, on peut le charger
 		historique = JSON.parse(retour);
 		chargerHistorique(true);

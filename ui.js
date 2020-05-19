@@ -628,7 +628,8 @@ function junkSong(x, obj) {
 }
 
 function ajoutHistorique(obj, newEvt) {
-	historique.push(newEvt + ": " + obj);
+	var newHistorique = { loc: newEvt, obj: obj }; 
+	historique.push(newHistorique);
 	console.log("ajoutHistorique : " + newEvt + ": " + obj);
 	afficheHistorique();
 	
@@ -643,7 +644,7 @@ function afficheHistorique() {
 	var i = historique.length;
 	historique.forEach(evt => {
 		if (affHistorique != "") {affHistorique = "<br />" + affHistorique} 
-		affHistorique = "<span id=\"historique_" + i  + "\" onclick=\"annuler(" + i + ")\" >" + evt + "</span>" + affHistorique;
+		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
 		i-=1; // Décrément
 	});
 	document.getElementById("historique").innerHTML = affHistorique;	
@@ -656,12 +657,15 @@ function annuler(nombre = 1) {
 	if (nombre <= historique.length) {
 		for (var i = 1; i <=nombre ; i++) { historiqueSupprime.push(historique.pop()); }
 	}
+	console.log("historiqueSupprime : " + historiqueSupprime); 
+	var historiqueSupprime_aux = historiqueSupprime; // On sauvegarde ça en mémoire car va être supprimé
 
 	chargerHistorique();
 	
 	// Dans ce cas, on transforme le bouton annuler pour stocker la suppression et pouvoir la recharger au cas où
 	var btnAnnuler = document.getElementById("annuler");
 	btnAnnuler.style.display = "inline-block";
+	historiqueSupprime = historiqueSupprime_aux;
 }
 
 function annulerSuppression() {
@@ -683,6 +687,8 @@ function chargerHistorique (load = false) {
 		}
 	}
 	mem["hintInput"] = document.getElementById("hintInput").value;
+	mem["markStones"] = document.getElementById("markStones").value;
+	mem["markMedallions"] = document.getElementById("markMedallions").value;
 
 	var listeHinted = [];
 	for (var elt in Hinted) {
@@ -700,46 +706,48 @@ function chargerHistorique (load = false) {
 		}
 	}
 	document.getElementById("hintInput").value = mem["hintInput"];
+	document.getElementById("markStones").value = mem["markStones"];
+	document.getElementById("markMedallions").value = mem["markMedallions"];
 
-	var hist_aux = historique; // On change car l'historique va se remplir à nouveau, il faut le vider
+	var hist_aux = historique.slice();; // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
+	
 	hist_aux.forEach(evt => {
-		evts = evt.split(": ");
-		if (document.getElementById(evts[0]) == null) {
-			console.log("null : " + evt + "/" + evts[0]);
+		
+		if (document.getElementById(evt.loc) == null) {
+			console.log("null : " + evt.loc);
 		} else {
 				
-			if (document.getElementById(evts[0]).tagName == "INPUT") {
-				console.log("Appel : " + evt);	
-				document.getElementById(evts[0]).value = evts[1]; 
-			} else if (document.getElementById(evts[0]).tagName == "SPAN") {
-				console.log("innerText : " + evt);
-				listeHinted = (evts[1]).split("/");
-			} else if (document.getElementById(evts[0]).tagName == "TEXTAREA") {
-				console.log("TextArea : " + evt);
-				document.getElementById(evts[0]).value = (evts[1]).replace(/\//g, "\n");
+			if (document.getElementById(evt.loc).tagName == "INPUT") {
+				document.getElementById(evt.loc).value = evt.obj; 
+			} else if (document.getElementById(evt.loc).tagName == "SPAN") {
+				console.log("innerText : " + evt.loc);
+				if (evt.obj != "") {listeHinted = (evt.obj).split("/");}
+			} else if (document.getElementById(evt.loc).tagName == "TEXTAREA") {
+				console.log("TextArea : " + evt.loc);
+				document.getElementById(evt.loc).value = evt.obj;
 			} else {
-				document.getElementById(evts[0]).value = evts[1]; 
+				document.getElementById(evt.loc).value = evt.obj; 
 			}
 		}
 
-		if ((evts[0] == "forest") || (evts[0] == "fire") || (evts[0] == "water") || (evts[0] == "spirit") || (evts[0] == "shadow") || (evts[0] == "ganons") || (evts[0] == "gtg") || (evts[0] == "well")) {junkUltra(document.getElementById(evts[0])); }	
+		if ((evt.loc == "forest") || (evt.loc == "fire") || (evt.loc == "water") || (evt.loc == "spirit") || (evt.loc == "shadow") || (evt.loc == "ganons") || (evt.loc == "gtg") || (evt.loc == "well")) {junkUltra(document.getElementById(evt.loc)); }	
 	});
 
 	if (load) {
 		// On supprime les 10 champs qui ont été ajoutés pour la sauvegarde
-		hist_aux.splice(historique.length - 10);
+		hist_aux.splice(historique.length - 12);
 	}
 
 	Update();Update();Update();
 
-	// Après l'update, on remet à jour l'historique correctement
-	historique = hist_aux;
+	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
+	historique = hist_aux.slice();
 	afficheHistorique();
 
 	// On repositionne les hint qui vont bien
 	listeHinted.forEach(elt => {
-		if (!elt.startsWith("Unread")) {console.log("Hinted : " + elt); Hinted[elt] = false; toggleHint(document.getElementById("text_" + elt));}
+		if (!elt.startsWith("Unread") && elt != "") {console.log("Hinted : " + elt); Hinted[elt] = false; toggleHint(document.getElementById("text_" + elt));}
 	});
 }
 

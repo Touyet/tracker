@@ -7,6 +7,12 @@
       <title>The Official Tracker of ToT Adventure Mode!</title>
     </head>
     <body oncontextmenu="return false;">
+	<div id="online">
+		<span id="lblnomDiffuseur">Nom du diffuseur :</span><input id="nomDiffuseur"></input>
+		<button id="btnDiffusion" onclick="diffusion()">Lancer la diffusion</button>
+		Lien de diffusion : <input id="urlDiffuseur" style="width:300px"></input>
+		<span id="statutDiffusion"></span>
+	</div>
 	<div class="row">
       <div id="normalColumn1" class="column">
 		<input style="background-image: url(https://i.imgur.com/c3nWMsM.png);"  id="mido_1" class= "picture_input" > </input><small id="text_mido_1" class="check_text" onmousedown = "junk(this)">Midos 1</small><br id= "br_mido_1" />
@@ -526,6 +532,7 @@
 	  </div>
 	</div>  
 	
+	<script src="ajax.js"></script>
 	<script src="misc.js"></script>
 	<script src="logic.js"></script>
 	<script src="hints.js"></script>

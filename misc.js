@@ -225,17 +225,7 @@ function generationJSON() {
 	var hist_save = historique.slice();
 	
 	// On ajoute les barren et les woth
-	hist_save.push({loc: "woth_input1", obj: document.getElementById("woth_input1").value});
-	hist_save.push({loc: "woth_input2", obj: document.getElementById("woth_input2").value});
-	hist_save.push({loc: "woth_input3", obj: document.getElementById("woth_input3").value});
-	hist_save.push({loc: "woth_input4", obj: document.getElementById("woth_input4").value});
-	hist_save.push({loc: "woth_input5", obj: document.getElementById("woth_input5").value});
-	hist_save.push({loc: "barren_input1", obj: document.getElementById("barren_input1").value});
-	hist_save.push({loc: "barren_input2", obj: document.getElementById("barren_input2").value});
-	hist_save.push({loc: "barren_input3", obj: document.getElementById("barren_input3").value});
 	hist_save.push({loc: "hintInput", obj: document.getElementById("hintInput").value});
-	hist_save.push({loc: "markStones", obj: document.getElementById("markStones").value});
-	hist_save.push({loc: "markMedallions", obj: document.getElementById("markMedallions").value});
 
 	var listeHinted = "";
 
@@ -292,6 +282,8 @@ function circusControl() {
 function inaccessibleControl() {
 	if (hideInaccessible) {hideInaccessible = false; localStorage.setItem("hideInaccessible", hideInaccessible); document.getElementById("inaccessibleControl").innerHTML = "Hide Inaccessible";}
 	else {hideInaccessible = true; localStorage.setItem("hideInaccessible", hideInaccessible); document.getElementById("inaccessibleControl").innerHTML = "Show Inaccessible";}
+	
+	process_inputs();
 }
 
 function coopControl() {

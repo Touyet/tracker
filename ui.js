@@ -19,9 +19,9 @@ function process_inputs() {
 
 		if (temp <= 244) { 
 
-			if (document.getElementById(key).value == "junk" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "left");}
-			if (document.getElementById(key).value == "small_key" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "right");}
-			if (document.getElementById(key).value == "boss_key" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "middle");}
+			if (document.getElementById(key).value == "junk" && Check[key] == "unknown") {junk(document.getElementById(key), "left");}
+			if (document.getElementById(key).value == "small_key" && Check[key] == "unknown") {junk(document.getElementById(key), "right");}
+			if (document.getElementById(key).value == "boss_key" && Check[key] == "unknown") {junk(document.getElementById(key), "middle");}
 
 			if (document.getElementById(key).value == "far" && !Known.farores_wind) {var obj = "far"; Check[document.getElementById(key).id] = "farores_wind"; Location.farores_wind = document.getElementById(key).id; document.getElementById("farores_wind_location").innerHTML = "Farores -> " + Names[temp-1]; Known.farores_wind = true; if (!hinted && !peeked) {Game.farores_wind = true;} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1].split(': ')[1] + ":  Farores" + "<br />";} junkItem(document.getElementById(key), obj);  continue;}
 			if (document.getElementById(key).value == "chu" && !Known.bombchus) {var obj = "chu"; Check[document.getElementById(key).id] = "bombchus"; Location.bombchus = document.getElementById(key).id; document.getElementById("bombchus_location").innerHTML = "BombChus -> " + Names[temp-1]; Known.bombchus = true; if (!hinted && !peeked) {} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1].split(': ')[1] + ":  BombChus" + "<br />";} junkItem(document.getElementById(key), obj); if (!Game.has_chus) {enableChus();} continue;}
@@ -747,8 +747,8 @@ function chargerHistorique (load = false) {
 	});
 
 	if (load) {
-		// On supprime les 10 champs qui ont été ajoutés pour la sauvegarde
-		hist_aux.splice(historique.length - 12);
+		// On supprime les 2 champs qui ont été ajoutés pour la sauvegarde
+		hist_aux.splice(historique.length - 2);
 	}
 
 	Update();

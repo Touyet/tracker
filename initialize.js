@@ -832,6 +832,17 @@ function initialize() {
 		elementsInput[i].addEventListener("input", process_inputs);
 	}
 	
+	document.getElementById("markMedallions").addEventListener("change", function() {ajoutHistorique(this.value, "markMedallions");});
+	document.getElementById("markStones").addEventListener("change", function() {ajoutHistorique(this.value, "markStones");});
+	document.getElementById("woth_input1").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input1");});
+	document.getElementById("woth_input2").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input2");});
+	document.getElementById("woth_input3").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input3");});
+	document.getElementById("woth_input4").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input4");});
+	document.getElementById("woth_input5").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input5");});
+	document.getElementById("barren_input1").addEventListener("change", function() {ajoutHistorique(this.value, "barren_input1");});
+	document.getElementById("barren_input2").addEventListener("change", function() {ajoutHistorique(this.value, "barren_input2");});
+	document.getElementById("barren_input3").addEventListener("change", function() {ajoutHistorique(this.value, "barren_input3");});
+	
 	document.getElementById("hintInput").addEventListener("input", process_inputs);
 }
 

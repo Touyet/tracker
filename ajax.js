@@ -66,14 +66,6 @@ function diffusion() {
 					document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
 				});
 			}
-			
-			//On envoie ici les données de diffusion avec une certaine fréquence
-			intervalDiffusion = setInterval(function () {
-				ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
-					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
-					document.getElementById("statutDiffusion").innerText = retour;
-				})
-			}, 10000);
 		}
 	}
 }

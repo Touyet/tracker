@@ -826,7 +826,15 @@ function initialize() {
 		modal3.style.display = "none";
 	  }
 	}
+	
+	var elementsInput = document.getElementsByTagName("INPUT");
+	for (var i = 0; i < elementsInput.length; i++) {	
+		elementsInput[i].addEventListener("input", process_inputs);
+	}
+	
+	document.getElementById("hintInput").addEventListener("input", process_inputs);
 }
+
 
 initialize();
 var statutDiffusion = false;
@@ -887,6 +895,6 @@ var historiqueSupprime = [];
 var contenuBodyInitial = document.body.innerHTML;
 
 setInterval(slowUpdate,5000);
-setInterval(Update,250);
+//setInterval(Update,250);
 
 Update();Update();Update();

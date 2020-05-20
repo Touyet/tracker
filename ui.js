@@ -100,6 +100,8 @@ function process_inputs() {
 			if (document.getElementById(key).value == "pre" && !Known.prelude) {var obj = "pre"; Check[document.getElementById(key).id] = "prelude";Location.prelude = document.getElementById(key).id; Known.prelude = true; if (!hinted && !peeked) {Game.prelude = true;} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1] + ": Prelude" + "<br />";} var change = "text_" + document.getElementById(key).id; document.getElementById(change).innerHTML += ": Prelude"; backUp[temp-1] += ": Prelude"; junkSong(document.getElementById(key), obj); continue;}
 		}
 	}
+	
+	Update(); Update(); Update();
 }
 
 function stone_medallion_input() {
@@ -632,6 +634,14 @@ function ajoutHistorique(obj, newEvt) {
 	historique.push(newHistorique);
 	console.log("ajoutHistorique : " + newEvt + ": " + obj);
 	afficheHistorique();
+	
+	// En cas de diffusion, on envoie les données vers le serveur
+	if (statutDiffusion) {
+		ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+			document.getElementById("statutDiffusion").innerText = retour;
+		});
+	}
 	
 	// On remet le bouton annuler à sa fonction initiale
 	var btnAnnuler = document.getElementById("annuler");

@@ -65,7 +65,14 @@ function diffusion() {
 					cleDiffusion = retour.split("/")[0];
 					document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
 				});
+				
 			}
+			
+			// On envoie une première fois pour initialiser
+			ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+			document.getElementById("statutDiffusion").innerText = retour;
+		});
 		}
 	}
 }
@@ -92,7 +99,9 @@ function modeLecteur(codeDiffuseur) {
 	ajaxGet("oot/api/lecture/" + codeDiffuseur, function(retour) {
 		// On a récupéré l'historique, on peut le charger
 		console.log("mode lecteur : oot/api/lecture/" + codeDiffuseur + " : " + retour);
-		historique = JSON.parse(retour);
-		chargerHistorique(true);
+		if (retour != null && retour != "") {
+			historique = JSON.parse(retour);
+			chargerHistorique(true);
+		}
 	})
 }

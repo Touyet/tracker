@@ -4,46 +4,53 @@ class Check {
 	 * @param {number} type Type of check 
 	 * @param {string} name Check name
 	 * @param {string} id Check Id
-	 * @param {()=>boolean} [logic] callback representing check logic
 	 */
-	constructor($container, type, name, id, logic) {
+	constructor($container, type, name, id) {
 		this.$container = $container;
 		this.type = type;
 		this.name = name;
 		this.id = id;
-		this.logic = logic ? logic : () => { return true };
+		this.logic = Logic.getLogicForCheck(id);
+		this.checkStatus = LogicStatus.NONE;
+
+		this.$html = $(`<div></div>`)
+		$container.append(this.$html);
+
 		this.buildHtml();
 	}
 
-	updateWithLogic() {
-		if (this.logic()) {
-			if (hideInaccessible) {
-				this.$html.show();
-			}
-			this.$html.find("span").css("color", "lime");
-		} else {
-			if (hideInaccessible) {
-				this.$html.hide();
-			}
-			this.$html.find("span").css("color", "black");
+	/**
+	 * @returns {Item}
+	 */
+	get item() { return this.itemProp; }
+	set item(v) { this.itemProp = v; }
 
+
+	/**
+	 * @returns {LogicStatus}
+	 */
+	get checkStatus() { return this.checkStatusProp; }
+	set checkStatus(v) { this.checkStatusProp = v; }
+
+	updateWithLogic() {
+		this.checkStatus = this.logic()
+		if (this.item) {
+			this.item.gotten = this.checkStatus;
 		}
+		this.updateHtml();
 	}
 
 	buildHtml() {
-		if (this.$container && !this.$html) {
-			this.$html = $(`
-			<div>
+		if (this.$container && this.$html) {
+			this.$html.empty();
+			let $form = $(`
   				<input type="text" maxlength="3">
     			<span class="input-group-text">${this.name}</span>
-			</div>
 			`);
-
-			this.$container.append(this.$html);
+			this.$html.append($form);
 			this.updateWithLogic();
 
 			let abbrevArray = Abbrev[this.type];
-
 			let $input = this.$html.find('input');
 			let self = this;
 			$input.on("input", (ev) => {
@@ -52,15 +59,11 @@ class Check {
 					let uncaps = value.toLowerCase();
 					let result = abbrevArray[uncaps]
 					if (result) {
-						self.item = items.filter(v => v.id === result && !v.gotten)[0];
+						self.item = items.filter(v => v.id === result && v.gotten != LogicStatus.IN_LOGIC)[0];
 						if (!self.item) return;
-						self.item.gotten = true;
-						self.item.highlightItemIfNeeded();
-						Logic.updateWithItemGet(self.item.id);
+						self.item.gotten = this.checkStatus;
 						self.updateHtml();
-						if (this.type == CheckType.SONG) {
-							updateSection(songs);
-						}
+						updateSection();
 					}
 				}
 			});
@@ -68,14 +71,26 @@ class Check {
 	}
 
 	updateHtml() {
-		if (this.item.gotten) {
-			if (this.type === CheckType.SONG) {
-				this.$html.empty();
-				this.$html.append(`${this.name} : ${this.item.name}`);
-				this.$html.css({ color: "lime" });
-			} else if (this.type === CheckType.ITEM) {
+		if (this.type == CheckType.SONG && this.item) {
+			this.$html.empty();
+			this.$html.append(`<span>${this.name} : ${this.item.name}</span>`);
+		}
 
+		if (this.checkStatus == LogicStatus.IN_LOGIC) {
+			if (hideInaccessible) {
+				this.$html.show();
 			}
+			this.$html.find("span").css({ color: "lime", opacity: 1 });
+		} else if (this.checkStatus == LogicStatus.OUT_LOGIC) {
+			if (hideInaccessible) {
+				this.$html.show();
+			}
+			this.$html.find("span").css({ color: "yellow", opacity: 0.5 });
+		} else {
+			if (hideInaccessible) {
+				this.$html.hide();
+			}
+			this.$html.find("span").css("color", "black");
 		}
 	}
 }
@@ -92,9 +107,23 @@ class Item {
 		this.name = name;
 		this.id = id;
 		this.inUI = inUI;
-		this.gotten = false;
+		this.gotten = LogicStatus.NONE;
 		this.$container = [];
 		this.count = count | 1;
+	}
+
+	/**@type {LogicStatus} 
+	 * The only way to put gotten to IN_LOGIC is through a check
+	 */
+	get gotten() { return this.gottenProp; }
+	set gotten(val) {
+		if (this.gottenProp == val) return;
+		this.gottenProp = val;
+		if (this.gotten != LogicStatus.NONE && this.count > 0) this.count--;
+		else if (this.gotten == LogicStatus.NONE) this.count++;
+
+		this.highlightItemIfNeeded();
+		Logic.updateWithItemGet(this);
 	}
 
 	highlightItemIfNeeded() {
@@ -121,9 +150,10 @@ class Item {
 					e.empty();
 					let $clone = $html.clone();
 					$clone.on("click", () => {
-						self.gotten = !self.gotten;
-						if (self.gotten) self.count--;
-						else self.count++;
+						if (self.gotten == LogicStatus.IN_LOGIC) return;
+						if (self.gotten == LogicStatus.NONE) {
+							self.gotten = LogicStatus.OUT_LOGIC;
+						} else { self.gotten = LogicStatus.NONE; }
 						//Handle scenario of item with progressives upgrades.
 						if ((self.id.startsWith("hookshot") || self.id.startsWith("scale") || self.id.startsWith("str"))) {
 							let prefix = self.id.substring(0, self.id.length - 1);
@@ -132,9 +162,7 @@ class Item {
 								for (let i = index - 1; i >= 1; i--) {
 									let item = items.filter(v => v.id == prefix + i)[0];
 									if (item) {
-										item.gotten = true;
-										item.count--;
-										item.highlightItemIfNeeded();
+										item.gotten = LogicStatus.OUT_LOGIC;
 									}
 								}
 							}
@@ -142,10 +170,8 @@ class Item {
 								for (let i = index + 1; i <= 3; i++) {
 									let item = items.filter(v => v.id == prefix + i)[0];
 									if (!item) break;
-									if (self.gotten == false) {
-										item.gotten = false;
-										item.count++;
-										item.highlightItemIfNeeded();
+									if (self.gotten == LogicStatus.NONE) {
+										item.gotten = LogicStatus.NONE;
 									}
 								}
 							}
@@ -212,6 +238,10 @@ var songs = [];
  * @type Item[]
  */
 var items = [];
+
+/**
+ * @type Area[]
+ */
 var areas = [];
 
 $(document).ready(() => {
@@ -222,7 +252,7 @@ $(document).ready(() => {
 	initItemListSection($document, ".songList", 6, songListId);
 	initDungeonSection($document);
 	initDungeonRequirementSection($document, ["forest", "fire", "water", "shadow", "spirit", "pocket"], ["deku", "dodongo", "jabu"]);
-	Logic.init(items, areas);
+	// Logic.init(items, areas);
 })
 
 /**
@@ -259,18 +289,18 @@ function initItemListSection($document, id, mod, list) {
 function initSongSection($document) {
 	var $songSection = $document.find(".songs");
 	if ($songSection) {
-		songs.push(new Check($songSection, CheckType.SONG, "Zelda", "lullaby", Logic.alwaysAccessible));
-		songs.push(new Check($songSection, CheckType.SONG, "Saria", "saria", Logic.alwaysAccessible));
-		songs.push(new Check($songSection, CheckType.SONG, "Epona", "epona", Logic.alwaysAccessible));
-		songs.push(new Check($songSection, CheckType.SONG, "Sun", "sun", Logic.sunsSpot));
-		songs.push(new Check($songSection, CheckType.SONG, "OoT", "time", Logic.oot));
-		songs.push(new Check($songSection, CheckType.SONG, "Storms", "storms", Logic.alwaysAccessible));
-		songs.push(new Check($songSection, CheckType.SONG, "Minuet", "minuet", Logic.minuetSpot));
-		songs.push(new Check($songSection, CheckType.SONG, "Bolero", "bolero", Logic.boleroSpot));
-		songs.push(new Check($songSection, CheckType.SONG, "Serenade", "serenade", Logic.serenadeSpot));
-		songs.push(new Check($songSection, CheckType.SONG, "Nocturne", "nocturne", Logic.nocturneSpot));
-		songs.push(new Check($songSection, CheckType.SONG, "Requiem", "requiem", Logic.requiemSpot));
-		songs.push(new Check($songSection, CheckType.SONG, "Prelude", "prelude", Logic.preludeSpot));
+		songs.push(new Check($songSection, CheckType.SONG, "Zelda", "lullaby"));
+		songs.push(new Check($songSection, CheckType.SONG, "Saria", "saria"));
+		songs.push(new Check($songSection, CheckType.SONG, "Epona", "epona"));
+		songs.push(new Check($songSection, CheckType.SONG, "Sun", "sun"));
+		songs.push(new Check($songSection, CheckType.SONG, "OoT", "time"));
+		songs.push(new Check($songSection, CheckType.SONG, "Storms", "storms"));
+		songs.push(new Check($songSection, CheckType.SONG, "Minuet", "minuet"));
+		songs.push(new Check($songSection, CheckType.SONG, "Bolero", "bolero"));
+		songs.push(new Check($songSection, CheckType.SONG, "Serenade", "serenade"));
+		songs.push(new Check($songSection, CheckType.SONG, "Nocturne", "nocturne"));
+		songs.push(new Check($songSection, CheckType.SONG, "Requiem", "requiem"));
+		songs.push(new Check($songSection, CheckType.SONG, "Prelude", "prelude"));
 	}
 }
 
@@ -370,6 +400,21 @@ function addSeparation($div) {
 	$div.append("<hr>");
 }
 
+/**
+ * Check if a string contains at least one capital character
+ * @param {string} str 
+ * @returns index of string, -1 if not found
+ */
+function stringContainsCapital(str) {
+	if (str) {
+		for (let i = 0; i < str.length; i++) {
+			const char = str[i];
+			if (char === char.toUpperCase()) return i;
+		}
+	}
+	return -1;
+}
+
 function initItemList() {
 	for (const key in itemsData) {
 		if (itemsData.hasOwnProperty(key)) {
@@ -381,12 +426,9 @@ function initItemList() {
 
 /**
  * 
- * @param {Check[]} sectionChecks Checks in section.
  */
-function updateSection(sectionChecks) {
-	if (sectionChecks && sectionChecks.length) {
-		sectionChecks.forEach(v => {
-			v.updateWithLogic();
-		})
-	}
+function updateSection() {
+	songs.filter(v => !v.item || (v.item && v.item.gotten != LogicStatus.IN_LOGIC)).forEach(v => {
+		v.updateWithLogic();
+	})
 }

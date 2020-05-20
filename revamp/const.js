@@ -8,6 +8,16 @@
  */
 
 /**
+ * @typedef {number} Dungeon
+ */
+/**
+ * @typedef {number} LogicStatus
+ */
+/**
+ * @typedef {number} CheckType
+ */
+
+/**
  * @typedef {Object} Requirement
  * @property {string[]} requirements
  * @property {string[]} [alternateRequirement=[]] 
@@ -142,12 +152,27 @@ const locationData = {
 	["lake"]: { default: "../normal/revamp/lake.png", tagnia: "", soli: "" },
 };
 
+/**
+ * @enum {CheckType}
+ */
 const CheckType = {
 	ITEM: 0,
 	SONG: 1,
 	MED: 2
 };
 
+/**
+ * @enum {LogicStatus}
+ */
+const LogicStatus = {
+	NONE: 0,
+	IN_LOGIC: 1,
+	OUT_LOGIC: 2
+};
+
+/**
+ * @enum {Dungeon}
+ */
 const Dungeon = {
 	POCKET: 0,
 

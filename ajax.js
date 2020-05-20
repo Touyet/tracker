@@ -64,15 +64,16 @@ function diffusion() {
 					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 					cleDiffusion = retour.split("/")[0];
 					document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
+					
+					
+					// On envoie une première fois pour initialiser
+					ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+						// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+						document.getElementById("statutDiffusion").innerText = retour;
+					});
 				});
 				
 			}
-			
-			// On envoie une première fois pour initialiser
-			ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
-			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
-			document.getElementById("statutDiffusion").innerText = retour;
-		});
 		}
 	}
 }

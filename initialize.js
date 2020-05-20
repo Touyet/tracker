@@ -882,6 +882,9 @@ if (window.location.search) {
 	
 	document.getElementById("hintInput").disabled = true;
 	
+	document.getElementById("save").style.display = "none";
+	document.getElementById("historique_file").style.display = "none";
+	
 	
 	// On active la lecture régulière du stream
 	setInterval(function(){modeLecteur(getParams("code"));}, 10000);

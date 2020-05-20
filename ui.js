@@ -729,14 +729,16 @@ function chargerHistorique (load = false) {
 		} else {
 				
 			if (document.getElementById(evt.loc).tagName == "INPUT") {
+				console.log("input : " + evt.loc);
 				document.getElementById(evt.loc).value = evt.obj; 
 			} else if (document.getElementById(evt.loc).tagName == "SPAN") {
-				console.log("innerText : " + evt.loc);
+				console.log("span : " + evt.loc);
 				if (evt.obj != "") {listeHinted = (evt.obj).split("/");}
 			} else if (document.getElementById(evt.loc).tagName == "TEXTAREA") {
 				console.log("TextArea : " + evt.loc);
 				document.getElementById(evt.loc).value = evt.obj;
 			} else {
+				console.log("Autre : " + evt.loc);
 				document.getElementById(evt.loc).value = evt.obj; 
 			}
 		}
@@ -749,7 +751,8 @@ function chargerHistorique (load = false) {
 		hist_aux.splice(historique.length - 12);
 	}
 
-	Update();Update();Update();
+	Update();
+	process_inputs();
 
 	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
 	historique = hist_aux.slice();

@@ -861,71 +861,75 @@ initialize();
 var statutDiffusion = false;
 var intervalDiffusion = null;
 
-if (window.location.search) {
-	// Si des paramètres sont passés, on désactive ce qui correspond à la diffusion
-	// On récupère le nom du diffuseur dans ce cas
-	var nomDiffuseur = "";
-	ajaxGet(pathServer + "nomDiffuseur/" + getParams("code"), function(retour) {
-		// On a récupéré l'historique, on peut le charger
-		if (retour != null && retour != "") {
-			nomDiffuseur = retour;
-		}
-		
-		if (nomDiffuseur) {
-			document.getElementById("online").innerHTML = "Nom du diffuseur : " + nomDiffuseur;
+if (window.location.protocol.startsWith("http")) {
+	if (window.location.search) {
+		// Si des paramètres sont passés, on désactive ce qui correspond à la diffusion
+		// On récupère le nom du diffuseur dans ce cas
+		var nomDiffuseur = "";
+		ajaxGet(pathServer + "nomDiffuseur/" + getParams("code"), function(retour) {
+			// On a récupéré l'historique, on peut le charger
+			if (retour != null && retour != "") {
+				nomDiffuseur = retour;
+			}
 			
-			// On active la lecture régulière du stream
-			setInterval(function(){modeLecteur(getParams("code"));}, 5000);
-		} else {
-			document.getElementById("online").innerHTML = "Erreur dans la récupération du stream";
-		}
+			if (nomDiffuseur) {
+				document.getElementById("online").innerHTML = "Nom du diffuseur : " + nomDiffuseur;
+				
+				// On active la lecture régulière du stream
+				setInterval(function(){modeLecteur(getParams("code"));}, 5000);
+			} else {
+				document.getElementById("online").innerHTML = "Erreur dans la récupération du stream";
+			}
+			
+			// On désactive également tous les éléments de saisie sous réserve de n'en rater aucun :)
+			for (var i = 0; i < document.getElementsByClassName("picture_input").length; i++) {	
+				document.getElementsByClassName("picture_input")[i].disabled = true;
+			}
+			for (var i = 0; i < document.getElementsByClassName("check_input").length; i++) {	
+				document.getElementsByClassName("check_input")[i].disabled = true;
+			}
+			for (var i = 0; i < document.getElementsByClassName("hint_input").length; i++) {	
+				document.getElementsByClassName("hint_input")[i].disabled = true;
+			}
+			for (var i = 0; i < document.getElementsByClassName("check_text").length; i++) {	
+				document.getElementsByClassName("check_text")[i].onmousedown = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("superdot").length; i++) {	
+				document.getElementsByClassName("superdot")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("ool_check_text2").length; i++) {	
+				document.getElementsByClassName("ool_check_text2")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("ool_check_text").length; i++) {	
+				document.getElementsByClassName("ool_check_text")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("bonuspics").length; i++) {	
+				document.getElementsByClassName("bonuspics")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("songpics").length; i++) {	
+				document.getElementsByClassName("songpics")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("requirements").length; i++) {	
+				document.getElementsByClassName("requirements")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("classHistorique").length; i++) {	
+				document.getElementsByClassName("classHistorique")[i].onclick = null;
+			}
+			
+			document.getElementById("hintInput").disabled = true;
+			
+			document.getElementById("save").style.display = "none";
+			document.getElementById("historique_file").style.display = "none";
+			document.getElementById("timer").style.display = "none";
+			
+			contenuBodyInitial = document.body.innerHTML;
+		});
 		
-		// On désactive également tous les éléments de saisie sous réserve de n'en rater aucun :)
-		for (var i = 0; i < document.getElementsByClassName("picture_input").length; i++) {	
-			document.getElementsByClassName("picture_input")[i].disabled = true;
-		}
-		for (var i = 0; i < document.getElementsByClassName("check_input").length; i++) {	
-			document.getElementsByClassName("check_input")[i].disabled = true;
-		}
-		for (var i = 0; i < document.getElementsByClassName("hint_input").length; i++) {	
-			document.getElementsByClassName("hint_input")[i].disabled = true;
-		}
-		for (var i = 0; i < document.getElementsByClassName("check_text").length; i++) {	
-			document.getElementsByClassName("check_text")[i].onmousedown = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("superdot").length; i++) {	
-			document.getElementsByClassName("superdot")[i].onclick = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("ool_check_text2").length; i++) {	
-			document.getElementsByClassName("ool_check_text2")[i].onclick = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("ool_check_text").length; i++) {	
-			document.getElementsByClassName("ool_check_text")[i].onclick = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("bonuspics").length; i++) {	
-			document.getElementsByClassName("bonuspics")[i].onclick = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("songpics").length; i++) {	
-			document.getElementsByClassName("songpics")[i].onclick = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("requirements").length; i++) {	
-			document.getElementsByClassName("requirements")[i].onclick = null;
-		}
-		for (var i = 0; i < document.getElementsByClassName("classHistorique").length; i++) {	
-			document.getElementsByClassName("classHistorique")[i].onclick = null;
-		}
-		
-		document.getElementById("hintInput").disabled = true;
-		
-		document.getElementById("save").style.display = "none";
-		document.getElementById("historique_file").style.display = "none";
-		document.getElementById("timer").style.display = "none";
-		
-		contenuBodyInitial = document.body.innerHTML;
-	});
-	
+	} else {
+		// Mode diffusion ou normal	
+	}
 } else {
-	// Mode diffusion ou normal	
+	document.getElementById("online").innerHTML = "";
 }
 
 var cleDiffusion = "";

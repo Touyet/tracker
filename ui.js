@@ -765,6 +765,14 @@ function chargerHistorique (load = false) {
 	historique = [];
 	historique = hist_aux.slice();
 	afficheHistorique();
+	
+	// En cas de diffusion, on envoie les données vers le serveur actualisés pour le chrono
+	if (statutDiffusion) {
+		ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+			document.getElementById("statutDiffusion").innerText = retour;
+		});
+	}
 
 	// On repositionne les hint qui vont bien
 	listeHinted.forEach(elt => {

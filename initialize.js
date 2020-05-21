@@ -869,16 +869,16 @@ if (window.location.search) {
 		if (retour != null && retour != "") {
 			nomDiffuseur = retour;
 		}
-	});
-	
-	if (nomDiffuseur) {
-		document.getElementById("online").innerHTML = "Nom du diffuseur : " + nomDiffuseur;
 		
-		// On active la lecture régulière du stream
-		setInterval(function(){modeLecteur(getParams("code"));}, 5000);
-	} else {
-		document.getElementById("online").innerHTML = "Erreur dans la récupération du stream";
-	}
+		if (nomDiffuseur) {
+			document.getElementById("online").innerHTML = "Nom du diffuseur : " + nomDiffuseur;
+			
+			// On active la lecture régulière du stream
+			setInterval(function(){modeLecteur(getParams("code"));}, 5000);
+		} else {
+			document.getElementById("online").innerHTML = "Erreur dans la récupération du stream";
+		}
+	});
 	
 	// On désactive également tous les éléments de saisie sous réserve de n'en rater aucun :)
 	

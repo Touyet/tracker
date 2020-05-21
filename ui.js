@@ -651,11 +651,12 @@ function ajoutHistorique(obj, newEvt) {
 
 function afficheHistorique() {
 	affHistorique = "";
-	var i = historique.length;
+	// var i = historique.length;
+	var i = 0;
 	historique.forEach(evt => {
 		if (affHistorique != "") {affHistorique = "<br />" + affHistorique} 
 		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.timer + " -> " + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
-		i-=1; // Décrément
+		i+=1; // Incrément
 	});
 	document.getElementById("historique").innerHTML = affHistorique;	
 }
@@ -664,18 +665,20 @@ function annuler(nombre = 1) {
 	// Récupération de l'action à annuler
 	console.log("annuler : " + nombre + "/" + historique.length);
 	
-	if (nombre <= historique.length) {
-		for (var i = 1; i <=nombre ; i++) { historiqueSupprime.push(historique.pop()); }
-	}
-	console.log("historiqueSupprime : " + historiqueSupprime); 
-	var historiqueSupprime_aux = historiqueSupprime; // On sauvegarde ça en mémoire car va être supprimé
+	// if (nombre <= historique.length) {
+		// for (var i = 1; i <=nombre ; i++) { historiqueSupprime.push(historique.pop()); }
+	// }
+	
+	historique.splice(nombre, 1);
+	 
+	//var historiqueSupprime_aux = historiqueSupprime; // On sauvegarde ça en mémoire car va être supprimé
 
 	chargerHistorique();
 	
 	// Dans ce cas, on transforme le bouton annuler pour stocker la suppression et pouvoir la recharger au cas où
-	var btnAnnuler = document.getElementById("annuler");
-	btnAnnuler.style.display = "inline-block";
-	historiqueSupprime = historiqueSupprime_aux;
+	// var btnAnnuler = document.getElementById("annuler");
+	// btnAnnuler.style.display = "inline-block";
+	// historiqueSupprime = historiqueSupprime_aux;
 }
 
 function annulerSuppression() {

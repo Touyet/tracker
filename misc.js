@@ -443,8 +443,6 @@ function timer_stuff() {
 	return tempTime;
 }
 
-setInterval(timer_stuff, 1000);
-
 document.onkeydown = function(e) {
 	if (e.ctrlKey && e.which == 90) {
 		Undo();

@@ -637,7 +637,7 @@ function ajoutHistorique(obj, newEvt) {
 	
 	// En cas de diffusion, on envoie les données vers le serveur
 	if (statutDiffusion) {
-		ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+		ajaxPost(pathServer + "data/" + cleDiffusion, generationJSON(), function(retour) {
 			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 			document.getElementById("statutDiffusion").innerText = retour;
 		});
@@ -699,12 +699,17 @@ function chargerHistorique (load = false) {
 	mem["hintInput"] = document.getElementById("hintInput").value;
 	mem["markStones"] = document.getElementById("markStones").value;
 	mem["markMedallions"] = document.getElementById("markMedallions").value;
+	if (document.getElementById("urlDiffuseur") != null) {
+		mem["urlDiffuseur"] = document.getElementById("urlDiffuseur").value;
+		mem["nomDiffuseur"] = document.getElementById("nomDiffuseur").value;
+	}
 
 	var listeHinted = [];
 	for (var elt in Hinted) {
 		if (Hinted[elt]) {listeHinted.push(elt);}
 	}
 
+	// Réinitialisation de la page
 	document.body.innerHTML = contenuBodyInitial;
 	initialize();
 
@@ -718,6 +723,10 @@ function chargerHistorique (load = false) {
 	document.getElementById("hintInput").value = mem["hintInput"];
 	document.getElementById("markStones").value = mem["markStones"];
 	document.getElementById("markMedallions").value = mem["markMedallions"];
+	if (document.getElementById("urlDiffuseur") != null) {
+		document.getElementById("urlDiffuseur").value = mem["urlDiffuseur"]
+		document.getElementById("nomDiffuseur").value = mem["nomDiffuseur"];
+	}
 
 	var hist_aux = historique.slice(); // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
@@ -748,14 +757,11 @@ function chargerHistorique (load = false) {
 
 	if (load) {
 		// Réinitialisation de l'initial time uniquement dans ce cas
-		initialTime = d.getTime() - parseInt(hist_aux[hist_aux.length -2].timer, 10);
+		initialTime = d.getTime() - parseInt(hist_aux[hist_aux.length -2].timer, 10)*1000;
 		console.log("Calcul temps : " + initialTime + " = " + d.getTime() + " - " + parseInt(hist_aux[hist_aux.length -2].timer, 10) + " (" + hist_aux[hist_aux.length -2].timer + ")");
 		
 		// On supprime les 2 champs qui ont été ajoutés pour la sauvegarde
 		hist_aux.splice(historique.length - 2);
-		
-		
-		
 	}
 
 	Update();
@@ -768,7 +774,7 @@ function chargerHistorique (load = false) {
 	
 	// En cas de diffusion, on envoie les données vers le serveur actualisés pour le chrono
 	if (statutDiffusion) {
-		ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+		ajaxPost(pathServer + "data/" + cleDiffusion, generationJSON(), function(retour) {
 			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 			document.getElementById("statutDiffusion").innerText = retour;
 		});
@@ -1025,3 +1031,4 @@ function update_logic_info() {
 	document.getElementById("checks_remaining").innerHTML="Remaining: "+Game.checks_remaining;
 	document.getElementById("logically_accessible").innerHTML="&nbsp; &nbsp; In Logic: "+Game.logically_accessible;
 }
+

@@ -1,3 +1,4 @@
+var pathServer= "";
 var Hinted = {};
 var Check={};
 var ChecksLockedBy={};
@@ -374,6 +375,7 @@ var childRoute1 = ["ocarina_game", "lost_woods_grotto", "lost_woods_scrub_grotto
 var childRoute2 = ["market_slingshot_game", "market_bowling_1", "market_bowling_2","dins_fairy","market_lens_game"];
 
 function initialize() {
+	pathServer= "oot/api/";
 	Hinted = {};
 	Check={};
 	ChecksLockedBy={};
@@ -863,7 +865,7 @@ if (window.location.search) {
 	// Si des paramètres sont passés, on désactive ce qui correspond à la diffusion
 	// On récupère le nom du diffuseur dans ce cas
 	var nomDiffuseur = "";
-	ajaxGet("oot/api/nomDiffuseur/" + getParams("code"), function(retour) {
+	ajaxGet(pathServer + "nomDiffuseur/" + getParams("code"), function(retour) {
 		// On a récupéré l'historique, on peut le charger
 		if (retour != null && retour != "") {
 			nomDiffuseur = retour;
@@ -933,6 +935,7 @@ var contenuBodyInitial = document.body.innerHTML;
 
 setInterval(slowUpdate,5000);
 //setInterval(Update,250);
+setInterval(timer_stuff, 1000);
 
 Update();Update();Update();
 

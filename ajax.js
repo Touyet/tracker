@@ -60,14 +60,14 @@ function diffusion() {
 			
 			// On commence par récupérer un id placé dans un cookie pour permettre d'envoyer les données
 			if (cleDiffusion == "" && document.getElementById("urlDiffuseur").value == "") {
-				ajaxGet("oot/api/diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
+				ajaxGet(pathServer + "diffusion/" + document.getElementById("nomDiffuseur").value, function(retour) {
 					// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 					cleDiffusion = retour.split("/")[0];
 					document.getElementById("urlDiffuseur").value = document.location.href + "?code=" + retour.split("/")[1];
 					
 					
 					// On envoie une première fois pour initialiser
-					ajaxPost("oot/api/data/" + cleDiffusion, generationJSON(), function(retour) {
+					ajaxPost(pathServer + "data/" + cleDiffusion, generationJSON(), function(retour) {
 						// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
 						document.getElementById("statutDiffusion").innerText = retour;
 					});
@@ -97,7 +97,7 @@ function getParams(param) {
 // Cette fonction a pour objectif de récupérer la diffusion depuis le serveur à distance à intervalles réguliers
 function modeLecteur(codeDiffuseur) {
 	// On va récupérer des données json via appel ajax
-	ajaxGet("oot/api/lecture/" + codeDiffuseur, function(retour) {
+	ajaxGet(pathServer + "lecture/" + codeDiffuseur, function(retour) {
 		// On a récupéré l'historique, on peut le charger
 		console.log("mode lecteur : oot/api/lecture/" + codeDiffuseur + " : " + retour);
 		if (retour != null && retour != "") {

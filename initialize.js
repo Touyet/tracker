@@ -865,7 +865,6 @@ if (window.location.search) {
 	var nomDiffuseur = "";
 	ajaxGet("oot/api/nomDiffuseur/" + getParams("code"), function(retour) {
 		// On a récupéré l'historique, on peut le charger
-		console.log("mode lecteur : oot/api/lecture/" + codeDiffuseur + " : " + retour);
 		if (retour != null && retour != "") {
 			nomDiffuseur = retour;
 		}

@@ -1,4 +1,5 @@
 function highlight(x) {
+	//ajoutHistorique(x.id, "highlight");
 	if (x.id == "silverscaleimg") {
 		if (Game.scale2 == true) {
 			Game.scale1 = false; 
@@ -97,9 +98,6 @@ function highlight(x) {
 		if (document.getElementById(x.id).src.endsWith(Game.nocturne_img.substring(2))){Game.nocturne = false;}
 		if (document.getElementById(x.id).src.endsWith(Game.prelude_img.substring(2))){Game.prelude = false;}
 	}
-	
-	console.log("highlight" + Game.hookshot);
-	console.log("highlight" + Game.longshot);
 	
 	if (x.id == "fir_med" && x.style.opacity==1) {Logic.fire_medallion = true;}
 	if (x.id == "wat_med" && x.style.opacity==1) {Logic.water_medallion = true;}
@@ -441,6 +439,8 @@ function timer_stuff() {
 	if (tempSeconds < 10 && (tempMinutes > 0 || tempHours > 0)) {document.getElementById("timer").innerHTML += "0";}
 	document.getElementById("timer").innerHTML += tempSeconds;
 }
+
+setInterval(timer_stuff, 1000);
 
 document.onkeydown = function(e) {
 	if (e.ctrlKey && e.which == 90) {

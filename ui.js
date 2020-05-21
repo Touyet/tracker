@@ -630,7 +630,7 @@ function junkSong(x, obj) {
 }
 
 function ajoutHistorique(obj, newEvt) {
-	var newHistorique = { loc: newEvt, obj: obj }; 
+	var newHistorique = { loc: newEvt, obj: obj, timer: document.getElementById("timer").innerHTML }; 
 	historique.push(newHistorique);
 	console.log("ajoutHistorique : " + newEvt + ": " + obj);
 	afficheHistorique();
@@ -654,7 +654,7 @@ function afficheHistorique() {
 	var i = historique.length;
 	historique.forEach(evt => {
 		if (affHistorique != "") {affHistorique = "<br />" + affHistorique} 
-		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
+		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.timer + " -> " + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
 		i-=1; // Décrément
 	});
 	document.getElementById("historique").innerHTML = affHistorique;	
@@ -753,6 +753,8 @@ function chargerHistorique (load = false) {
 
 	Update();
 	process_inputs();
+
+
 
 	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
 	historique = hist_aux.slice();

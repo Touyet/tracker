@@ -851,7 +851,7 @@ function initialize() {
 	document.getElementById("forceOutOfLogic3").addEventListener("change", function() {ajoutHistorique(this.value, "forceOutOfLogic3");});
 	document.getElementById("forceOutOfLogic4").addEventListener("change", function() {ajoutHistorique(this.value, "forceOutOfLogic4");});
 	
-	document.getElementById("hintInput").addEventListener("input", process_inputs);
+	document.getElementById("hintInput").addEventListener("input", function() { Update(); process_inputs();});
 }
 
 

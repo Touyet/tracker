@@ -222,8 +222,9 @@ function generationJSON() {
 	var textToWrite = "";
 	var hist_save = historique.slice();
 	
-	// On ajoute les barren et les woth
-	hist_save.push({loc: "hintInput", obj: document.getElementById("hintInput").value});
+	// On ajoute le temps passé
+	hist_save.push({loc: "hintInput", obj: document.getElementById("hintInput").value, timer: timer_stuff()});
+	
 
 	var listeHinted = "";
 
@@ -438,6 +439,8 @@ function timer_stuff() {
 	if (tempHours > 0 && tempMinutes == 0) {document.getElementById("timer").innerHTML += "00:"} if (tempMinutes > 0) {if (tempMinutes < 10 && tempHours > 0) {document.getElementById("timer").innerHTML += "0";} document.getElementById("timer").innerHTML += tempMinutes + ":";}
 	if (tempSeconds < 10 && (tempMinutes > 0 || tempHours > 0)) {document.getElementById("timer").innerHTML += "0";}
 	document.getElementById("timer").innerHTML += tempSeconds;
+	
+	return tempTime;
 }
 
 setInterval(timer_stuff, 1000);

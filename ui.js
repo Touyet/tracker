@@ -632,7 +632,7 @@ function junkSong(x, obj) {
 function ajoutHistorique(obj, newEvt) {
 	var newHistorique = { loc: newEvt, obj: obj, timer: document.getElementById("timer").innerHTML }; 
 	historique.push(newHistorique);
-	console.log("ajoutHistorique : " + newEvt + ": " + obj);
+	console.log("ajoutHistorique : " + document.getElementById("timer").innerHTML + " -> " + newEvt + ": " + obj);
 	afficheHistorique();
 	
 	// En cas de diffusion, on envoie les données vers le serveur
@@ -719,7 +719,7 @@ function chargerHistorique (load = false) {
 	document.getElementById("markStones").value = mem["markStones"];
 	document.getElementById("markMedallions").value = mem["markMedallions"];
 
-	var hist_aux = historique.slice();; // On change car l'historique va se remplir à nouveau, il faut le vider
+	var hist_aux = historique.slice(); // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
 	
 	hist_aux.forEach(evt => {
@@ -747,16 +747,22 @@ function chargerHistorique (load = false) {
 	});
 
 	if (load) {
+		// Réinitialisation de l'initial time uniquement dans ce cas
+		initialTime = d.getTime() - parseInt(hist_aux[hist_aux.length -2].timer, 10);
+		console.log("Calcul temps : " + initialTime + " = " + d.getTime() + " - " + parseInt(hist_aux[hist_aux.length -2].timer, 10) + " (" + hist_aux[hist_aux.length -2].timer + ")");
+		
 		// On supprime les 2 champs qui ont été ajoutés pour la sauvegarde
 		hist_aux.splice(historique.length - 2);
+		
+		
+		
 	}
 
 	Update();
 	process_inputs();
 
-
-
 	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
+	historique = [];
 	historique = hist_aux.slice();
 	afficheHistorique();
 

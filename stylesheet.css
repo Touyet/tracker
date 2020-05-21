@@ -165,6 +165,9 @@ color: red;
 	width: 46px;
 	vertical-align: top;
 	margin-bottom: 0px;
+	border:1px white solid;
+	background-color:black;
+	color:white;
 }
 
 #skip_req{
@@ -255,6 +258,7 @@ color: red;
 	background-color: black;
 	border: 3px white solid;
 	color: white;
+	width:250px;
 }
 .full_span{
 	display:inline-block;

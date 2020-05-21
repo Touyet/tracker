@@ -318,11 +318,8 @@
 		<input id="oot" class= "check_input" > </input><small id="text_oot" class="check_text" onclick = "toggleHint(this)">OoT</small><br id= "br_oot" /><br />
 		<img id = "stonePic" class = "stones"></img><input id="markStones" class= "layout_input"> </input><br /><img id = "medallionPic"></img><input id="markMedallions" class="layout_input" > </input>
 		
-		<br />Indices trouvés :<br /><textarea spellcheck="false" rows="14" cols="17" id = "hintInput"></textarea><br /><br />
-		
-		
-		
-		<br /><br />
+		<br />Indices trouvés :<br /><textarea spellcheck="false" rows="14" cols="17" id = "hintInput"></textarea><br />
+		<br />
 		<img id="ageButton" onclick="switchAge()" class="buttonpics" src ="./images/child_1f9d2.png"></img><br /> 
 		
 		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><button id="timerControl" onclick="timerControl()">Pause</button><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><button id="myBtn">halp (Updated Feb 8)</button><br />
@@ -471,10 +468,16 @@
 			<img src="https://i.imgur.com/UYT3RVO.png" id="preludeimg" class="songpics" onclick = "highlight(this)">
 		  </div>
 	  </div>
-	  
-	
-	  <br /> 
-	  <div id = "notes" spellcheck="false">Indices : <br /><small id = "unread">Unread: 30 40 50 OoT Frogs2 Mask<br /></small><br /></div>
+	  <br />
+	  <div style="display:flex; justify-content: space-between;">	  
+	  	<div id = "notes" spellcheck="false">Indices : <br /><small id = "unread">Unread: 30 40 50 OoT Frogs2 Mask<br /></small><br /></div>
+	  	<div>
+			<small class="hint_text" id="barren_text">Barren</small> 
+	  <br /> <input spellcheck="false" id = "barren_input1" class = "hint_input"></input><input spellcheck="false" id = "barren_input2" class = "hint_input"></input><input spellcheck="false" id = "barren_input3" class = "hint_input"></input>  
+	 <br /><small class="hint_text" id="woth_text" >WOTH</small>
+	  <br /><input spellcheck="false" id="woth_input1" class = "hint_input"></input><input spellcheck="false" id="woth_input2" class = "hint_input"></input><input spellcheck="false" id="woth_input3" class = "hint_input"></input><input spellcheck="false" id="woth_input4" class = "hint_input"></input><input spellcheck="false" id="woth_input5" class = "hint_input"></input> 
+		</div>
+	</div>
 	  <br /> 
 	   <div id = "woth_info">
 		<br /><small id="woth1_title" class="woth_info_title"></small><br /><small id="woth1_text1" class="woth_info_text"></small><small id="woth1_text2" class="woth_info_text"></small><small id="woth1_text3" class="woth_info_text"></small><small id="woth1_text4" class="woth_info_text"></small><small id="woth1_text5" class="woth_info_text"></small><small id="woth1_text6" class="woth_info_text"></small><small id="woth1_text7" class="woth_info_text"></small>
@@ -519,12 +522,7 @@
 		<small id="hookshot1_location" class="checkSummaryText" onclick = "toggleHint(this)">Hookshot -> </small><br />
 		<small id="hookshot2_location" class="checkSummaryText" onclick = "toggleHint(this)">Hookshot -> </small><br />
 		<small id="hover_boots_location" class="checkSummaryText" onclick = "toggleHint(this)">Hover Boots -> </small><br />
-		<small id="iron_boots_location" class="checkSummaryText" onclick = "toggleHint(this)">Iron Boots -> </small><br />
-		<br />
-		<small class="hint_text" id="barren_text">Barren</small> 
-	  <br /> <input spellcheck="false" id = "barren_input1" class = "hint_input"></input><input spellcheck="false" id = "barren_input2" class = "hint_input"></input><input spellcheck="false" id = "barren_input3" class = "hint_input"></input>  
-	 <br /><small class="hint_text" id="woth_text" >WOTH</small>
-	  <br /><input spellcheck="false" id="woth_input1" class = "hint_input"></input><input spellcheck="false" id="woth_input2" class = "hint_input"></input><input spellcheck="false" id="woth_input3" class = "hint_input"></input><input spellcheck="false" id="woth_input4" class = "hint_input"></input><input spellcheck="false" id="woth_input5" class = "hint_input"></input> 
+		<small id="iron_boots_location" class="checkSummaryText" onclick = "toggleHint(this)">Iron Boots -> </small><br />		
 	</div>
 	<div id="checkSummaryColumn2">
 		<small id="lens_of_truth_location" class="checkSummaryText" onclick = "toggleHint(this)">Lens -> </small><br />

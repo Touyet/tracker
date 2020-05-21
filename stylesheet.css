@@ -223,8 +223,9 @@ color: red;
 }
 #info_column {
 	margin-top:10px;
+	margin-right:5px;
 	float: left;
-	width: 295px;
+	width: 550px;
 }
 .pplpics {
 	height:12px;
@@ -251,6 +252,8 @@ color: red;
 	
 }
 #notes {
+	background-color: black;
+	border: 3px white solid;
 	color: white;
 }
 .full_span{
@@ -267,6 +270,13 @@ color: red;
   display: table;
   clear: both;
 }
+#recompenses {
+	display: flex;
+	justify-content: space-around;
+	border: 3px white solid;
+	background: black;
+}
+
 .check_input {
 	height:22px;
 	width: 30px;
@@ -282,6 +292,7 @@ color: red;
 	margin-bottom: 3px;
 	padding: 0;
 	border: none;
+	color: white;
 }
 .layout_input {
 	width: 55px;

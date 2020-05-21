@@ -63,7 +63,7 @@ function dark_soli() {
 		document.getElementById("normalColumn2").style.width="125px";
 		document.getElementById("normalColumn3").style.width="125px";
 		document.getElementById("woth_info").style.left="956px";
-		document.getElementById("timer").style.left="800px";
+		//document.getElementById("timer").style.left="800px";
 		document.getElementById("skulls_in_logic").style.left="867px";
 		document.getElementById("dung4_icon").style.left="928px";
 		document.getElementById("dung5_icon").style.left="928px";
@@ -132,7 +132,7 @@ function dark_soli() {
 	all[i].style.marginBottom="2px";
 	all[i].style.marginTop="5px";
 	}
-	document.getElementById("iWantToRemoveThisButton").innerHTML="Correct Theme";
+	// document.getElementById("iWantToRemoveThisButton").innerHTML="Correct Theme";
 }
 
 function dark_normie() {
@@ -198,8 +198,8 @@ function dark_normie() {
 	document.getElementById("normalColumn2").style.width="132px";
 	document.getElementById("normalColumn3").style.width="132px";
 	document.getElementById("woth_info").style.left="976px";
-	document.getElementById("timer").style.left="820px";
-	document.getElementById("skulls_in_logic").style.left="889px";
+	//document.getElementById("timer").style.left="820px";
+	//document.getElementById("skulls_in_logic").style.left="889px";
 	document.getElementById("dung4_icon").style.left="948px";
 	document.getElementById("dung5_icon").style.left="948px";
 	document.getElementById("dung6_icon").style.left="948px";
@@ -270,7 +270,7 @@ function dark_normie() {
 	all[i].style.marginBottom="2px";
 	all[i].style.marginTop="5px";
 	}
-	document.getElementById("iWantToRemoveThisButton").innerHTML="tagnia";
+	// document.getElementById("iWantToRemoveThisButton").innerHTML="tagnia";
 }
 
 function dark_tagnia() {
@@ -336,7 +336,7 @@ function dark_tagnia() {
 	all[i].style.marginBottom="0px";
 	all[i].style.marginTop="0px";
 	}
-	document.getElementById("iWantToRemoveThisButton").innerHTML="Appease Soli";
+	//document.getElementById("iWantToRemoveThisButton").innerHTML="Appease Soli";
 }
 
 function light_soli() {

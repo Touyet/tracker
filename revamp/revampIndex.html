@@ -14,6 +14,31 @@
 
 	<div class="container-fluid">
 		<div class="row">
+			<!-- Put here stuff outside of tracker body -->
+		</div>
+		<div class="row" id="tracker">
+			<div class="col-sm" id="gameInformation">
+				<div class="row">
+					<div class="remainingCheck section"></div>
+				</div>
+				<div class="row">
+					<div class="requirements section">
+						<div class="col-sm" id="adult">
+
+						</div>
+						<div class="col-sm" id="child">
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm" id="hintSummary"></div>
+					<div class="col-sm" id="wothBarren">
+						<div class="row"></div>
+						<div class="row"></div>
+					</div>
+				</div>
+			</div>
 			<div class="col-sm" id="overworld">
 				Overworld
 			</div>
@@ -23,31 +48,16 @@
 					</div>
 					<div class="col-sm" id="dungeonColumn2">
 					</div>
-					<div class="col-sm" id="dungeonColumn3">
-
-					</div>
 				</div>
 			</div>
 			<div class="col-sm" id="items">
-				<div class="row">
-					<div class="col-sm-4">
-						<div>
-							<span class="dungeon">Songs</span>
-						</div>
-						<div class="songs section">
-						</div>
-						<div class="items section">
-						</div>
-						<div class="hints section">
-						</div>
-					</div>
-					<div class="col-sm-8">
-						<div class="requirements section">
-						</div>
-						<div class="songList section">
-						</div>
-					</div>
+				<div>
+					<span class="dungeon">Songs</span>
 				</div>
+				<div class="songs section">
+				</div>
+				<div class="dungeonInfo section"></div>
+				<div class="hints section"></div>
 			</div>
 			<div class="col-sm" id="summary">
 				Toto Summary
@@ -61,8 +71,10 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
 		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
 		crossorigin="anonymous"></script>
+
 	<script src="./const.js"></script>
 	<script src="./logic.js"></script>
+	<script src="./data.js"></script>
 	<script src="./initializeRevamp.js"></script>
 
 </body>

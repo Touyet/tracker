@@ -117,7 +117,7 @@ const locationData = {
 
 	// Fairies
 	["dins"]: { default: "../normal/dinsfairy.png", tagnia: "", soli: "" },
-	["defense"]: { default: "../normal/gfairy.png", tagnia: "", soli: "" },
+	["dd"]: { default: "../normal/gfairy.png", tagnia: "", soli: "" },
 
 	// Cutscene
 	["lacs"]: { default: "../normal/la.png", tagnia: "", soli: "" },

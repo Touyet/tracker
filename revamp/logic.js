@@ -73,10 +73,15 @@ var Logic = (function () {
 	//Here, my goal is to add alternate logic alongside the intended logic(ie : Minuet access with Mido Skip)
 	//To do so, I've added a tri-state enumeration for each item/check telling us if we got it, in logic or not. 
 	//It has the advantage to propagate outside logic checks in every other item it's needed.
+	//One major problem is the sheer number of function call that can be performed when checking each location logic.
 
 	//I'm pretty sure some logic can be simplified but I dont have the motivation nor the time to look into it.
 	//Some checks might not have all of their access (outside logic-wise) but previous implemented logic is still here
-	//I've tried to add more outside logic tricks such as reverse wasteland
+
+	//I'm also pretty sure there was a better way to implement this. 
+	//I could have an objet with true logic and another one with alternate logic and a method to compute the current state. 
+	//If someone want to do it they are welcome.
+
 
 	//#region Logic Computing functions
 	/**
@@ -271,10 +276,10 @@ var Logic = (function () {
 	self.checks.bridge_scrub = () => { return self.alwaysAccessible(); };
 	self.checks.theater = () => { return self.alwaysAccessible(); };
 	self.checks.lost_woods_grotto = () => { return self.can_blast_or_smash(); }
-	self.checks.lost_woods_scrub_grotto = () => { return orCriterion(self.has_explosive, andCriterion(self.checks.minuet, Logic.hammer)); }
+	self.checks.lost_woods_scrub_grotto = () => { return orCriterion(self.has_explosive, andCriterion(self.checks.minuet, self.items.hammer)); }
 	self.checks.target = () => { return self.items.slingshot; };
 	self.checks.skull_kid = () => { return self.items.saria; };
-	self.checks.wolfos_grotto = () => { return orCriterion(self.has_explosive, andCriterion(self.checks.minuet, Logic.hammer)); };
+	self.checks.wolfos_grotto = () => { return orCriterion(self.has_explosive, andCriterion(self.checks.minuet, self.items.hammer)); };
 	//#endregion
 
 	//#region Goron City Region Logic
@@ -306,9 +311,9 @@ var Logic = (function () {
 	//#endregion
 
 	//#region Kak Region Logic
-	self.checks.man_on_roof = () => { return self.alwaysAccessible(); };//Logic.hookshot;
+	self.checks.man_on_roof = () => { return self.alwaysAccessible(); };//self.items.hookshot1;
 	self.checks.kakariko_grotto = () => { return self.alwaysAccessible(); };
-	self.checks.windmill = () => { return self.alwaysAccessible(); };//Logic.boomerang ||self.items.time;
+	self.checks.windmill = () => { return self.alwaysAccessible(); };//self.items.boomerang ||self.items.time;
 	self.checks.anju = () => { return self.alwaysAccessible(); };
 	self.checks.cow_house = () => { return self.alwaysAccessible(); };
 	self.checks.archery_game = () => { return self.items.bow; };
@@ -409,6 +414,112 @@ var Logic = (function () {
 	self.checks.water10 = () => { return andCriterion(self.can_enter_water, self.items.lullaby, self.items.hookshot2, hasItemQty(self.items.water_keys, 5), orCriterion(andCriterion(self.items.bomb, self.items.str1), self.items.hovers); }
 	self.checks.water11 = () => { return andCriterion(self.can_enter_water, hasItemQty(self.items.water_boss_key, 1), self.items.hookshot2); }
 	//#endregion
+
+	//#region Spirit Temple Logic
+	self.checks.spirit1 = () => { return andCriterion(self.items.requiem, orCriterion(self.items.slingshot, self.items.boomerang)); }
+	self.checks.spirit2 = () => { return andCriterion(self.items.requiem, orCriterion(self.items.slingshot, self.items.boomerang)); }
+	self.checks.spirit3 = () => { return andCriterion(hasItemQty(self.items.spirit_keys, 1), self.projectile_both); }
+	self.checks.spirit4 = () => { return andCriterion(hasItemQty(self.items.spirit_keys, 1), self.projectile_both); }
+	self.checks.spirit5 = () => { return orCriterion(andCriterion(hasItemQty(self.items.spirit_keys, 5), self.items.requiem, self.has_explosive), andCriterion(hasItemQty(self.items.spirit_keys, 3), self.items.str2, self.can_use_fire), andCriterion(self.has_explosive, hasItemQty(self.items.spirit_keys, 1), self.can_use_fire)); }
+	self.checks.spirit6 = () => { return orCriterion(andCriterion(hasItemQty(self.items.spirit_keys, 5), self.items.requiem, self.has_explosive), andCriterion(hasItemQty(self.items.spirit_keys, 3), self.items.str2, self.can_use_fire), andCriterion(self.has_explosive, hasItemQty(self.items.spirit_keys, 1), self.can_use_fire)); }
+	self.checks.spirit7 = () => { return orCriterion(andCriterion(hasItemQty(self.items.spirit_keys, 3), self.items.hookshot2, self.has_explosive), hasItemQty(self.items.spirit_keys, 5)); }
+	self.checks.spirit8 = () => { return andCriterion(self.can_enter_adult_spirit, self.items.hookshot1, self.items.lullaby); }
+	self.checks.spirit9 = () => { return andCriterion(self.can_enter_adult_spirit, orCriterion(self.items.bow, self.items.hookshot1, self.has_explosive)); }
+	self.checks.spirit10 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 3)); }
+	self.checks.spirit11 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 3)); };
+	self.checks.spirit12 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 3), self.items.lullaby); }
+	self.checks.spirit13 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 3), self.items.lullaby, orCriterion(self.items.hookshot1, self.items.hovers)); }
+	self.checks.spirit14 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 4), self.has_explosive, self.items.mirror); }
+	self.checks.spirit15 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 4), self.has_explosive); };
+	self.checks.spirit16 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 4), self.has_explosive); };
+	self.checks.spirit17 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 4), self.has_explosive); };
+	self.checks.spirit18 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 5), self.items.bow, self.items.lullaby, self.items.hookshot1); };
+	self.checks.spirit19 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 5), self.items.mirror); };
+	self.checks.spirit20 = () => { return andCriterion(self.can_enter_adult_spirit, hasItemQty(self.items.spirit_keys, 5), self.items.mirror, self.has_explosive, hasItemQty(self.items.spirit_boss_key, 1), self.items.hookshot1); };
+	//#endregion
+
+	//#region Shadow Temple Logic
+	self.checks.shadow1 = () => { return self.can_enter_shadow(); }
+	self.checks.shadow2 = () => { return self.can_enter_shadow(); }
+	self.checks.shadow3 = () => { return self.can_cross_shadow_gap(); }
+	self.checks.shadow4 = () => { return self.can_cross_shadow_gap(); }
+	self.checks.shadow5 = () => { return self.can_bomb_shadow_wall(); }
+	self.checks.shadow6 = () => { return self.can_bomb_shadow_wall(); }
+	self.checks.shadow7 = () => { return self.can_bomb_shadow_wall(); }
+	self.checks.shadow8 = () => { return andCriterion(self.can_bomb_shadow_wall, self.items.str1); }
+	self.checks.shadow9 = () => { return andCriterion(self.can_bomb_shadow_wall, self.items.str1); }
+	self.checks.shadow10 = () => { return andCriterion(self.can_bomb_shadow_wall, hasItemQty(self.items.shadow_keys, 2)); }
+	self.checks.shadow11 = () => { return andCriterion(self.can_bomb_shadow_wall, self.items.hookshot1 && hasItemQty(self.items.shadow_keys, 2)); }
+	self.checks.shadow12 = () => { return andCriterion(self.can_pass_shadow_hookshot_door, hasItemQty(self.items.shadow_keys, 3)); }
+	self.checks.shadow13 = () => { return andCriterion(self.can_pass_shadow_hookshot_door, hasItemQty(self.items.shadow_keys, 3)); }
+	self.checks.shadow14 = () => { return andCriterion(self.can_pass_shadow_hookshot_door, hasItemQty(self.items.shadow_keys, 3)); }
+	self.checks.shadow15 = () => { return andCriterion(self.can_ride_shadow_boat, hasItemQty(self.items.shadow_keys, 4)); }
+	self.checks.shadow16 = () => { return andCriterion(self.can_ride_shadow_boat, hasItemQty(self.items.shadow_keys, 4)); }
+	self.checks.shadow17 = () => { return andCriterion(self.can_ride_shadow_boat, hasItemQty(self.items.shadow_keys, 4)); }
+	self.checks.shadow18 = () => { return andCriterion(self.can_beat_shadow_boss, hasItemQty(self.items.shadow_keys, 5), hasItemQty(self.items.shadow_boss_key, 1)); }
+	//#endregion
+
+	//#region Ganon's Castle Logic
+	self.checks.ganons1 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons2 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons3 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons4 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons5 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons6 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons7 = () => { return andCriterion(self.can_enter_ganons, self.items.str3); };
+	self.checks.ganons8 = () => { return andCriterion(self.can_enter_ganons, self.items.str3, self.items.lullaby, hasItemQty(self.items.ganon_keys, 1)); }
+	self.checks.ganons9 = () => { return self.can_enter_ganons(); }
+	self.checks.ganons10 = () => { return andCriterion(self.can_enter_ganons, self.has_explosive); }
+	self.checks.ganons11 = () => { return self.can_enter_ganons(); }
+	self.checks.ganons12 = () => { return self.can_enter_ganons(); }
+	self.checks.ganons13 = () => { return self.can_enter_ganons(); }
+	self.checks.ganons14 = () => { return self.can_enter_ganons(); }
+	self.checks.ganons15 = () => { return andCriterion(self.can_enter_ganons, orCriterion(self.items.hookshot2, andCriterion(self.items.firearrows, self.items.magic), andCriterion(self.items.hovers, self.can_use_dins))); }
+	self.checks.ganons16 = () => { return self.can_enter_ganons(); }
+	//#endregion
+
+	//#region GTG Logic
+	self.checks.gtg1 = () => { return andCriterion(self.can_save_carpenters, self.items.bow); }
+	self.checks.gtg2 = () => { return andCriterion(self.can_save_carpenters, self.items.bow); }
+	self.checks.gtg3 = () => { return self.can_save_carpenters(); };
+	self.checks.gtg4 = () => { return andCriterion(self.can_save_carpenters, orCriterion(self.items.hookshot1, LogicStatus.OUT_LOGIC)); };
+	self.checks.gtg5 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, self.items.str2); };
+	self.checks.gtg6 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, self.items.str2); };
+	self.checks.gtg7 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, self.items.str2); };
+	self.checks.gtg8 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, self.items.str2); };
+	self.checks.gtg9 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, self.items.bow); };
+	self.checks.gtg10 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, self.items.bow); };
+	self.checks.gtg11 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole, orCriterion(self.items.hammer, LogicStatus.OUT_LOGIC)); };
+	self.checks.gtg12 = () => { return andCriterion(self.can_save_carpenters, self.can_climb_gtg_hole); };
+	self.checks.gtg13 = () => { return andCriterion(self.can_save_carpenters, orCriterion(hasItemQty(self.items.gtg_keys, 9), andCriterion(self.has_explosive, self.items.time), andCriterion(self.can_climb_gtg_hole, self.items.time))); };
+	self.checks.gtg14 = () => { return andCriterion(self.can_save_carpenters, orCriterion(hasItemQty(self.items.gtg_keys, 9), andCriterion(self.has_explosive, self.items.time), andCriterion(self.can_climb_gtg_hole, self.items.time))); };
+	self.checks.gtg15 = () => { return andCriterion(self.can_save_carpenters, orCriterion(hasItemQty(self.items.gtg_keys, 9), andCriterion(self.has_explosive, self.items.time), andCriterion(self.can_climb_gtg_hole, self.items.time))); };
+	self.checks.gtg16 = () => { return andCriterion(self.can_save_carpenters, self.has_explosive); };
+	self.checks.gtg17 = () => { return andCriterion(self.can_save_carpenters, hasItemQty(self.items.gtg_key, 3)); };
+	self.checks.gtg18 = () => { return andCriterion(self.can_save_carpenters, hasItemQty(self.items.gtg_key, 4)); };
+	self.checks.gtg19 = () => { return andCriterion(self.can_save_carpenters, hasItemQty(self.items.gtg_key, 6)); };
+	self.checks.gtg20 = () => { return andCriterion(self.can_save_carpenters, hasItemQty(self.items.gtg_key, 7)); };
+	self.checks.gtg21 = () => { return andCriterion(self.can_save_carpenters, hasItemQty(self.items.gtg_key, 9)); };
+	self.checks.gtg22 = () => { return andCriterion(self.can_save_carpenters, self.items.irons, self.items.time, self.items.hookshot1); };
+	//#endregion
+
+	//#region Well Logic
+	self.checks.well1 = () => { return self.items.storms; }
+	self.checks.well5 = () => { return self.items.storms; }
+	self.checks.well2 = () => { return andCriterion(self.items.storms, self.has_explosive); };
+	self.checks.well3 = () => { return andCriterion(self.items.storms, self.items.lullaby); };
+	self.checks.well4 = () => { return self.items.storms; }
+	self.checks.well6 = () => { return self.items.storms; }
+	self.checks.well11 = () => { return self.items.storms; }
+	self.checks.well7 = () => { return andCriterion(self.items.storms, self.has_explosive); };
+	self.checks.well10 = () => { return andCriterion(self.items.storms, self.items.lullaby); };
+	self.checks.well8 = () => { return andCriterion(self.items.storms, self.items.lullaby); };
+	self.checks.well9 = () => { return andCriterion(self.items.storms, self.items.lullaby); };
+	self.checks.well12 = () => { return andCriterion(self.items.storms, hasItemQty(self.items.botw_keys, 3)); };
+	self.checks.well13 = () => { return andCriterion(self.items.storms, hasItemQty(self.items.botw_keys, 3)); };
+	self.checks.well14 = () => { return andCriterion(self.items.storms, orCriterion(self.has_explosive, andCriterion(orCriterion(hasItemQty(self.items.botw_keys, 3), self.can_use_dins), self.items.str1))); };
+	//#endregion
+
 	/**
 	 * @param {string} id check id
 	 * @returns {()=>LogicStatus} logic callback

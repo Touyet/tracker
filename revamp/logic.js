@@ -183,11 +183,12 @@ var Logic = (function () {
 	self.projectile_child = () => { return orCriterion(self.has_explosive, self.items.slingshot, self.items.boomerang); }
 	self.projectile_adult = () => { return orCriterion(self.has_explosive, self.items.bow, self.items.hookshot1); }
 	self.can_wear_goron_tunic = () => { return orCriterion(self.items.goron_tunic, andCriterion(self.items.wallet1, self.can_stop_link_the_goron), LogicStatus.OUT_LOGIC); }
-	self.can_wear_zora_tunic = () => { return orCriterion(self.items.zora_tunic, andCriterion(self.items.wallet2, self.items.lullaby, self.items.bottle), LogicStatus.OUT_LOGIC); }
+	self.can_wear_zora_tunic = () => { return orCriterion(self.items.zora_tunic, andCriterion(self.items.wallet2, self.items.lullaby, self.has_bottle), LogicStatus.OUT_LOGIC); }
 	self.can_climb_gtg_hole = () => { return orCriterion(self.items.hookshot1, outsideLogicAccess(self.items.hovers), outsideLogicAccess(self.items.bomb)); };
 	self.has_explosive = () => { return orCriterion(self.items.bomb, outsideLogicAccess(self.items.bombchu)); }
-	self.can_access_blue_fire = () => { return orCriterion(self.ice_access, andCriterion(orCriterion(self.items.wallet2, self.can_enter_ganons), self.items.bottle)); };
-	self.can_enter_forest_temple = () => { return andCriterion(self.checks.minuet, self.item.hookshot1); };
+	self.can_access_blue_fire = () => { return orCriterion(self.ice_access, andCriterion(orCriterion(self.items.wallet2, self.can_enter_ganons), self.has_bottle)); };
+	self.can_enter_forest_temple = () => { return andCriterion(self.checks.minuet, self.items.hookshot1); };
+	self.has_bottle = () => { return orCriterion(self.items.bottle, self.ice_access, self.items.big_poe); }
 	self.alwaysAccessible = () => { return LogicStatus.IN_LOGIC; }
 	//#endregion
 
@@ -246,7 +247,7 @@ var Logic = (function () {
 	self.checks.market_bowling_1 = () => { return self.items.bomb; }
 	self.checks.market_bowling_2 = () => { return self.items.bomb; }
 	self.checks.market_lens_game = () => { return orCriterion(self.can_see(), LogicStatus.OUT_LOGIC); };
-	self.checks.poes = () => { return orCriterion(andCriterion(self.items.bow, self.items.epona, orCriterion(self.items.bottle, self.items.can_enter_jabu)), self.items.big_poe) };
+	self.checks.poes = () => { return orCriterion(andCriterion(self.items.bow, self.items.epona, orCriterion(self.has_bottle, self.items.can_enter_jabu)), self.items.big_poe) };
 	self.checks.dinsfairy = () => { return andCriterion(self.has_explosive, self.items.lullaby); }
 	self.checks.ganonsfairy = () => { return andCriterion(self.items.str3 && self.items.lullaby) };
 	self.checks.lacs = () => { return andCriterion(self.items.shadow_medaillon, self.items.spirit_medaillon); };
@@ -411,7 +412,7 @@ var Logic = (function () {
 	self.checks.water7 = () => { return andCriterion(hasItemQty(self.items.water_keys, 5), self.items.lullaby); }
 	self.checks.water8 = () => { return andCriterion(hasItemQty(self.items.water_keys, 5), self.items.lullaby, self.items.time, self.items.bow); }
 	self.checks.water9 = () => { return andCriterion(self.can_enter_water, self.items.lullaby, orCriterion(andCriterion(hasItemQty(self.items.water_keys, 5), self.items.time, self.items.bow), self.items.str1)); }
-	self.checks.water10 = () => { return andCriterion(self.can_enter_water, self.items.lullaby, self.items.hookshot2, hasItemQty(self.items.water_keys, 5), orCriterion(andCriterion(self.items.bomb, self.items.str1), self.items.hovers); }
+	self.checks.water10 = () => { return andCriterion(self.can_enter_water, self.items.lullaby, self.items.hookshot2, hasItemQty(self.items.water_keys, 5), orCriterion(andCriterion(self.items.bomb, self.items.str1), self.items.hovers)); }
 	self.checks.water11 = () => { return andCriterion(self.can_enter_water, hasItemQty(self.items.water_boss_key, 1), self.items.hookshot2); }
 	//#endregion
 

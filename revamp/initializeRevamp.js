@@ -54,7 +54,7 @@ function initItemListSection($document, id, mod, list) {
 function initSongSection() {
 	var $songSection = $document.find(".songs");
 	if ($songSection) {
-		checks.push(new Check($songSection, CheckType.SONG, "Zelda", "lullaby"));
+		checks.push(new Check($songSection, CheckType.SONG, "Zelda", "zelda"));
 		checks.push(new Check($songSection, CheckType.SONG, "Saria", "saria"));
 		checks.push(new Check($songSection, CheckType.SONG, "Epona", "epona"));
 		checks.push(new Check($songSection, CheckType.SONG, "Sun", "sun"));

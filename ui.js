@@ -19,9 +19,9 @@ function process_inputs() {
 
 		if (temp <= 244) { 
 
-			if (document.getElementById(key).value == "junk" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "left");}
-			if (document.getElementById(key).value == "small_key" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "right");}
-			if (document.getElementById(key).value == "boss_key" && document.getElementById(key).style.display != "none") {junk(document.getElementById(key), "middle");}
+			if (document.getElementById(key).value == "junk" && Check[key] == "unknown") {junk(document.getElementById(key), "left");}
+			if (document.getElementById(key).value == "small_key" && Check[key] == "unknown") {junk(document.getElementById(key), "right");}
+			if (document.getElementById(key).value == "boss_key" && Check[key] == "unknown") {junk(document.getElementById(key), "middle");}
 
 			if (document.getElementById(key).value == "far" && !Known.farores_wind) {var obj = "far"; Check[document.getElementById(key).id] = "farores_wind"; Location.farores_wind = document.getElementById(key).id; document.getElementById("farores_wind_location").innerHTML = "Farores -> " + Names[temp-1]; Known.farores_wind = true; if (!hinted && !peeked) {Game.farores_wind = true;} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1].split(': ')[1] + ":  Farores" + "<br />";} junkItem(document.getElementById(key), obj);  continue;}
 			if (document.getElementById(key).value == "chu" && !Known.bombchus) {var obj = "chu"; Check[document.getElementById(key).id] = "bombchus"; Location.bombchus = document.getElementById(key).id; document.getElementById("bombchus_location").innerHTML = "BombChus -> " + Names[temp-1]; Known.bombchus = true; if (!hinted && !peeked) {} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1].split(': ')[1] + ":  BombChus" + "<br />";} junkItem(document.getElementById(key), obj); if (!Game.has_chus) {enableChus();} continue;}
@@ -100,6 +100,8 @@ function process_inputs() {
 			if (document.getElementById(key).value == "pre" && !Known.prelude) {var obj = "pre"; Check[document.getElementById(key).id] = "prelude";Location.prelude = document.getElementById(key).id; Known.prelude = true; if (!hinted && !peeked) {Game.prelude = true;} if (hinted) {Hinted[key] = true;} if (hinted || peeked) {temptext2 += Names[temp - 1] + ": Prelude" + "<br />";} var change = "text_" + document.getElementById(key).id; document.getElementById(change).innerHTML += ": Prelude"; backUp[temp-1] += ": Prelude"; junkSong(document.getElementById(key), obj); continue;}
 		}
 	}
+	
+	Update(); Update(); Update();
 }
 
 function stone_medallion_input() {
@@ -628,10 +630,18 @@ function junkSong(x, obj) {
 }
 
 function ajoutHistorique(obj, newEvt) {
-	var newHistorique = { loc: newEvt, obj: obj }; 
+	var newHistorique = { loc: newEvt, obj: obj, timer: document.getElementById("timer").innerHTML }; 
 	historique.push(newHistorique);
-	console.log("ajoutHistorique : " + newEvt + ": " + obj);
+	console.log("ajoutHistorique : " + document.getElementById("timer").innerHTML + " -> " + newEvt + ": " + obj);
 	afficheHistorique();
+	
+	// En cas de diffusion, on envoie les données vers le serveur
+	if (statutDiffusion) {
+		ajaxPost(pathServer + "data/" + cleDiffusion, generationJSON(), function(retour) {
+			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+			document.getElementById("statutDiffusion").innerText = retour;
+		});
+	}
 	
 	// On remet le bouton annuler à sa fonction initiale
 	var btnAnnuler = document.getElementById("annuler");
@@ -641,11 +651,12 @@ function ajoutHistorique(obj, newEvt) {
 
 function afficheHistorique() {
 	affHistorique = "";
-	var i = historique.length;
+	// var i = historique.length;
+	var i = 0;
 	historique.forEach(evt => {
 		if (affHistorique != "") {affHistorique = "<br />" + affHistorique} 
-		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
-		i-=1; // Décrément
+		affHistorique = "<span id=\"historique_" + i  + "\" class=\"classHistorique\" onclick=\"annuler(" + i + ")\" >" + evt.timer + " -> " + evt.loc + ": " + evt.obj + "</span>" + affHistorique;
+		i+=1; // Incrément
 	});
 	document.getElementById("historique").innerHTML = affHistorique;	
 }
@@ -654,18 +665,20 @@ function annuler(nombre = 1) {
 	// Récupération de l'action à annuler
 	console.log("annuler : " + nombre + "/" + historique.length);
 	
-	if (nombre <= historique.length) {
-		for (var i = 1; i <=nombre ; i++) { historiqueSupprime.push(historique.pop()); }
-	}
-	console.log("historiqueSupprime : " + historiqueSupprime); 
-	var historiqueSupprime_aux = historiqueSupprime; // On sauvegarde ça en mémoire car va être supprimé
+	// if (nombre <= historique.length) {
+		// for (var i = 1; i <=nombre ; i++) { historiqueSupprime.push(historique.pop()); }
+	// }
+	
+	historique.splice(nombre, 1);
+	 
+	//var historiqueSupprime_aux = historiqueSupprime; // On sauvegarde ça en mémoire car va être supprimé
 
 	chargerHistorique();
 	
 	// Dans ce cas, on transforme le bouton annuler pour stocker la suppression et pouvoir la recharger au cas où
-	var btnAnnuler = document.getElementById("annuler");
-	btnAnnuler.style.display = "inline-block";
-	historiqueSupprime = historiqueSupprime_aux;
+	// var btnAnnuler = document.getElementById("annuler");
+	// btnAnnuler.style.display = "inline-block";
+	// historiqueSupprime = historiqueSupprime_aux;
 }
 
 function annulerSuppression() {
@@ -689,12 +702,17 @@ function chargerHistorique (load = false) {
 	mem["hintInput"] = document.getElementById("hintInput").value;
 	mem["markStones"] = document.getElementById("markStones").value;
 	mem["markMedallions"] = document.getElementById("markMedallions").value;
+	if (document.getElementById("urlDiffuseur") != null) {
+		mem["urlDiffuseur"] = document.getElementById("urlDiffuseur").value;
+		mem["nomDiffuseur"] = document.getElementById("nomDiffuseur").value;
+	}
 
 	var listeHinted = [];
 	for (var elt in Hinted) {
 		if (Hinted[elt]) {listeHinted.push(elt);}
 	}
 
+	// Réinitialisation de la page
 	document.body.innerHTML = contenuBodyInitial;
 	initialize();
 
@@ -708,8 +726,12 @@ function chargerHistorique (load = false) {
 	document.getElementById("hintInput").value = mem["hintInput"];
 	document.getElementById("markStones").value = mem["markStones"];
 	document.getElementById("markMedallions").value = mem["markMedallions"];
+	if (document.getElementById("urlDiffuseur") != null) {
+		document.getElementById("urlDiffuseur").value = mem["urlDiffuseur"]
+		document.getElementById("nomDiffuseur").value = mem["nomDiffuseur"];
+	}
 
-	var hist_aux = historique.slice();; // On change car l'historique va se remplir à nouveau, il faut le vider
+	var hist_aux = historique.slice(); // On change car l'historique va se remplir à nouveau, il faut le vider
 	historique = [];
 	
 	hist_aux.forEach(evt => {
@@ -719,14 +741,16 @@ function chargerHistorique (load = false) {
 		} else {
 				
 			if (document.getElementById(evt.loc).tagName == "INPUT") {
+				console.log("input : " + evt.loc);
 				document.getElementById(evt.loc).value = evt.obj; 
 			} else if (document.getElementById(evt.loc).tagName == "SPAN") {
-				console.log("innerText : " + evt.loc);
+				console.log("span : " + evt.loc);
 				if (evt.obj != "") {listeHinted = (evt.obj).split("/");}
 			} else if (document.getElementById(evt.loc).tagName == "TEXTAREA") {
 				console.log("TextArea : " + evt.loc);
 				document.getElementById(evt.loc).value = evt.obj;
 			} else {
+				console.log("Autre : " + evt.loc);
 				document.getElementById(evt.loc).value = evt.obj; 
 			}
 		}
@@ -735,15 +759,29 @@ function chargerHistorique (load = false) {
 	});
 
 	if (load) {
-		// On supprime les 10 champs qui ont été ajoutés pour la sauvegarde
-		hist_aux.splice(historique.length - 12);
+		// Réinitialisation de l'initial time uniquement dans ce cas
+		initialTime = d.getTime() - parseInt(hist_aux[hist_aux.length -2].timer, 10)*1000;
+		console.log("Calcul temps : " + initialTime + " = " + d.getTime() + " - " + parseInt(hist_aux[hist_aux.length -2].timer, 10) + " (" + hist_aux[hist_aux.length -2].timer + ")");
+		
+		// On supprime les 2 champs qui ont été ajoutés pour la sauvegarde
+		hist_aux.splice(historique.length - 2);
 	}
 
-	Update();Update();Update();
+	Update();
+	process_inputs();
 
 	// Après l'update, on remet à jour l'historique correctement, et notamment dans le bon ordre des événements
+	historique = [];
 	historique = hist_aux.slice();
 	afficheHistorique();
+	
+	// En cas de diffusion, on envoie les données vers le serveur actualisés pour le chrono
+	if (statutDiffusion) {
+		ajaxPost(pathServer + "data/" + cleDiffusion, generationJSON(), function(retour) {
+			// Traitement à la réception, on peut identifier le fait d'avoir bien reçu une réponse valide du serveur
+			document.getElementById("statutDiffusion").innerText = retour;
+		});
+	}
 
 	// On repositionne les hint qui vont bien
 	listeHinted.forEach(elt => {
@@ -996,3 +1034,4 @@ function update_logic_info() {
 	document.getElementById("checks_remaining").innerHTML="Remaining: "+Game.checks_remaining;
 	document.getElementById("logically_accessible").innerHTML="&nbsp; &nbsp; In Logic: "+Game.logically_accessible;
 }
+

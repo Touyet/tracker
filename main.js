@@ -6,7 +6,7 @@ function Update() {
 	logic_shortcuts(); //combines multiple pieces of logic into one variable
 	timer_stuff(); //implements a timer to use as an alternative to stuff like livesplit
 	weird_routing_stuff(); //doesn't do anything yet
-	process_inputs(); //handle hinted, peeked and picked up things
+	//process_inputs(); //handle hinted, peeked and picked up things
 	woth_and_barren_processing(); //do various things based on woth and barrens;
 	checkGanons(); //Removes ganon's castle checks if player has obtained light arrows, magic and bow
 	stone_medallion_input(); //handle stones and medallions input in a dumb way

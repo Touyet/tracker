@@ -48,7 +48,7 @@ color: red;
 	vertical-align:top;
 }
 #checks_remaining {
-	color:blue;
+	color:black;
 	font-size: 18px;
 	font-weight: bold;
 	
@@ -63,7 +63,7 @@ color: red;
 	display: none !important;
 }
 #logically_accessible{
-	color:darkgreen;
+	color:chartreuse;
 	font-size: 18px;
 	font-weight: bold;
 	
@@ -165,6 +165,9 @@ color: red;
 	width: 46px;
 	vertical-align: top;
 	margin-bottom: 0px;
+	border:1px white solid;
+	background-color:black;
+	color:white;
 }
 
 #skip_req{
@@ -223,8 +226,9 @@ color: red;
 }
 #info_column {
 	margin-top:10px;
+	margin-right:5px;
 	float: left;
-	width: 295px;
+	width: 550px;
 }
 .pplpics {
 	height:12px;
@@ -251,7 +255,10 @@ color: red;
 	
 }
 #notes {
+	background-color: black;
+	border: 3px white solid;
 	color: white;
+	width:250px;
 }
 .full_span{
 	display:inline-block;
@@ -267,6 +274,13 @@ color: red;
   display: table;
   clear: both;
 }
+#recompenses {
+	display: flex;
+	justify-content: space-around;
+	border: 3px white solid;
+	background: black;
+}
+
 .check_input {
 	height:22px;
 	width: 30px;
@@ -282,7 +296,13 @@ color: red;
 	margin-bottom: 3px;
 	padding: 0;
 	border: none;
+	color: lime;
+	font-weight:bold;
 }
+.picture_input:focus {
+	border:2px lime solid;
+}
+
 .layout_input {
 	width: 55px;
 	vertical-align: top;
@@ -459,22 +479,18 @@ color: red;
 	opacity: 1;
 }
 #timerControl {
- top:970px;
- position: absolute;
+ 
 }
 #skulls_in_logic {
-	top:10px;
+	margin-left: 15px;
+	margin-right:15px;
 	font-size: 18px;
 	color: gold;
-	left:854px;
-	position: absolute;
 }
 #timer {
-	font-size:42px;
+	font-size:20px;
 	color: white;
-	position: absolute;
-	top:850px;
-	right:960px;
+	margin-left:10px;
 	font-family: calibri;
 }
 #forest_medallion {
@@ -514,9 +530,11 @@ color: red;
 	opacity: .2;
 }
 #woth_info {
-	top:550px;
-	left: 980px;
-	position: absolute;
+	/*top:550px;*/
+	/*left: 980px;*/
+	/*position: absolute;*/
+	background: black;
+	border: 3px white solid;
 }
 .woth_info_text {
 	font-size: 14px;
@@ -651,7 +669,7 @@ margin:1.5%;
 margin-top:0%;
 }
 #markStones {
-margin-left: 4px;
+margin-left: 12px;
 margin-top: 6px;
 margin-right:60px;
 }

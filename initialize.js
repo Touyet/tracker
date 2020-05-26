@@ -1,3 +1,4 @@
+var pathServer= "";
 var Hinted = {};
 var Check={};
 var ChecksLockedBy={};
@@ -374,6 +375,7 @@ var childRoute1 = ["ocarina_game", "lost_woods_grotto", "lost_woods_scrub_grotto
 var childRoute2 = ["market_slingshot_game", "market_bowling_1", "market_bowling_2","dins_fairy","market_lens_game"];
 
 function initialize() {
+	pathServer= "oot/api/";
 	Hinted = {};
 	Check={};
 	ChecksLockedBy={};
@@ -826,66 +828,118 @@ function initialize() {
 		modal3.style.display = "none";
 	  }
 	}
+	
+	var elementsInput = document.getElementsByTagName("INPUT");
+	for (var i = 0; i < elementsInput.length; i++) {	
+		elementsInput[i].addEventListener("input", process_inputs);
+	}
+	
+	document.getElementById("markMedallions").addEventListener("change", function() {ajoutHistorique(this.value, "markMedallions");});
+	document.getElementById("markStones").addEventListener("change", function() {ajoutHistorique(this.value, "markStones");});
+	document.getElementById("woth_input1").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input1");});
+	document.getElementById("woth_input2").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input2");});
+	document.getElementById("woth_input3").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input3");});
+	document.getElementById("woth_input4").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input4");});
+	document.getElementById("woth_input5").addEventListener("change", function() {ajoutHistorique(this.value, "woth_input5");});
+	document.getElementById("barren_input1").addEventListener("change", function() {ajoutHistorique(this.value, "barren_input1");});
+	document.getElementById("barren_input2").addEventListener("change", function() {ajoutHistorique(this.value, "barren_input2");});
+	document.getElementById("barren_input3").addEventListener("change", function() {ajoutHistorique(this.value, "barren_input3");});
+	document.getElementById("forceLogic1").addEventListener("change", function() {ajoutHistorique(this.value, "forceLogic1");});
+	document.getElementById("forceLogic2").addEventListener("change", function() {ajoutHistorique(this.value, "forceLogic2");});
+	document.getElementById("forceLogic3").addEventListener("change", function() {ajoutHistorique(this.value, "forceLogic3");});
+	document.getElementById("forceLogic4").addEventListener("change", function() {ajoutHistorique(this.value, "forceLogic4");});
+	document.getElementById("forceOutOfLogic1").addEventListener("change", function() {ajoutHistorique(this.value, "forceOutOfLogic1");});
+	document.getElementById("forceOutOfLogic2").addEventListener("change", function() {ajoutHistorique(this.value, "forceOutOfLogic2");});
+	document.getElementById("forceOutOfLogic3").addEventListener("change", function() {ajoutHistorique(this.value, "forceOutOfLogic3");});
+	document.getElementById("forceOutOfLogic4").addEventListener("change", function() {ajoutHistorique(this.value, "forceOutOfLogic4");});
+	
+	document.getElementById("hintInput").addEventListener("input", function() { Update(); process_inputs();});
 }
+
 
 initialize();
 var statutDiffusion = false;
 var intervalDiffusion = null;
 
-if (window.location.search) {
-	// Si des paramètres sont passés, on désactive ce qui correspond à la diffusion
-	document.getElementById("online").innerHTML = "";
-	
-	// On désactive également tous les éléments de saisie sous réserve de n'en rater aucun :)
-	
-	for (var i = 0; i < document.getElementsByClassName("picture_input").length; i++) {	
-		document.getElementsByClassName("picture_input")[i].disabled = true;
+if (window.location.protocol.startsWith("http")) {
+	if (window.location.search) {
+		// Si des paramètres sont passés, on désactive ce qui correspond à la diffusion
+		// On récupère le nom du diffuseur dans ce cas
+		var nomDiffuseur = "";
+		ajaxGet(pathServer + "nomDiffuseur/" + getParams("code"), function(retour) {
+			// On a récupéré l'historique, on peut le charger
+			if (retour != null && retour != "") {
+				nomDiffuseur = retour;
+			}
+			
+			if (nomDiffuseur) {
+				document.getElementById("online").innerHTML = "Nom du diffuseur : " + nomDiffuseur;
+				
+				// On active la lecture régulière du stream
+				setInterval(function(){modeLecteur(getParams("code"));}, 5000);
+			} else {
+				document.getElementById("online").innerHTML = "Erreur dans la récupération du stream";
+			}
+			
+			// On désactive également tous les éléments de saisie sous réserve de n'en rater aucun :)
+			for (var i = 0; i < document.getElementsByClassName("picture_input").length; i++) {	
+				document.getElementsByClassName("picture_input")[i].disabled = true;
+			}
+			for (var i = 0; i < document.getElementsByClassName("check_input").length; i++) {	
+				document.getElementsByClassName("check_input")[i].disabled = true;
+			}
+			for (var i = 0; i < document.getElementsByClassName("hint_input").length; i++) {	
+				document.getElementsByClassName("hint_input")[i].disabled = true;
+			}
+			for (var i = 0; i < document.getElementsByClassName("check_text").length; i++) {	
+				document.getElementsByClassName("check_text")[i].onmousedown = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("superdot").length; i++) {	
+				document.getElementsByClassName("superdot")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("ool_check_text2").length; i++) {	
+				document.getElementsByClassName("ool_check_text2")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("ool_check_text").length; i++) {	
+				document.getElementsByClassName("ool_check_text")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("bonuspics").length; i++) {	
+				document.getElementsByClassName("bonuspics")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("songpics").length; i++) {	
+				document.getElementsByClassName("songpics")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("requirements").length; i++) {	
+				document.getElementsByClassName("requirements")[i].onclick = null;
+			}
+			for (var i = 0; i < document.getElementsByClassName("classHistorique").length; i++) {	
+				document.getElementsByClassName("classHistorique")[i].onclick = null;
+			}
+			
+			document.getElementById("hintInput").disabled = true;
+			
+			document.getElementById("save").style.display = "none";
+			document.getElementById("historique_file").style.display = "none";
+			document.getElementById("timer").style.display = "none";
+			
+			contenuBodyInitial = document.body.innerHTML;
+		});
+		
+	} else {
+		// Mode diffusion ou normal	
 	}
-	for (var i = 0; i < document.getElementsByClassName("check_input").length; i++) {	
-		document.getElementsByClassName("check_input")[i].disabled = true;
-	}
-	for (var i = 0; i < document.getElementsByClassName("hint_input").length; i++) {	
-		document.getElementsByClassName("hint_input")[i].disabled = true;
-	}
-	for (var i = 0; i < document.getElementsByClassName("check_text").length; i++) {	
-		document.getElementsByClassName("check_text")[i].onmousedown = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("superdot").length; i++) {	
-		document.getElementsByClassName("superdot")[i].onclick = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("ool_check_text2").length; i++) {	
-		document.getElementsByClassName("ool_check_text2")[i].onclick = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("ool_check_text").length; i++) {	
-		document.getElementsByClassName("ool_check_text")[i].onclick = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("bonuspics").length; i++) {	
-		document.getElementsByClassName("bonuspics")[i].onclick = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("songpics").length; i++) {	
-		document.getElementsByClassName("songpics")[i].onclick = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("requirements").length; i++) {	
-		document.getElementsByClassName("requirements")[i].onclick = "";
-	}
-	for (var i = 0; i < document.getElementsByClassName("classHistorique").length; i++) {	
-		document.getElementsByClassName("classHistorique")[i].onclick = "";
-	}
-	
-	document.getElementById("hintInput").disabled = true;
-	
-	
-	// On active la lecture régulière du stream
-	setInterval(function(){modeLecteur(getParams("code"));}, 10000);
 } else {
-	// Mode diffusion ou normal	
+	document.getElementById("online").innerHTML = "";
 }
 
+var cleDiffusion = "";
 var historique = [];
 var historiqueSupprime = [];
 var contenuBodyInitial = document.body.innerHTML;
 
 setInterval(slowUpdate,5000);
-setInterval(Update,250);
+//setInterval(Update,250);
+setInterval(timer_stuff, 1000);
 
 Update();Update();Update();
+
